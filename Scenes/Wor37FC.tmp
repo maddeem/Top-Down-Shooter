@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://b81f7fkpb7eqn"]
+
+[ext_resource type="PackedScene" uid="uid://c4uc4jpfo3f6l" path="res://Scenes/fog_of_war_2_fragment.tscn" id="1_p0c5k"]
+[ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/FogOccluder.tscn" id="2_exdul"]
+[ext_resource type="PackedScene" uid="uid://gjkmrmycqwtv" path="res://Scenes/VisibilityModifier.tscn" id="3_lcnm0"]
+
+[sub_resource type="GDScript" id="GDScript_vuvp5"]
+script/source = "extends Node3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	return
+	var scene = load(\"res://Scenes/VisibilityModifier.tscn\")
+	for i in 200:
+		var new = scene.instantiate()
+		new.position = Vector3(randf_range(-100,100),0,randf_range(-100,100))
+		add_child(new)
+"
+
+[sub_resource type="GDScript" id="GDScript_5cfjs"]
+script/source = "extends Label
+
+func _process(_delta):
+	text = str(Engine.get_frames_per_second())
+"
+
+[node name="World" type="Node3D"]
+script = SubResource("GDScript_vuvp5")
+
+[node name="FogOfWar2" parent="." instance=ExtResource("1_p0c5k")]
+Update_Period = null
+Paused = null
+Dimensions = null
+Fog_Color = null
+Fog_Revealed_Color = null
+Fog_Explored_Color = null
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+current = true
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+script = SubResource("GDScript_5cfjs")
+
+[node name="FogOccluder" parent="." instance=ExtResource("2_exdul")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.769269, 0, 0.480072)
+
+[node name="VisibilityModifier" parent="." instance=ExtResource("3_lcnm0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625522, 0, 0.515465)

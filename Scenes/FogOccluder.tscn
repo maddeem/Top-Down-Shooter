@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxtjen6injqrr"]
+
+[ext_resource type="Script" path="res://Scripts/FogOccluder.gd" id="1_qbp0q"]
+
+[node name="FogOccluder" type="Node3D"]
+script = ExtResource("1_qbp0q")
+Occlusion_Points = null

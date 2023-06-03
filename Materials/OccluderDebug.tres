@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://j2qvo7h6fben"]
+
+[sub_resource type="Shader" id="Shader_h6h3y"]
+code = "shader_type spatial;
+uniform sampler2D albedo_texture : hint_default_black;
+uniform vec4 color_display = vec4(0,.7,0,1);
+//WIP
+void fragment() {
+	ALPHA = 0.0;
+}
+"
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_h6h3y")
+shader_parameter/color_display = Quaternion(0, 0.7, 0, 1)

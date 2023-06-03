@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://gjkmrmycqwtv"]
+
+[ext_resource type="Script" path="res://Scripts/VisibilityModifier.gd" id="1_rxy5a"]
+
+[node name="VisibilityModifier" type="Node3D"]
+script = ExtResource("1_rxy5a")

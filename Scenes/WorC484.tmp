@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://b81f7fkpb7eqn"]
+
+[ext_resource type="PackedScene" uid="uid://st1qonks4lby" path="res://Scenes/FogOfWar.tscn" id="1_qvvgq"]
+[ext_resource type="PackedScene" uid="uid://gjkmrmycqwtv" path="res://Scenes/VisibilityModifier.tscn" id="2_yt430"]
+[ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/FogOccluder.tscn" id="3_wwvbv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pcavp"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+texture_filter = 0
+texture_repeat = false
+
+[node name="World" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 60, 0)
+current = true
+
+[node name="Fog Of War" parent="." instance=ExtResource("1_qvvgq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.3482, 0, 33.847)
+surface_material_override/0 = SubResource("StandardMaterial3D_pcavp")
+
+[node name="VisibilityModifier" parent="." instance=ExtResource("2_yt430")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.5744, -4.76837e-07, 43.7411)
+
+[node name="FogOccluder" parent="." instance=ExtResource("3_wwvbv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.78565, 0, -2.25685)
+Occluder_Texture = "res://Assets/OccluderTextures/Test2x2.tga"
+Occlusion_Points = [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(0, -1), Vector2i(0, 0)]
+
+[node name="FogOccluder2" parent="." instance=ExtResource("3_wwvbv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.78565, 0, -2.25685)
+Occluder_Texture = "res://Assets/OccluderTextures/Test2x2.tga"
+Occlusion_Points = [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(0, -1), Vector2i(0, 0)]

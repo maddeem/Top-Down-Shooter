@@ -1,0 +1,39 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Top Down Shooter"
+run/main_scene="res://Scenes/WorldScene.tscn"
+config/features=PackedStringArray("4.0", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+Cache="*res://Scripts/Cache.gd"
+
+[display]
+
+window/vsync/vsync_mode=0
+
+[rendering]
+
+renderer/rendering_method.mobile="gl_compatibility"
+
+[shader_globals]
+
+FogData={
+"type": "sampler2D",
+"value": "res://Materials/DO NOT DELETE.tres"
+}
+FogDimensions={
+"type": "vec3",
+"value": Vector3(400, 400, 400)
+}

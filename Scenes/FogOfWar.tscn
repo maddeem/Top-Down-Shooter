@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://5ibql1cweuoy"]
+
+[ext_resource type="Material" uid="uid://bhdynhj65u81q" path="res://Materials/FogOfWarBlur.tres" id="1_n2204"]
+[ext_resource type="Script" path="res://Scripts/FogOfWar.gd" id="2_6jr23"]
+[ext_resource type="Material" uid="uid://ch3xrqb1nqjps" path="res://Materials/FogOfWar.tres" id="3_6jf8f"]
+[ext_resource type="Material" uid="uid://j2qvo7h6fben" path="res://Materials/OccluderDebug.tres" id="4_pvi1j"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vxgpv"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cyq4p"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3auhb"]
+
+[node name="FogOfWar" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_vxgpv")
+surface_material_override/0 = ExtResource("1_n2204")
+script = ExtResource("2_6jr23")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+
+[node name="PreviousIteration" type="TextureRect" parent="SubViewport"]
+texture_filter = 1
+material = ExtResource("3_6jf8f")
+offset_right = 512.0
+offset_bottom = 512.0
+texture = SubResource("PlaceholderTexture2D_cyq4p")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Occlusion Debug" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.612, 0.1, 0.149)
+visible = false
+mesh = SubResource("PlaneMesh_3auhb")
+surface_material_override/0 = ExtResource("4_pvi1j")
+
+[connection signal="timeout" from="Timer" to="." method="_update_fog"]
