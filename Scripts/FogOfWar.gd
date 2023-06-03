@@ -1,4 +1,4 @@
-extends MeshInstance3D
+extends Node
 ## This is the update fequency of the fog of war, lower values result in higher refresh rates.
 @export_range(.1,1) var Update_Period := .2:
 	set(value):
@@ -22,14 +22,11 @@ extends MeshInstance3D
 		Dimensions = value
 		if not _material:
 			return
-		scale.x = Dimensions.x
-		scale.z = Dimensions.y
 		_doube_size = value * 2
 		_map.create(_doube_size)
 		_previous_iteration.size = Dimensions + Vector2i(1,1)
 		_viewport.size = Dimensions + Vector2i(1,1)
-		_material.set_shader_parameter("dimensions",_doube_size)
-		RenderingServer.global_shader_parameter_set("FogDimensions", Vector3(_doube_size.x,0,_doube_size.y))
+		RenderingServer.global_shader_parameter_set("FogDimensions", _doube_size)
 		_occluder_map = []
 		for x in _doube_size.x:
 			var row = []
@@ -96,10 +93,17 @@ extends MeshInstance3D
 @onready var _viewport : SubViewport = $SubViewport
 @onready var _previous_iteration : Control = $SubViewport/PreviousIteration
 @onready var _material : ShaderMaterial = _previous_iteration.material
-@onready var _mesh_material : ShaderMaterial = get_surface_override_material(0)
+
+# Eventually we want to replace this with a color map so we can have different types of occluders.
+# Right now vision passes through occluders until the occluder ends, so it allows the occluder
+# source to be visible. But it would be nice to have occluders that completely stop all vision
+# We can implement this by sampling different colors. 
+# Right now:
+# Black = Weak Occlusion
 var _map = BitMap.new()
 var _occluder_map
 var _doube_size : Vector2i
+var _clamp_max : Vector2i
 var _initial_image
 var _frame_delay = 2
 var _resetting = false
@@ -159,18 +163,15 @@ func _update_fog():
 	#Get 
 	if not _resetting:
 		tex = ImageTexture.create_from_image(_viewport.get_texture().get_image())
-		_mesh_material.set_shader_parameter("albedo_texture", tex)
 		if Fog_Resets:
-			_material.set_shader_parameter("previous_iteration",_initial_image)
 			RenderingServer.global_shader_parameter_set("FogData", _initial_image)
 		else:
-			_material.set_shader_parameter("previous_iteration",tex)
-		RenderingServer.global_shader_parameter_set("FogData", tex)
+			RenderingServer.global_shader_parameter_set("FogData", tex)
 	_frame_delay = 2
 
 func _reset_fog():
 	_resetting = true
-	_material.set_shader_parameter("previous_iteration",_initial_image)
+	RenderingServer.global_shader_parameter_set("FogData", _initial_image)
 	_previous_iteration.material = _material
 	_frame_delay = 2
 	_update_fog()
@@ -183,5 +184,5 @@ func _process(_delta):
 		_previous_iteration.material = null
 		if _resetting:
 			var tex = ImageTexture.create_from_image(_viewport.get_texture().get_image())
-			_mesh_material.set_shader_parameter("albedo_texture", tex)
+			RenderingServer.global_shader_parameter_set("FogData", tex)
 			_resetting = false

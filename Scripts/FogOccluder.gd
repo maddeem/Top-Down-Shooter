@@ -2,7 +2,7 @@
 extends Node3D
 const FOLDER_PATH = "res://Assets/OccluderTextures/"
 ## Accepts only TGA files, transparent pixels do not occlude. The occlusion texture is centered on the node.
-@export_file("*.tga","*.png") var Occluder_Texture = FOLDER_PATH:
+@export_file("*.tga") var Occluder_Texture = FOLDER_PATH:
 	set(value):
 		Occluder_Texture = value
 		if value == FOLDER_PATH or value == null:
@@ -12,6 +12,9 @@ const FOLDER_PATH = "res://Assets/OccluderTextures/"
 			if Cache.exists(Occluder_Texture):
 				Occlusion_Points = Cache.read_from(Occluder_Texture)
 				return
+		#This is expensive for larger textures, so we cache the results. The caching
+		#Is done at run time, but I can look into making the cache be part of the loading
+		#phase
 		Occlusion_Points = []
 		var img : Image = load(Occluder_Texture).get_image()
 		img.decompress()

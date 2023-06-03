@@ -1,19 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://5ibql1cweuoy"]
+[gd_scene load_steps=6 format=3 uid="uid://5ibql1cweuoy"]
 
-[ext_resource type="Material" uid="uid://bhdynhj65u81q" path="res://Materials/FogOfWarBlur.tres" id="1_n2204"]
 [ext_resource type="Script" path="res://Scripts/FogOfWar.gd" id="2_6jr23"]
-[ext_resource type="Material" uid="uid://ch3xrqb1nqjps" path="res://Materials/FogOfWar.tres" id="3_6jf8f"]
+[ext_resource type="Material" uid="uid://7utl4hincax8" path="res://Materials/FogOfWar.tres" id="3_6jf8f"]
 [ext_resource type="Material" uid="uid://j2qvo7h6fben" path="res://Materials/OccluderDebug.tres" id="4_pvi1j"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_vxgpv"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cyq4p"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_3auhb"]
 
-[node name="FogOfWar" type="MeshInstance3D"]
-mesh = SubResource("PlaneMesh_vxgpv")
-surface_material_override/0 = ExtResource("1_n2204")
+[node name="FogOfWar" type="Node"]
 script = ExtResource("2_6jr23")
 
 [node name="SubViewport" type="SubViewport" parent="."]

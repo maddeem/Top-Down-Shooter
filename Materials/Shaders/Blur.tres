@@ -1,8 +1,7 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bhdynhj65u81q"]
+[gd_resource type="Shader" format=3 uid="uid://oqgglsnd0whk"]
 
-[ext_resource type="Texture2D" uid="uid://cqce06w8kbk44" path="res://icon.svg" id="1_18ylp"]
-
-[sub_resource type="Shader" id="Shader_7pi0w"]
+[resource]
+resource_local_to_scene = true
 code = "shader_type spatial;
 render_mode unshaded;
 uniform sampler2D albedo_texture: filter_nearest;
@@ -46,10 +45,3 @@ void fragment() {
 	ALBEDO.rgb = color.rgb;
 	ALPHA = color.a;
 }"
-
-[resource]
-render_priority = 0
-shader = SubResource("Shader_7pi0w")
-shader_parameter/strength = 0
-shader_parameter/pixelation = 0.5
-shader_parameter/albedo_texture = ExtResource("1_18ylp")

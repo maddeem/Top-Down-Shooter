@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b81f7fkpb7eqn"]
+[gd_scene load_steps=10 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
 [ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/FogOccluder.tscn" id="2_2qsyg"]
-[ext_resource type="Shader" path="res://Materials/FogReactiveMaterial.gdshader" id="3_1vwk2"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="3_sb1gh"]
 [ext_resource type="PackedScene" uid="uid://gjkmrmycqwtv" path="res://Scenes/VisibilityModifier.tscn" id="4_b1s07"]
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
@@ -12,31 +12,27 @@ func _process(_delta):
 	text = str(Engine.get_frames_per_second())
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fploe"]
-render_priority = 0
-shader = ExtResource("3_1vwk2")
-shader_parameter/albedo = Color(0, 1, 1, 1)
-shader_parameter/point_size = null
-shader_parameter/roughness = null
-shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = null
-shader_parameter/metallic = null
-shader_parameter/uv1_scale = null
-shader_parameter/uv1_offset = null
-shader_parameter/uv2_scale = null
-shader_parameter/uv2_offset = null
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bs4nm"]
+next_pass = ExtResource("3_sb1gh")
+albedo_color = Color(0.541176, 0, 0.545098, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_snyts"]
-material = SubResource("ShaderMaterial_fploe")
+material = SubResource("StandardMaterial3D_bs4nm")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bm4up"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cako5"]
+next_pass = ExtResource("3_sb1gh")
+albedo_color = Color(0, 0.403922, 0.0666667, 1)
 
 [node name="World" type="Node3D"]
 
 [node name="FogOfWar" parent="." instance=ExtResource("1_0tx6p")]
 Update_Period = 0.1
-Dimensions = Vector2i(200, 200)
+Dimensions = Vector2i(512, 512)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 25, 0)
+transform = Transform3D(1, 0, 0, 0, 0.316063, 0.948738, 0, -0.948738, 0.316063, 0, 100, 0)
 current = true
 
 [node name="FPS Label" type="Label" parent="."]
@@ -64,12 +60,21 @@ Occluder_Texture = "res://Assets/OccluderTextures/Solid10x10.tga"
 Occlusion_Points = [Vector2i(-5, -5), Vector2i(-5, -4), Vector2i(-5, -3), Vector2i(-5, -2), Vector2i(-5, -1), Vector2i(-5, 0), Vector2i(-5, 1), Vector2i(-5, 2), Vector2i(-5, 3), Vector2i(-5, 4), Vector2i(-4, -5), Vector2i(-4, -4), Vector2i(-4, -3), Vector2i(-4, -2), Vector2i(-4, -1), Vector2i(-4, 0), Vector2i(-4, 1), Vector2i(-4, 2), Vector2i(-4, 3), Vector2i(-4, 4), Vector2i(-3, -5), Vector2i(-3, -4), Vector2i(-3, -3), Vector2i(-3, -2), Vector2i(-3, -1), Vector2i(-3, 0), Vector2i(-3, 1), Vector2i(-3, 2), Vector2i(-3, 3), Vector2i(-3, 4), Vector2i(-2, -5), Vector2i(-2, -4), Vector2i(-2, -3), Vector2i(-2, -2), Vector2i(-2, -1), Vector2i(-2, 0), Vector2i(-2, 1), Vector2i(-2, 2), Vector2i(-2, 3), Vector2i(-2, 4), Vector2i(-1, -5), Vector2i(-1, -4), Vector2i(-1, -3), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(-1, 2), Vector2i(-1, 3), Vector2i(-1, 4), Vector2i(0, -5), Vector2i(0, -4), Vector2i(0, -3), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, 2), Vector2i(0, 3), Vector2i(0, 4), Vector2i(1, -5), Vector2i(1, -4), Vector2i(1, -3), Vector2i(1, -2), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1), Vector2i(1, 2), Vector2i(1, 3), Vector2i(1, 4), Vector2i(2, -5), Vector2i(2, -4), Vector2i(2, -3), Vector2i(2, -2), Vector2i(2, -1), Vector2i(2, 0), Vector2i(2, 1), Vector2i(2, 2), Vector2i(2, 3), Vector2i(2, 4), Vector2i(3, -5), Vector2i(3, -4), Vector2i(3, -3), Vector2i(3, -2), Vector2i(3, -1), Vector2i(3, 0), Vector2i(3, 1), Vector2i(3, 2), Vector2i(3, 3), Vector2i(3, 4), Vector2i(4, -5), Vector2i(4, -4), Vector2i(4, -3), Vector2i(4, -2), Vector2i(4, -1), Vector2i(4, 0), Vector2i(4, 1), Vector2i(4, 2), Vector2i(4, 3), Vector2i(4, 4)]
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="FogOccluder2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.804989, 0)
 mesh = SubResource("BoxMesh_snyts")
 skeleton = NodePath("../../FogOccluder")
 
 [node name="VisibilityModifier" parent="." instance=ExtResource("4_b1s07")]
-transform = Transform3D(0.0348995, 0, 0.999391, 0, 1, 0, -0.999391, 0, 0.0348995, -87.8165, 0, 0)
-Radius = 16
+transform = Transform3D(0.0348995, 0, 0.999391, 0, 1, 0, -0.999391, 0, 0.0348995, 0, 0, 0)
+Radius = 32
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VisibilityModifier"]
 mesh = SubResource("BoxMesh_snyts")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.699189, 0.714937, 0, -0.714937, -0.699189, 0, 57.0787, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(512, 0, 0, 0, 512, 0, 0, 0, 512, 0, 0, 0)
+mesh = SubResource("PlaneMesh_bm4up")
+surface_material_override/0 = SubResource("StandardMaterial3D_cako5")

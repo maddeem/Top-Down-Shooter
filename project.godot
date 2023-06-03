@@ -34,6 +34,6 @@ FogData={
 "value": "res://Materials/DO NOT DELETE.tres"
 }
 FogDimensions={
-"type": "vec3",
-"value": Vector3(400, 400, 400)
+"type": "vec2",
+"value": Vector2(200, 200)
 }
