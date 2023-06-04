@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2ndg8cab37eh"]
+
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_136wu"]
+[ext_resource type="PackedScene" uid="uid://b3tl5qg86gj27" path="res://Scenes/UPNP.tscn" id="1_c8cdx"]
+[ext_resource type="Script" path="res://Scripts/Network.gd" id="1_non5y"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_136wu")
+
+[node name="Network" type="Node" parent="."]
+script = ExtResource("1_non5y")
+
+[node name="UPNP" parent="Network" instance=ExtResource("1_c8cdx")]

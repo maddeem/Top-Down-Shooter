@@ -7,10 +7,10 @@ class_name VisibilityModifier
 		add_to_group("VisibilityModifiers")
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	Radius = Radius
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 	#ONLY FOR TESTING!
 	var vp = get_viewport()
 	var cam = vp.get_camera_3d()

@@ -32,10 +32,10 @@ var Last_Points_Modified = []
 var Last_Position
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	add_to_group("UpdateOccluders")
 
-func _physics_process(_delta):
+func _physics_process(_delta) -> void:
 	var cur_pos = Vector2i(round(global_position.x),round(global_position.z))
 	if cur_pos != Last_Position:
 		Last_Position = cur_pos

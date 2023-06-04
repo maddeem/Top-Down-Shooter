@@ -109,7 +109,7 @@ var _frame_delay = 2
 var _resetting = false
 
 #METHODS
-func _ready():
+func _ready() -> void:
 	if not Paused:
 		_timer.start()
 	Dimensions = Dimensions
@@ -118,12 +118,12 @@ func _ready():
 	Fog_Revealed_Color = Fog_Revealed_Color
 	Update_Period = Update_Period
 
-func _update_fog():
+func _update_fog() -> void:
 	_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 	_previous_iteration.material = _material
 	var update_pixels = {}
-	
+
 	#OCCLUDER LOGIC
 	for occluder in get_tree().get_nodes_in_group("UpdateOccluders"):
 		#Occluders only update when moved, then they are removed from the group
@@ -169,14 +169,14 @@ func _update_fog():
 			RenderingServer.global_shader_parameter_set("FogData", tex)
 	_frame_delay = 2
 
-func _reset_fog():
+func _reset_fog() -> void:
 	_resetting = true
 	RenderingServer.global_shader_parameter_set("FogData", _initial_image)
 	_previous_iteration.material = _material
 	_frame_delay = 2
 	_update_fog()
 
-func _process(_delta):
+func _process(_delta) -> void:
 	#It takes two frames for viewports to update, so we decrement it until we are ready
 	# to turn off the shader or reset it
 	_frame_delay -= 1

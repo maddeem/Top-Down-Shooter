@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://4a7qe84avw3"]
+
+[ext_resource type="Script" path="res://Scripts/UPNP.gd" id="1_cv63s"]
+
+[node name="UPNP" type="Node"]
+script = ExtResource("1_cv63s")
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
