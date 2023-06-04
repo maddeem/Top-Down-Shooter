@@ -4,9 +4,3 @@
 
 [resource]
 shader = ExtResource("1_ptu1b")
-shader_parameter/fog_color = Quaternion(0, 0, 0, 1)
-shader_parameter/reveal_color = Quaternion(0, 0, 0, 0)
-shader_parameter/explored_color = Quaternion(0, 0, 0, 0.5)
-shader_parameter/visibility_modifiers = PackedVector3Array(0, 0, 9.723)
-shader_parameter/visiblity_data = null
-shader_parameter/count = 1

@@ -56,21 +56,16 @@ vec4 get_color(vec2 uv, vec4 sample, vec2 scaler, ivec2 iuv){
 			if (bresenham(ivec2(int(circlePos.x),int(circlePos.y)),iuv,scaler,visiblity_data[i])){
 				return reveal_color;
 			}else{
-				if (sample.a < 1.0){
-					color = explored_color;
-					
-				}else{
-					color = sample;
-				}
+				float lt = fwhen_lt(sample.a,1.0);
+				color = lt * explored_color;
+				color += (1.0 - lt) * sample;
 				return color;
 			}
 		}
 	}
-	if (sample.a < 1.0){
-		color =explored_color;
-	}else{
-		color = sample;
-	}
+	float lt = fwhen_lt(sample.a,1.0);
+	color = lt * explored_color;
+	color += (1.0 - lt) * sample;
 	return color;
 }
 

@@ -37,6 +37,7 @@ const FOLDER_PATH = "res://Assets/OccluderTextures/"
 @export var Occlusion_Points = []
 var Last_Points_Modified = []
 var Last_Position
+var Adjusted_Occlusion_Height
 var _last_Y
 
 func _physics_process(_delta) -> void:
@@ -44,4 +45,5 @@ func _physics_process(_delta) -> void:
 	if cur_pos != Last_Position or _last_Y != global_position.y:
 		Last_Position = cur_pos
 		_last_Y = global_position.y
+		Adjusted_Occlusion_Height = clamp((_last_Y + Occlusion_Height)*0.0078125,0.0,1.0)
 		add_to_group("UpdateOccluders")
