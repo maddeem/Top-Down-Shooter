@@ -1,10 +1,17 @@
 @tool
 extends Node3D
 const FOLDER_PATH = "res://Assets/OccluderTextures/"
+@export_range(0,128) var Occlusion_Height : int = 1:
+	set(value):
+		Occlusion_Height = value
+		if _last_Y:
+			add_to_group("UpdateOccluders")
 ## Accepts only TGA files, transparent pixels do not occlude. The occlusion texture is centered on the node.
 @export_file("*.tga") var Occluder_Texture = FOLDER_PATH:
 	set(value):
 		Occluder_Texture = value
+		if _last_Y:
+			add_to_group("UpdateOccluders")
 		if value == FOLDER_PATH or value == null:
 			Occlusion_Points = null
 			return
@@ -30,13 +37,11 @@ const FOLDER_PATH = "res://Assets/OccluderTextures/"
 @export var Occlusion_Points = []
 var Last_Points_Modified = []
 var Last_Position
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	add_to_group("UpdateOccluders")
+var _last_Y
 
 func _physics_process(_delta) -> void:
 	var cur_pos = Vector2i(round(global_position.x),round(global_position.z))
-	if cur_pos != Last_Position:
+	if cur_pos != Last_Position or _last_Y != global_position.y:
 		Last_Position = cur_pos
+		_last_Y = global_position.y
 		add_to_group("UpdateOccluders")

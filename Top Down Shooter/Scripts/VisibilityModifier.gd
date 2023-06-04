@@ -5,7 +5,7 @@ class_name VisibilityModifier
 	set(value):
 		Radius = value
 		add_to_group("VisibilityModifiers")
-
+@export_range(0,256) var Vision_Height : int = 256
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Radius = Radius

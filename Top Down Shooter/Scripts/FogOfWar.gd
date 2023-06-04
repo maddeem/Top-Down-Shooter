@@ -22,15 +22,18 @@ extends Node
 		Dimensions = value
 		if not _material:
 			return
-		_doube_size = value * 2
-		_map.create(_doube_size)
+		_double_size = value * 2
+		_map = Image.create(_double_size.x,_double_size.y,false,Image.FORMAT_RGBA8)
+		_map.fill(Color.BLACK)
 		_previous_iteration.size = Dimensions + Vector2i(1,1)
 		_viewport.size = Dimensions + Vector2i(1,1)
-		RenderingServer.global_shader_parameter_set("FogDimensions", _doube_size)
+		_clamp_max = _double_size + Vector2i(1,1)
+		RenderingServer.global_shader_parameter_set("FogDimensions", _double_size)
+		RenderingServer.global_shader_parameter_set("InverseFogDimensions",Vector2(1.0,1.0)/Vector2(_double_size))
 		_occluder_map = []
-		for x in _doube_size.x:
+		for x in _double_size.x:
 			var row = []
-			for y in _doube_size.y:
+			for y in _double_size.y:
 				row.append(0)
 			_occluder_map.append(row)
 
@@ -48,7 +51,7 @@ extends Node
 				else:
 					which_color = Fog_Revealed_Color
 			_material.set_shader_parameter("fog_color",which_color)
-			_initial_image = Image.create(10,10,false,Image.FORMAT_RGBA8)
+			_initial_image = Image.create(1,1,false,Image.FORMAT_RGBA8)
 			_initial_image.fill(which_color)
 			_initial_image = ImageTexture.create_from_image(_initial_image)
 			_reset_fog()
@@ -100,9 +103,9 @@ extends Node
 # We can implement this by sampling different colors. 
 # Right now:
 # Black = Weak Occlusion
-var _map = BitMap.new()
+var _map : Image = Image.new()
 var _occluder_map
-var _doube_size : Vector2i
+var _double_size : Vector2i
 var _clamp_max : Vector2i
 var _initial_image
 var _frame_delay = 2
@@ -118,11 +121,15 @@ func _ready() -> void:
 	Fog_Revealed_Color = Fog_Revealed_Color
 	Update_Period = Update_Period
 
+func convert_occlusion_height(pos_y,height) -> float:
+	return clamp((pos_y + height)*0.0078125,0,1.0)
+
 func _update_fog() -> void:
 	_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 	_previous_iteration.material = _material
 	var update_pixels = {}
+	var tex
 
 	#OCCLUDER LOGIC
 	for occluder in get_tree().get_nodes_in_group("UpdateOccluders"):
@@ -130,35 +137,41 @@ func _update_fog() -> void:
 		occluder.remove_from_group("UpdateOccluders")
 		#Then we check to see if they have any previously modified points on our occluder map
 		for point in occluder.Last_Points_Modified:
-			_occluder_map[point.x][point.y] -= 1
-			update_pixels[point] = true
+			if occluder.Occlusion_Height >= _occluder_map[point.x][point.y]:
+				_occluder_map[point.x][point.y] = 0
+				update_pixels[point] = 0.0
 		var offset : Vector2i = occluder.Last_Position + Dimensions
 		occluder.Last_Points_Modified = []
 		for point in occluder.Occlusion_Points:
 			#Clamp the values so they do not exceed our array
-			point = (point + offset).clamp(Vector2i.ZERO,_doube_size-Vector2i(1,1))
+			point = (point + offset).clamp(Vector2i.ZERO,_clamp_max)
 			#Add the new point to our modified memeory, so we can remove
 			#modified points if the occluder is removed or moves
 			occluder.Last_Points_Modified.append(point)
 			#Update the occluder map
-			_occluder_map[point.x][point.y] += 1
+			if occluder.Occlusion_Height >= _occluder_map[point.x][point.y]:
+				_occluder_map[point.x][point.y] = occluder.Occlusion_Height
+				update_pixels[point] = convert_occlusion_height(occluder.global_position.y,occluder.Occlusion_Height)
+
 			#Add this pixel to a dictionary via the vect2, which prevents duplicate entries
-			update_pixels[point] = true
 	#Update our bitmap with whatever pixels we need to change
-	for point in update_pixels:
-		_map.set_bit(point.x,point.y,_occluder_map[point.x][point.y]>0)
-	#Then we build a texture from our bitmap and pass it to the shader
-	var tex = ImageTexture.create_from_image(_map.convert_to_image())
-	_material.set_shader_parameter("occlusion_mask",tex)
+	if update_pixels.size() > 0:
+		for point in update_pixels:
+			_map.set_pixelv(point,Color(update_pixels[point],0,0))
+		tex = ImageTexture.create_from_image(_map)
+		RenderingServer.global_shader_parameter_set("OcclusionMap", tex)
 	
 	#VISIBLITY MODIFIER LOGIC
 	#Capture modifier location and radius data and pack it into an array
 	var mods : PackedVector3Array = []
+	var mods2 = []
 	for modifier in get_tree().get_nodes_in_group("VisibilityModifiers"):
 		var pos = Vector2i(round(modifier.global_position.x),round(modifier.global_position.z)) + Dimensions
 		mods.append(Vector3i(pos.x,pos.y,modifier.Radius))
+		mods2.append(convert_occlusion_height(modifier.global_position.y,modifier.Vision_Height))
 	#Update our shaders with the packed data
 	_material.set_shader_parameter("visibility_modifiers",mods)
+	_material.set_shader_parameter("visiblity_data",mods2)
 	_material.set_shader_parameter("count",mods.size())
 	#Get 
 	if not _resetting:

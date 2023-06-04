@@ -19,10 +19,6 @@ config/icon="res://icon.svg"
 
 Cache="*res://Scripts/Cache.gd"
 
-[display]
-
-window/vsync/vsync_mode=0
-
 [rendering]
 
 renderer/rendering_method.mobile="gl_compatibility"
@@ -36,4 +32,12 @@ FogData={
 FogDimensions={
 "type": "vec2",
 "value": Vector2(200, 200)
+}
+InverseFogDimensions={
+"type": "vec2",
+"value": Vector2(0, 0)
+}
+OcclusionMap={
+"type": "sampler2D",
+"value": "res://Materials/DO NOT DELETE.tres"
 }
