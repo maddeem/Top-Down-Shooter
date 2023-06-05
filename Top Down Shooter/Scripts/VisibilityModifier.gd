@@ -4,14 +4,23 @@ class_name VisibilityModifier
 @export_range(0,999) var Radius : int = 10:
 	set(value):
 		Radius = value
-@export_range(0,256) var Vision_Height : int = 256:
+@export_range(0,512) var Vision_Height : int = 0:
 	set(value):
 		Vision_Height = value
 		if _last_Y:
 			_update_adjuste_height()
-
+## Automatically converted to the bit value of the player so the shader knows who to render this for
+@export_range(0,Globals.MAX_PLAYERS-1) var Owner = 0:
+	set(value):
+		Owner = value
+		if Cache.exists("bit",Owner):
+			Owner_Bit_Value = Cache.read_from("bit",Owner)
+		else:
+			Owner_Bit_Value = pow(2,Owner)
+			Cache.write_to("bit",Owner,Owner_Bit_Value)
 var Adjusted_Vision_Height
 var _last_Y
+var Owner_Bit_Value
 
 func IsPointVisible(pos : Vector3):
 	var Fog = Globals.FogOfWar
@@ -38,9 +47,10 @@ func IsPointVisible(pos : Vector3):
 			p0[1] += sy
 
 func _update_adjuste_height():
-	Adjusted_Vision_Height = clamp((global_position.y + Vision_Height)*0.0078125,0.0,1.0)
+	Adjusted_Vision_Height = clamp((global_position.y + Vision_Height)*0.0078125,0.0,4.0)
 
 func _ready() -> void:
+	Owner = Owner
 	_update_adjuste_height()
 	add_to_group("VisibilityModifiers")
 

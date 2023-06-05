@@ -1,6 +1,9 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://7utl4hincax8"]
 
-[ext_resource type="Shader" path="res://Materials/Shaders/FogOfWar.gdshader" id="1_ptu1b"]
+[ext_resource type="Shader" path="res://Materials/Shaders/PlayerFogOfWar.gdshader" id="1_mhb6r"]
 
 [resource]
-shader = ExtResource("1_ptu1b")
+shader = ExtResource("1_mhb6r")
+shader_parameter/visibility_modifiers = null
+shader_parameter/visiblity_data = null
+shader_parameter/count = 0

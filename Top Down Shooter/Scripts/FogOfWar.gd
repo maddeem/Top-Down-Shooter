@@ -26,7 +26,9 @@ extends Node
 		occluder_image_map = Image.create(_double_size.x,_double_size.y,false,Image.FORMAT_RGBA8)
 		occluder_image_map.fill(Color.BLACK)
 		_previous_iteration.size = Dimensions + Vector2i(1,1)
+		_local_previous.size = _previous_iteration.size
 		_viewport.size = Dimensions + Vector2i(1,1)
+		_local_viewport.size = _viewport.size
 		_clamp_max = _double_size + Vector2i(1,1)
 		RenderingServer.global_shader_parameter_set("FogDimensions", _double_size)
 		RenderingServer.global_shader_parameter_set("InverseFogDimensions",Vector2(1.0,1.0)/Vector2(_double_size))
@@ -50,7 +52,7 @@ extends Node
 					which_color = Fog_Explored_Color
 				else:
 					which_color = Fog_Revealed_Color
-			_material.set_shader_parameter("fog_color",which_color)
+			RenderingServer.global_shader_parameter_set("FogUnexploredColor", which_color)
 			_initial_image = Image.create(1,1,false,Image.FORMAT_RGBA8)
 			_initial_image.fill(which_color)
 			_initial_image = ImageTexture.create_from_image(_initial_image)
@@ -61,7 +63,7 @@ extends Node
 	set(value):
 		Fog_Revealed_Color = value
 		if _material:
-			_material.set_shader_parameter("reveal_color",Fog_Revealed_Color)
+			RenderingServer.global_shader_parameter_set("FogRevealColor", Fog_Revealed_Color)
 
 ## The color for fog that isn't currently visible, but has been visited in the past.
 @export var Fog_Explored_Color := Color(0,0,0,0.5):
@@ -69,9 +71,12 @@ extends Node
 		Fog_Explored_Color = value
 		if _material:
 			if FogEnabled:
-				_material.set_shader_parameter("explored_color",Fog_Explored_Color)
+				if Fog_Resets:
+					RenderingServer.global_shader_parameter_set("FogExploredColor", Fog_Color)
+				else:
+					RenderingServer.global_shader_parameter_set("FogExploredColor", Fog_Explored_Color)
 			else:
-				_material.set_shader_parameter("explored_color",Fog_Revealed_Color)
+				RenderingServer.global_shader_parameter_set("FogExploredColor", Fog_Revealed_Color)
 
 ## If set to false, explored terrain will always be visible.
 @export var FogEnabled = true:
@@ -87,7 +92,10 @@ extends Node
 		
 ## If set to true, there terrain will revert back to being unexplored when
 ## you lose vision of the area
-@export var Fog_Resets = false
+@export var Fog_Resets = false:
+	set(value):
+		Fog_Resets = value
+		Fog_Explored_Color = Fog_Explored_Color
 
 @export_enum("none","low","medium","high") var Fog_Graphical_Smoothing := 3
 
@@ -95,7 +103,10 @@ extends Node
 @onready var _timer := $Timer
 @onready var _viewport : SubViewport = $SubViewport
 @onready var _previous_iteration : Control = $SubViewport/PreviousIteration
+@onready var _local_viewport : SubViewport = $LocalFog
+@onready var _local_previous = $LocalFog/LocalPreviousIteration
 @onready var _material : ShaderMaterial = _previous_iteration.material
+@onready var _local_material : ShaderMaterial = _local_previous.material
 
 # Eventually we want to replace this with a color map so we can have different types of occluders.
 # Right now vision passes through occluders until the occluder ends, so it allows the occluder
@@ -128,7 +139,10 @@ func Position_To_Pixel(pos : Vector3) -> Vector2i:
 func _update_fog() -> void:
 	_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	_local_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
+	_local_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 	_previous_iteration.material = _material
+	_local_previous.material = _local_material
 	var update_pixels = {}
 	var tex
 
@@ -140,7 +154,7 @@ func _update_fog() -> void:
 		for point in occluder.Last_Points_Modified:
 			if occluder.Occlusion_Height >= _occluder_map[point.x][point.y]:
 				_occluder_map[point.x][point.y] = 0
-				update_pixels[point] = 0.0
+				update_pixels[point] = Color(0,0,0,0)
 		var offset : Vector2i = occluder.Last_Position + Dimensions
 		occluder.Last_Points_Modified = []
 		for point in occluder.Occlusion_Points:
@@ -158,34 +172,37 @@ func _update_fog() -> void:
 	#Update our bitmap with whatever pixels we need to change
 	if update_pixels.size() > 0:
 		for point in update_pixels:
-			occluder_image_map.set_pixelv(point,Color(update_pixels[point],0,0))
+			occluder_image_map.set_pixelv(point,update_pixels[point])
 		tex = ImageTexture.create_from_image(occluder_image_map)
 		RenderingServer.global_shader_parameter_set("OcclusionMap", tex)
 	
 	#VISIBLITY MODIFIER LOGIC
 	#Capture modifier location and radius data and pack it into an array
 	var mods : PackedVector3Array = []
-	var mods2 = []
+	var mods2 : PackedVector3Array = []
 	for modifier in get_tree().get_nodes_in_group("VisibilityModifiers"):
 		var pos = Position_To_Pixel(modifier.global_position)
 		mods.append(Vector3i(pos.x,pos.y,modifier.Radius))
-		mods2.append(modifier.Adjusted_Vision_Height)
+		mods2.append(Vector3(modifier.Adjusted_Vision_Height,modifier.Owner_Bit_Value,0))
 	#Update our shaders with the packed data
 	_material.set_shader_parameter("visibility_modifiers",mods)
 	_material.set_shader_parameter("visiblity_data",mods2)
 	_material.set_shader_parameter("count",mods.size())
 	#Get 
 	if not _resetting:
-		tex = ImageTexture.create_from_image(_viewport.get_texture().get_image())
-		if Fog_Resets:
-			RenderingServer.global_shader_parameter_set("FogData", _initial_image)
-		else:
-			RenderingServer.global_shader_parameter_set("FogData", tex)
+		RenderingServer.global_shader_parameter_set("FogData", 
+			ImageTexture.create_from_image(_viewport.get_texture().get_image())
+		)
+		RenderingServer.global_shader_parameter_set("FogDataLocal", 
+			ImageTexture.create_from_image(_local_viewport.get_texture().get_image())
+		)
+			
 	_frame_delay = 2
 
 func _reset_fog() -> void:
 	_resetting = true
 	RenderingServer.global_shader_parameter_set("FogData", _initial_image)
+	RenderingServer.global_shader_parameter_set("FogDataLocal", _initial_image)
 	_previous_iteration.material = _material
 	_frame_delay = 2
 	_update_fog()
@@ -196,7 +213,9 @@ func _process(_delta) -> void:
 	_frame_delay -= 1
 	if _frame_delay == 0:
 		_previous_iteration.material = null
+		_local_previous.material = null
 		if _resetting:
 			var tex = ImageTexture.create_from_image(_viewport.get_texture().get_image())
 			RenderingServer.global_shader_parameter_set("FogData", tex)
+			RenderingServer.global_shader_parameter_set("FogDataLocal", tex)
 			_resetting = false

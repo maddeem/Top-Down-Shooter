@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 Cache="*res://Scripts/Cache.gd"
 Globals="*res://Scripts/Globals.gd"
+Utility="*res://Scripts/Utility.gd"
+
+[display]
+
+window/vsync/vsync_mode=0
 
 [rendering]
 
@@ -41,4 +46,24 @@ InverseFogDimensions={
 OcclusionMap={
 "type": "sampler2D",
 "value": "res://Materials/DO NOT DELETE.tres"
+}
+FogRevealColor={
+"type": "color",
+"value": Color(0, 0, 0, 0)
+}
+FogExploredColor={
+"type": "color",
+"value": Color(0, 0, 0, 0.498039)
+}
+FogUnexploredColor={
+"type": "color",
+"value": Color(0, 0, 0, 1)
+}
+FogDataLocal={
+"type": "sampler2D",
+"value": "res://Materials/DO NOT DELETE.tres"
+}
+FogPlayerBit={
+"type": "int",
+"value": 4
 }

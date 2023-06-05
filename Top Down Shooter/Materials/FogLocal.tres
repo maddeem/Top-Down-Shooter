@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dhyuc4oo3h5s7"]
+
+[ext_resource type="Shader" path="res://Materials/Shaders/FogOfWar.gdshader" id="1_ufb0r"]
+
+[resource]
+shader = ExtResource("1_ufb0r")
+shader_parameter/count = 0
