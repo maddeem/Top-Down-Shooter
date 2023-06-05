@@ -24,11 +24,6 @@ vec3 bit_to_color(int value){
 	);
 }
 
-int color_to_bit(vec3 color){
-	ivec3 new = ivec3(round(color * 255.0));
-	return (new.x << 16) | (new.y << 8) | new.z;
-}
-
 bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
 	int dx = iabs(p1.x - p0.x);
 	int dy = -iabs(p1.y - p0.y);
@@ -67,7 +62,7 @@ vec4 get_color(vec2 uv, vec2 scaler, ivec2 iuv){
 		vec3 circleData = visiblity_data[i];
 		vec2 d = uv-circlePos.xy;
 		d *= d;
-		if (d.x + d.y < circlePos.z * circlePos.z) {
+		if ((bit_color & int(circleData.y)) == 0 && d.x + d.y < circlePos.z * circlePos.z) {
 			if (bresenham(ivec2(circlePos.xy),iuv,scaler,circleData.x)){
 				bit_color = bit_color | int(circleData.y);
 				color = bit_to_color(bit_color);

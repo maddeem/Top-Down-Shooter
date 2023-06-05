@@ -29,11 +29,11 @@ albedo_color = Color(0, 0.403922, 0.0666667, 1)
 
 [node name="FogOfWar" parent="." instance=ExtResource("1_0tx6p")]
 Update_Period = 0.1
-Dimensions = Vector2i(256, 256)
+Dimensions = Vector2i(512, 512)
 Fog_Explored_Color = Color(0, 0, 0, 0.501961)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.316063, 0.948738, 0, -0.948738, 0.316063, 0, 20, 0)
+transform = Transform3D(1, 0, 0, 0, 0.316063, 0.948738, 0, -0.948738, 0.316063, 0, 100, 0)
 current = true
 
 [node name="FPS Label" type="Label" parent="."]
@@ -91,6 +91,14 @@ transform = Transform3D(0.0348995, 0, 0.999391, 0, 1, 0, -0.999391, 0, 0.0348995
 Owner = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VisibilityModifier"]
+mesh = SubResource("BoxMesh_snyts")
+
+[node name="VisibilityModifier2" parent="." instance=ExtResource("4_b1s07")]
+transform = Transform3D(0.0348995, 0, 0.999391, 0, 1, 0, -0.999391, 0, 0.0348995, -3.06127, 0, -96.6931)
+Radius = 32
+Owner = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VisibilityModifier2"]
 mesh = SubResource("BoxMesh_snyts")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
