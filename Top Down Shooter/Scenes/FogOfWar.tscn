@@ -1,10 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://5ibql1cweuoy"]
+[gd_scene load_steps=6 format=3 uid="uid://5ibql1cweuoy"]
 
 [ext_resource type="Script" path="res://Scripts/FogOfWar.gd" id="2_6jr23"]
 [ext_resource type="Material" uid="uid://7utl4hincax8" path="res://Materials/FogOfWar.tres" id="3_6jf8f"]
-[ext_resource type="Material" uid="uid://dhyuc4oo3h5s7" path="res://Materials/FogLocal.tres" id="3_i18go"]
+[ext_resource type="Shader" path="res://Materials/Shaders/FogOfWar.gdshader" id="3_x6lcb"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cyq4p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fbwk1"]
+shader = ExtResource("3_x6lcb")
+shader_parameter/count = 0
 
 [node name="FogOfWar" type="Node"]
 script = ExtResource("2_6jr23")
@@ -38,7 +42,7 @@ positional_shadow_atlas_quad_2 = 0
 positional_shadow_atlas_quad_3 = 0
 
 [node name="LocalPreviousIteration" type="TextureRect" parent="LocalFog"]
-material = ExtResource("3_i18go")
+material = SubResource("ShaderMaterial_fbwk1")
 offset_right = 512.0
 offset_bottom = 512.0
 texture = SubResource("PlaceholderTexture2D_cyq4p")

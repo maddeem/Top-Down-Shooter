@@ -33,7 +33,7 @@ Dimensions = Vector2i(256, 256)
 Fog_Explored_Color = Color(0, 0, 0, 0.501961)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.316063, 0.948738, 0, -0.948738, 0.316063, 0, 100, 0)
+transform = Transform3D(1, 0, 0, 0, 0.316063, 0.948738, 0, -0.948738, 0.316063, 0, 20, 0)
 current = true
 
 [node name="FPS Label" type="Label" parent="."]
@@ -88,7 +88,6 @@ skeleton = NodePath("../../FogOccluder")
 
 [node name="VisibilityModifier" parent="." instance=ExtResource("4_b1s07")]
 transform = Transform3D(0.0348995, 0, 0.999391, 0, 1, 0, -0.999391, 0, 0.0348995, 0, 0, 0)
-Radius = 256
 Owner = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VisibilityModifier"]
@@ -101,5 +100,3 @@ transform = Transform3D(1, 0, 0, 0, -0.699189, 0.714937, 0, -0.714937, -0.699189
 transform = Transform3D(512, 0, 0, 0, 512, 0, 0, 0, 512, 0, 0, 0)
 mesh = SubResource("PlaneMesh_bm4up")
 surface_material_override/0 = SubResource("StandardMaterial3D_cako5")
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]

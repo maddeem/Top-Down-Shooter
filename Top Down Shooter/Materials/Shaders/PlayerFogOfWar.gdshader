@@ -2,6 +2,7 @@ shader_type canvas_item;
 uniform vec3 visibility_modifiers[2000];
 uniform vec3 visiblity_data[2000];
 uniform int count = 0;
+global uniform sampler2D FogData;
 global uniform sampler2D OcclusionMap ;
 global uniform vec2 FogDimensions;
 global uniform vec2 InverseFogDimensions;
@@ -78,9 +79,5 @@ vec4 get_color(vec2 uv, vec2 scaler, ivec2 iuv){
 
 void fragment(){
 	vec2 uv = UV * FogDimensions;
-	COLOR = get_color(
-		uv,
-		InverseFogDimensions,
-		ivec2(round(uv))
-	);
+	COLOR = get_color(uv,InverseFogDimensions,ivec2(round(uv)));
 }

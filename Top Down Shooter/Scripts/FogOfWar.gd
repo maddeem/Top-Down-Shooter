@@ -121,6 +121,7 @@ var _clamp_max : Vector2i
 var _initial_image
 var _frame_delay = 2
 var _resetting = false
+var _last_fog_image : Image
 
 #METHODS
 func _ready() -> void:
@@ -135,6 +136,13 @@ func _ready() -> void:
 	
 func Position_To_Pixel(pos : Vector3) -> Vector2i:
 	return Vector2i(round(pos.x),round(pos.z)) + Dimensions
+
+func IsPointVisibleToBitId(BitId : int, pos : Vector2) -> bool:
+	if not _last_fog_image:
+		return false
+	var adjust_pos = Position_To_Pixel(Vector3(pos.x,0,pos.y))/2
+	var color = _last_fog_image.get_pixelv(adjust_pos)
+	return BitId & Utility.convert_color_to_bit(color) == BitId
 
 func _update_fog() -> void:
 	_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
@@ -190,8 +198,9 @@ func _update_fog() -> void:
 	_material.set_shader_parameter("count",mods.size())
 	#Get 
 	if not _resetting:
+		_last_fog_image = _viewport.get_texture().get_image()
 		RenderingServer.global_shader_parameter_set("FogData", 
-			ImageTexture.create_from_image(_viewport.get_texture().get_image())
+			ImageTexture.create_from_image(_last_fog_image)
 		)
 		RenderingServer.global_shader_parameter_set("FogDataLocal", 
 			ImageTexture.create_from_image(_local_viewport.get_texture().get_image())
@@ -217,5 +226,4 @@ func _process(_delta) -> void:
 		if _resetting:
 			var tex = ImageTexture.create_from_image(_viewport.get_texture().get_image())
 			RenderingServer.global_shader_parameter_set("FogData", tex)
-			RenderingServer.global_shader_parameter_set("FogDataLocal", tex)
 			_resetting = false
