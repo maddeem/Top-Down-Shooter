@@ -4,4 +4,5 @@
 
 [node name="FogOccluder" type="Node3D"]
 script = ExtResource("1_qbp0q")
+Occlusion_Height = 1
 Occlusion_Points = null

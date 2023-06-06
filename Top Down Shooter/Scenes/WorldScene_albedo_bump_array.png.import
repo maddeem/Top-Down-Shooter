@@ -1,0 +1,27 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://5o0xuqeed13p"
+path.s3tc="res://.godot/imported/WorldScene_albedo_bump_array.png-f4635aafd8badc21aebe1400d89af4ed.s3tc.ctexarray"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://Scenes/WorldScene_albedo_bump_array.png"
+dest_files=["res://.godot/imported/WorldScene_albedo_bump_array.png-f4635aafd8badc21aebe1400d89af4ed.s3tc.ctexarray"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+slices/horizontal=1
+slices/vertical=1

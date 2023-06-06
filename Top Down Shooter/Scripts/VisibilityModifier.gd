@@ -4,13 +4,13 @@ class_name VisibilityModifier
 @export_range(0,999) var Radius : int = 10:
 	set(value):
 		Radius = value
-@export_range(0,512) var Vision_Height : int = 0:
+@export_range(0,255) var Vision_Height : float = 0:
 	set(value):
 		Vision_Height = value
 		if _last_Y:
 			_update_adjuste_height()
 ## Automatically converted to the bit value of the player so the shader knows who to render this for
-@export_range(0,Globals.MAX_PLAYERS-1) var Owner = 0:
+@export_range(0,Config.MAX_PLAYERS-1) var Owner = 0:
 	set(value):
 		Owner = value
 		if Cache.exists("bit",Owner):
@@ -47,7 +47,7 @@ func IsPointVisible(pos : Vector3):
 			p0[1] += sy
 
 func _update_adjuste_height():
-	Adjusted_Vision_Height = clamp((global_position.y + Vision_Height)*0.0078125,0.0,4.0)
+	Adjusted_Vision_Height = (global_position.y + Vision_Height) / 63.75
 
 func _ready() -> void:
 	Owner = Owner
@@ -67,4 +67,3 @@ func _physics_process(delta) -> void:
 		var dir = pos1.direction_to(pos2)
 		dir = Vector3(dir.x,0,dir.y) * 5 * delta
 		position += dir
-		cam.position += dir

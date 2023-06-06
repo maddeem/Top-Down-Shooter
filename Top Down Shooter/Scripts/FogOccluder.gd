@@ -1,16 +1,16 @@
 @tool
 extends Node3D
 const FOLDER_PATH = "res://Assets/OccluderTextures/"
-@export_range(0,512) var Occlusion_Height : int = 1:
+@export_range(0,255) var Occlusion_Height : float = 1.0:
 	set(value):
 		Occlusion_Height = value
-		if _last_Y:
-			add_to_group("UpdateOccluders")
+		if _last_Y != null:
+			_update_occlusion_height()
 ## Accepts only TGA files, transparent pixels do not occlude. The occlusion texture is centered on the node.
 @export_file("*.tga") var Occluder_Texture = FOLDER_PATH:
 	set(value):
 		Occluder_Texture = value
-		if _last_Y:
+		if _last_Y != null:
 			add_to_group("UpdateOccluders")
 		if value == FOLDER_PATH or value == null:
 			Occlusion_Points = null
@@ -38,10 +38,11 @@ const FOLDER_PATH = "res://Assets/OccluderTextures/"
 var Last_Points_Modified = []
 var Last_Position
 var Adjusted_Occlusion_Height : Color
+var Previous_Occlusion_Height
 var _last_Y
 
 func _update_occlusion_height():
-	var this_max = clamp((global_position.y + Occlusion_Height)*0.0078125,0.0,4.0)
+	var this_max = clamp((global_position.y + Occlusion_Height)/63.75,0.0,4.0)
 	Adjusted_Occlusion_Height = Color(0,0,0,0)
 	for i in 4:
 		var next = this_max - 1.0
@@ -51,6 +52,7 @@ func _update_occlusion_height():
 		else:
 			Adjusted_Occlusion_Height[i] = this_max
 			break
+	add_to_group("UpdateOccluders")
 
 func _physics_process(_delta) -> void:
 	var cur_pos = Vector2i(round(global_position.x),round(global_position.z))
@@ -58,4 +60,3 @@ func _physics_process(_delta) -> void:
 		Last_Position = cur_pos
 		_last_Y = global_position.y
 		_update_occlusion_height()
-		add_to_group("UpdateOccluders")

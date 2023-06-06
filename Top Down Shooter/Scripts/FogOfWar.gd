@@ -160,7 +160,7 @@ func _update_fog() -> void:
 		occluder.remove_from_group("UpdateOccluders")
 		#Then we check to see if they have any previously modified points on our occluder map
 		for point in occluder.Last_Points_Modified:
-			if occluder.Occlusion_Height >= _occluder_map[point.x][point.y]:
+			if occluder.Previous_Occlusion_Height >= _occluder_map[point.x][point.y]:
 				_occluder_map[point.x][point.y] = 0
 				update_pixels[point] = Color(0,0,0,0)
 		var offset : Vector2i = occluder.Last_Position + Dimensions
@@ -173,6 +173,7 @@ func _update_fog() -> void:
 			occluder.Last_Points_Modified.append(point)
 			#Update the occluder map
 			if occluder.Occlusion_Height >= _occluder_map[point.x][point.y]:
+				occluder.Previous_Occlusion_Height = occluder.Occlusion_Height
 				_occluder_map[point.x][point.y] = occluder.Occlusion_Height
 				update_pixels[point] = occluder.Adjusted_Occlusion_Height
 

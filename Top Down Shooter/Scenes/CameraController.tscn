@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0v1qg12ksu2k"]
+
+[ext_resource type="Script" path="res://Scripts/CameraController.gd" id="1_lcwdl"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tyynb"]
+noise_type = 4
+frequency = 0.09
+fractal_octaves = 4
+fractal_lacunarity = 4.705
+fractal_gain = 0.879
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_75kr4"]
+radius = 10.0
+
+[node name="Shakable Camera" type="Area3D"]
+collision_layer = 2147483648
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_lcwdl")
+NoiseInstance = SubResource("FastNoiseLite_tyynb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_75kr4")
+
+[node name="CameraController" type="Camera3D" parent="."]
+current = true
