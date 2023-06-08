@@ -28,13 +28,13 @@ func _process(delta):
 		var targetPos = Vector3(follow_target.global_position.x,global_position.y,follow_target.global_position.z)
 		global_position = lerp(global_position,targetPos,delta * 5.0)
 
-func get_noise_from_seed(seed : Vector3) -> Vector3:
-	var new = Vector3.ZERO
+func get_noise_from_seed(_seed : Vector3i) -> Vector3:
+	var new = Vector3i.ZERO
 	var speed = _time * Noise_Speed
-	NoiseInstance.seed = seed.x
+	NoiseInstance.seed = _seed.x
 	new.x = NoiseInstance.get_noise_1d(speed)
-	NoiseInstance.seed = seed.y
+	NoiseInstance.seed = _seed.y
 	new.y = NoiseInstance.get_noise_1d(speed)
-	NoiseInstance.seed = seed.z
+	NoiseInstance.seed = _seed.z
 	new.z = NoiseInstance.get_noise_1d(speed)
 	return new

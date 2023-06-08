@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b81f7fkpb7eqn"]
+[gd_scene load_steps=17 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
 [ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/FogOccluder.tscn" id="2_2qsyg"]
@@ -11,6 +11,7 @@
 [ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain2.gdshader" id="9_d3p0c"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="10_hkixo"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="11_ig5vs"]
+[ext_resource type="Script" path="res://addons/CliffEditor/Cliff.gd" id="12_s7qg1"]
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
 script/source = "extends Label
@@ -113,10 +114,10 @@ mesh = SubResource("BoxMesh_snyts")
 transform = Transform3D(1, 0, 0, 0, -0.699189, 0.714937, 0, -0.714937, -0.699189, 0, 57.0787, 0)
 
 [node name="HTerrain" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, -512)
 script = ExtResource("7_8x5y8")
+centered = true
 _terrain_data = ExtResource("8_ocib6")
-chunk_size = 32
+chunk_size = 16
 collision_enabled = true
 collision_layer = 1
 collision_mask = 1
@@ -130,5 +131,10 @@ shader_params/u_ground_uv_scale = 20
 shader_params/u_depth_blending = true
 shader_params/u_globalmap_blend_start = null
 shader_params/u_globalmap_blend_distance = null
+
+[node name="Cliff" type="Node3D" parent="."]
+script = ExtResource("12_s7qg1")
+Cliff_Size = Vector2i(1024, 1024)
+Chunk_Size = 64
 
 [editable path="CameraController"]
