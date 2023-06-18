@@ -50,14 +50,13 @@ func _update_adjuste_height():
 	Adjusted_Vision_Height = (global_position.y + Vision_Height) / 63.75
 
 func _ready() -> void:
+	set_notify_transform(true)
 	Owner = Owner
+	_last_Y = global_position.y
 	_update_adjuste_height()
 	add_to_group("VisibilityModifiers")
 
 func _physics_process(delta) -> void:
-	if _last_Y != global_position.y:
-		_last_Y = global_position.y
-		_update_adjuste_height()
 	#ONLY FOR TESTING!
 	var vp = get_viewport()
 	var cam = vp.get_camera_3d()
@@ -67,3 +66,9 @@ func _physics_process(delta) -> void:
 		var dir = pos1.direction_to(pos2)
 		dir = Vector3(dir.x,0,dir.y) * 5 * delta
 		position += dir
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSFORM_CHANGED and _last_Y != global_position.y:
+		_last_Y = global_position.y
+		_update_adjuste_height()

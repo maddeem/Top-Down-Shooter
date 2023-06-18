@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://h0b8vci70lp5"]
+
+[ext_resource type="Script" path="res://Scripts/Widget.gd" id="1_77jj5"]
+
+[sub_resource type="Animation" id="Animation_6ddo1"]
+resource_name = "damaged"
+
+[sub_resource type="Animation" id="Animation_yq76f"]
+resource_name = "death"
+
+[sub_resource type="Animation" id="Animation_lpuc7"]
+resource_name = "decay"
+
+[sub_resource type="Animation" id="Animation_fulhw"]
+resource_name = "stand"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fapjm"]
+resource_local_to_scene = true
+_data = {
+"damaged": SubResource("Animation_6ddo1"),
+"death": SubResource("Animation_yq76f"),
+"decay": SubResource("Animation_lpuc7"),
+"stand": SubResource("Animation_fulhw")
+}
+
+[node name="Widget" type="Node3D"]
+script = ExtResource("1_77jj5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "stand"
+libraries = {
+"": SubResource("AnimationLibrary_fapjm")
+}

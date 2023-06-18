@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuexr6oralw54"]
+
+[ext_resource type="Script" path="res://Scripts/VisiblityObserver.gd" id="1_4oc8f"]
+
+[node name="VisiblityObserver" type="Node3D"]
+script = ExtResource("1_4oc8f")

@@ -122,6 +122,7 @@ var _initial_image
 var _frame_delay = 2
 var _resetting = false
 var _last_fog_image : Image
+var _observer_data = {}
 
 #METHODS
 func _ready() -> void:
@@ -144,6 +145,17 @@ func IsPointVisibleToBitId(BitId : int, pos : Vector2) -> bool:
 	var color = _last_fog_image.get_pixelv(adjust_pos)
 	return BitId & Utility.convert_color_to_bit(color) == BitId
 
+func _check_observers():
+	for point in _observer_data:
+		var color = Utility.convert_color_to_bit(_last_fog_image.get_pixelv(point))
+		for observer in _observer_data[point]:
+			if is_instance_valid(observer):
+				observer.is_visible = observer.Owner_Bit_Value & color == observer.Owner_Bit_Value
+			else:
+				_observer_data[point].erase(observer)
+				if _observer_data[point].size() == 0:
+					_observer_data.erase(point)
+
 func _update_fog() -> void:
 	_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
@@ -153,9 +165,22 @@ func _update_fog() -> void:
 	_local_previous.material = _local_material
 	var update_pixels = {}
 	var tex
+	var tree = get_tree()
+	for observer in tree.get_nodes_in_group("UpdateObservers"):
+		var converted_pos = Position_To_Pixel(observer.global_position)/2
+		if observer.Previous_Grid_Position != null:
+			_observer_data[observer.Previous_Grid_Position].erase(observer)
+			if _observer_data[observer.Previous_Grid_Position].size() == 0:
+				_observer_data.erase(observer.Previous_Grid_Position)
+		if _observer_data.has(converted_pos):
+			_observer_data[converted_pos].append(observer)
+		else:
+			_observer_data[converted_pos] = [observer]
+		observer.Previous_Grid_Position = converted_pos
+		observer.remove_from_group("UpdateObservers")
 
 	#OCCLUDER LOGIC
-	for occluder in get_tree().get_nodes_in_group("UpdateOccluders"):
+	for occluder in tree.get_nodes_in_group("UpdateOccluders"):
 		#Occluders only update when moved, then they are removed from the group
 		occluder.remove_from_group("UpdateOccluders")
 		#Then we check to see if they have any previously modified points on our occluder map
@@ -200,6 +225,7 @@ func _update_fog() -> void:
 	#Get 
 	if not _resetting:
 		_last_fog_image = _viewport.get_texture().get_image()
+		_check_observers()
 		RenderingServer.global_shader_parameter_set("FogData", 
 			ImageTexture.create_from_image(_last_fog_image)
 		)

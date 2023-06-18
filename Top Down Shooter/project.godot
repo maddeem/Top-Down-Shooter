@@ -21,10 +21,19 @@ Config="*res://Scripts/Config.gd"
 Cache="*res://Scripts/Cache.gd"
 Globals="*res://Scripts/Globals.gd"
 Utility="*res://Scripts/Utility.gd"
+EventHandler="*res://Scripts/EventHandler.gd"
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/zylann.hterrain/plugin.cfg", "res://addons/CliffEditor/plugin.cfg")
+
+[input]
+
+Mouse_Left={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
+]
+}
 
 [rendering]
 
@@ -66,5 +75,5 @@ FogDataLocal={
 }
 FogPlayerBit={
 "type": "int",
-"value": 4
+"value": 1
 }

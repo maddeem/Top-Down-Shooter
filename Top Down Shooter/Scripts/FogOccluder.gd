@@ -41,6 +41,10 @@ var Adjusted_Occlusion_Height : Color
 var Previous_Occlusion_Height
 var _last_Y
 
+func _ready():
+	set_notify_transform(true)
+	_notification(NOTIFICATION_TRANSFORM_CHANGED)
+
 func _update_occlusion_height():
 	var this_max = clamp((global_position.y + Occlusion_Height)/63.75,0.0,4.0)
 	Adjusted_Occlusion_Height = Color(0,0,0,0)
@@ -54,9 +58,12 @@ func _update_occlusion_height():
 			break
 	add_to_group("UpdateOccluders")
 
-func _physics_process(_delta) -> void:
-	var cur_pos = Vector2i(round(global_position.x),round(global_position.z))
-	if cur_pos != Last_Position or _last_Y != global_position.y:
-		Last_Position = cur_pos
-		_last_Y = global_position.y
-		_update_occlusion_height()
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSFORM_CHANGED:
+		var cur_pos = Vector2i(round(global_position.x),round(global_position.z))
+		if cur_pos != Last_Position:
+			Last_Position = cur_pos
+			add_to_group("UpdateOccluders")
+		if _last_Y != global_position.y:
+			_last_Y = global_position.y
+			_update_occlusion_height()
