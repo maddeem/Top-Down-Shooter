@@ -1,5 +1,6 @@
 extends Node
 var FogOfWar
+var HeightTerrain
 var TimeElapsed = 0.0
 var LocalPlayerBit : int = 1:
 	set(value):

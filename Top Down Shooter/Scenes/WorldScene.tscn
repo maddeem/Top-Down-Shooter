@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b81f7fkpb7eqn"]
+[gd_scene load_steps=18 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
 [ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/FogOccluder.tscn" id="2_2qsyg"]
@@ -11,6 +11,21 @@
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="10_hkixo"]
 [ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="11_gumr7"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="11_ig5vs"]
+[ext_resource type="PackedScene" uid="uid://bv6ccdnowub4p" path="res://Editables/Widgets/Destructables/Barrel.tscn" id="12_4g3m4"]
+
+[sub_resource type="GDScript" id="GDScript_pb3k6"]
+script/source = "extends Node3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	Globals.HeightTerrain = $HTerrain
+"
+
+[sub_resource type="Resource" id="Resource_pocy7"]
+script = ExtResource("10_hkixo")
+mode = 1
+textures = [[ExtResource("11_ig5vs")], [null]]
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
 script/source = "extends Label
@@ -27,17 +42,32 @@ metallic_specular = 0.0
 [sub_resource type="BoxMesh" id="BoxMesh_snyts"]
 material = SubResource("StandardMaterial3D_bs4nm")
 
-[sub_resource type="Resource" id="Resource_pocy7"]
-script = ExtResource("10_hkixo")
-mode = 1
-textures = [[ExtResource("11_ig5vs")], [null]]
-
 [node name="World" type="Node3D"]
+script = SubResource("GDScript_pb3k6")
 
 [node name="FogOfWar" parent="." instance=ExtResource("1_0tx6p")]
 Update_Period = 0.1
 Dimensions = Vector2i(512, 512)
 Fog_Explored_Color = Color(0, 0, 0, 0.501961)
+
+[node name="HTerrain" type="Node3D" parent="."]
+script = ExtResource("7_8x5y8")
+centered = true
+_terrain_data = ExtResource("8_ocib6")
+chunk_size = 16
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Custom"
+custom_shader = ExtResource("9_d3p0c")
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_pocy7")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_globalmap_blend_start = null
+shader_params/u_globalmap_blend_distance = null
 
 [node name="FPS Label" type="Label" parent="."]
 anchors_preset = 5
@@ -105,24 +135,8 @@ transform = Transform3D(1, 0, 0, 0, -0.699189, 0.714937, 0, -0.714937, -0.699189
 [node name="Shakable Camera" parent="." instance=ExtResource("2_uxuet")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2.3319, 51.4219, 1.94814)
 
-[node name="HTerrain" type="Node3D" parent="."]
-script = ExtResource("7_8x5y8")
-centered = true
-_terrain_data = ExtResource("8_ocib6")
-chunk_size = 16
-collision_enabled = true
-collision_layer = 1
-collision_mask = 1
-shader_type = "Custom"
-custom_shader = ExtResource("9_d3p0c")
-custom_globalmap_shader = null
-texture_set = SubResource("Resource_pocy7")
-render_layers = 1
-cast_shadow = 1
-shader_params/u_ground_uv_scale = 20
-shader_params/u_depth_blending = true
-shader_params/u_globalmap_blend_start = null
-shader_params/u_globalmap_blend_distance = null
-
 [node name="Crate" parent="." instance=ExtResource("11_gumr7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75817, 0.000484467, -21.1347)
+
+[node name="Crate2" parent="." instance=ExtResource("12_4g3m4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.39356, 0.000484467, -25.9167)

@@ -26,4 +26,14 @@ func convert_color_to_bit(color):
 	Cache.write_to("bit_color",color,val)
 	return val
 
-
+func GetTerrainHeight(terrain, pos : Vector2):
+	var data = terrain.get_data()
+	var offset
+	if Cache.exists("terrain_offset",terrain):
+		offset = Cache.read_from("terrain_offset",terrain)
+	else:
+		var img : Image = data.get_image(data.CHANNEL_HEIGHT)
+		offset = Vector2(img.get_width(),img.get_height())/2 - Vector2(0.5,0.5)
+		Cache.write_to("terrain_offset",terrain,offset)
+	pos = (pos + offset).round()
+	return data.get_height_at(pos.x, pos.y)

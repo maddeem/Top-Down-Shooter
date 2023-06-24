@@ -66,6 +66,7 @@ func _physics_process(delta) -> void:
 		var dir = pos1.direction_to(pos2)
 		dir = Vector3(dir.x,0,dir.y) * 5 * delta
 		position += dir
+	position.y = Utility.GetTerrainHeight(Globals.HeightTerrain,Vector2(position.x,position.z))
 
 
 func _notification(what: int) -> void:

@@ -1,8 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://bk8rdddi734v5"]
+[gd_scene load_steps=18 format=3 uid="uid://bk8rdddi734v5"]
 
 [ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_qnmvc"]
 [ext_resource type="ArrayMesh" uid="uid://e7nexns4we8s" path="res://Assets/Models/Crate/crate.obj" id="2_33c2r"]
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_3oda2"]
+[ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="4_vjtcv"]
+
+[sub_resource type="Animation" id="Animation_11br2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_viord"]
 resource_name = "damaged"
@@ -47,6 +63,71 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_xsrc4"]
 resource_name = "death"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:surface_material_override/0:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.0796602, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model:surface_material_override/0:emission_energy_multiplier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.148651, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.148651, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Dust:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_l6yvo"]
+resource_name = "decay"
+length = 10.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -57,23 +138,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_l6yvo"]
-resource_name = "decay"
-length = 10.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 10),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, -2, 0)]
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_8ajb0"]
@@ -106,13 +171,52 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_igsjj"]
 _data = {
+"RESET": SubResource("Animation_11br2"),
 "damaged": SubResource("Animation_viord"),
 "death": SubResource("Animation_xsrc4"),
 "decay": SubResource("Animation_l6yvo"),
 "stand": SubResource("Animation_8ajb0")
 }
 
+[sub_resource type="Gradient" id="Gradient_u6ims"]
+colors = PackedColorArray(0.605173, 0.437425, 0.220619, 1, 0.525345, 0.341181, 0.199147, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6asye"]
+gradient = SubResource("Gradient_u6ims")
+
+[sub_resource type="Curve" id="Curve_qbt3q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.527273), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_x73p6"]
+curve = SubResource("Curve_qbt3q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duwtl"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, 1, 0)
+spread = 19.29
+initial_velocity_min = 7.0
+initial_velocity_max = 8.0
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_x73p6")
+color_ramp = SubResource("GradientTexture1D_6asye")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rk5dk"]
+transparency = 1
+shading_mode = 2
+diffuse_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("4_vjtcv")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hc80e"]
+material = SubResource("StandardMaterial3D_rk5dk")
+orientation = 2
+
 [node name="Crate" instance=ExtResource("1_qnmvc")]
+death_time = 2.0
 
 [node name="AnimationPlayer" parent="." index="0"]
 libraries = {
@@ -125,3 +229,13 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.23232, 0)
 [node name="Model" parent="." index="2"]
 mesh = ExtResource("2_33c2r")
 surface_material_override/0 = ExtResource("3_3oda2")
+
+[node name="Dust" type="GPUParticles3D" parent="." index="4"]
+emitting = false
+amount = 96
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
+process_material = SubResource("ParticleProcessMaterial_duwtl")
+draw_pass_1 = SubResource("PlaneMesh_hc80e")

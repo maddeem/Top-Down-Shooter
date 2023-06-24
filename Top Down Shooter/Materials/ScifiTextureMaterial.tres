@@ -7,7 +7,6 @@
 resource_local_to_scene = true
 next_pass = ExtResource("2_rw8mb")
 albedo_texture = ExtResource("1_ph486")
-metallic = 0.6
-metallic_specular = 1.0
-roughness = 0.0
-emission_energy_multiplier = 0.0
+metallic = 0.2
+metallic_specular = 0.2
+emission = Color(1, 1, 1, 1)

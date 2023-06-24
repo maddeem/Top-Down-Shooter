@@ -26,7 +26,6 @@ func _play_anim(anim_name : StringName, queued : bool = false):
 		if queued:
 			Animation_Player.queue(anim_name)
 		else:
-			Animation_Player.stop()
 			Animation_Player.play(anim_name)
 
 func reset_current_animation():
