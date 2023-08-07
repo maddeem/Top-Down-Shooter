@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://vjnq8ekwhp"]
+
+[ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_nmj08"]
+[ext_resource type="PackedScene" uid="uid://c0v1qg12ksu2k" path="res://Scenes/CameraController.tscn" id="2_cmtqs"]
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="2_oaswp"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3j472"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ys2lx"]
+
+[node name="Player" instance=ExtResource("1_nmj08")]
+script = ExtResource("2_oaswp")
+direction = Vector2(0, 0)
+jumping = false
+Visible_In_Fog = false
+
+[node name="Model" parent="." index="3"]
+mesh = SubResource("CapsuleMesh_3j472")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="4"]
+shape = SubResource("CapsuleShape3D_ys2lx")
+
+[node name="Shakable Camera" parent="." index="5" instance=ExtResource("2_cmtqs")]
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0)

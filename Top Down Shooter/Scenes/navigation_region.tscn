@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djov7wgd3gdcm"]
+
+[ext_resource type="Script" path="res://Scripts/NavigationRegion.gd" id="1_r4irr"]
+
+[node name="NavigationRegion" type="Node3D"]
+script = ExtResource("1_r4irr")

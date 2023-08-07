@@ -26,6 +26,21 @@ func convert_color_to_bit(color):
 	Cache.write_to("bit_color",color,val)
 	return val
 
+func get_interpolated_height(x, y, data):
+	var x1 = int(x)
+	var y1 = int(y)
+	var x2 = x1 + 1
+	var y2 = y1 + 1
+	var height1 = data.get_height_at(x1, y1)
+	var height2 = data.get_height_at(x2, y1)
+	var height3 = data.get_height_at(x2, y2)
+	var height4 = data.get_height_at(x1, y2)
+	var dx = x - x1
+	var dy = y - y1
+	var fractional_height1 = height1 + (height2 - height1) * dx
+	var fractional_height2 = height4 + (height3 - height4) * dx
+	return fractional_height1 + (fractional_height2 - fractional_height1) * dy
+
 func GetTerrainHeight(terrain, pos : Vector2):
 	var data = terrain.get_data()
 	var offset
@@ -35,5 +50,15 @@ func GetTerrainHeight(terrain, pos : Vector2):
 		var img : Image = data.get_image(data.CHANNEL_HEIGHT)
 		offset = Vector2(img.get_width(),img.get_height())/2 - Vector2(0.5,0.5)
 		Cache.write_to("terrain_offset",terrain,offset)
-	pos = (pos + offset).round()
-	return data.get_height_at(pos.x, pos.y)
+	pos = pos + offset
+	return get_interpolated_height(pos.x,pos.y,data)
+
+func raycast_from_mouse(source : Node3D, ray_length: float, collision_mask : int):
+	var viewport  = get_viewport()
+	var camera = viewport.get_camera_3d()
+	var space_state = source.get_world_3d().direct_space_state
+	var pos = viewport.get_mouse_position()
+	var ray_start = camera.project_ray_origin(pos)
+	var ray_end = ray_start + camera.project_ray_normal(pos) * ray_length
+	var param := PhysicsRayQueryParameters3D.create(ray_start, ray_end, collision_mask)
+	return space_state.intersect_ray(param)

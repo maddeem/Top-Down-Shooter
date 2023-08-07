@@ -23,4 +23,3 @@ NoiseInstance = SubResource("FastNoiseLite_tyynb")
 shape = SubResource("SphereShape3D_75kr4")
 
 [node name="CameraController" type="Camera3D" parent="."]
-current = true

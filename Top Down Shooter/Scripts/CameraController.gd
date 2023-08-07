@@ -14,6 +14,9 @@ extends Area3D
 var _shake := 0.0
 var _time := 0.0
 
+func _ready():
+	top_level = true
+
 func add_shake(shake_amount : float) -> void:
 	_shake = clamp(_shake + shake_amount,0.0,1.0)
 

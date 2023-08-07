@@ -1,21 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://daskxeubybqfr"]
+[gd_scene load_steps=3 format=3 uid="uid://daskxeubybqfr"]
 
 [ext_resource type="Script" path="res://Scripts/Destructable.gd" id="1_1ynxp"]
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_q126g"]
-[ext_resource type="PackedScene" uid="uid://k8rxrlyljhxg" path="res://Scenes/Healthbar/Health_Bar.tscn" id="2_73vgw"]
-[ext_resource type="Texture2D" uid="uid://bwd4vskb1xhr2" path="res://Scenes/Healthbar/GreenBar.png" id="3_48fkt"]
-[ext_resource type="PackedScene" uid="uid://cuexr6oralw54" path="res://Scenes/VisiblityObserver.tscn" id="3_q4l2o"]
 
 [node name="Destructable" instance=ExtResource("1_q126g")]
+collision_layer = 2
+collision_mask = 112
 script = ExtResource("1_1ynxp")
-Visible_In_Fog = true
 
-[node name="Health Bar" parent="." index="1" instance=ExtResource("2_73vgw")]
-visible = false
-texture = ExtResource("3_48fkt")
-
-[node name="Model" type="MeshInstance3D" parent="." index="2"]
-
-[node name="VisiblityObserver" parent="." index="3" instance=ExtResource("3_q4l2o")]
-
-[connection signal="visibility_update" from="VisiblityObserver" to="." method="_on_visiblity_observer_visibility_update"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]

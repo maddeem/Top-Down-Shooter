@@ -1,4 +1,4 @@
-extends Node3D
+extends CharacterBody3D
 class_name Widget
 @export var max_health : int = 10:
 	set(value):
@@ -7,6 +7,8 @@ class_name Widget
 @export var death_time : float = 1.0
 @export var decay_time : float = 10.0
 @onready var Animation_Player = $AnimationPlayer
+@onready var _model = $Model
+@onready var _health_bar = $"Health Bar"
 var remove_on_decay = true
 var dead := false
 var current_animation
@@ -18,6 +20,20 @@ var can_animate = true:
 			if not can_animate:
 				Animation_Player.clear_queue()
 				Animation_Player.stop(true)
+@export var Visible_In_Fog = true:
+	set(value):
+		Visible_In_Fog = value
+		if _health_bar:
+			_update_visibility()
+var _visible = false
+var _health_bar_displaying = false
+
+func _update_visibility():
+	if Visible_In_Fog:
+		_model.visible = true
+	else:
+		_model.visible = _visible
+	_health_bar.visible = _health_bar_displaying and _visible
 
 func _play_anim(anim_name : StringName, queued : bool = false):
 	current_animation = anim_name
@@ -28,6 +44,9 @@ func _play_anim(anim_name : StringName, queued : bool = false):
 		else:
 			Animation_Player.play(anim_name)
 
+func _ready():
+	_play_anim("stand")
+
 func reset_current_animation():
 	if current_animation == null:
 		return
@@ -35,11 +54,16 @@ func reset_current_animation():
 	Animation_Player.play(current_animation)
 	Animation_Player.advance(Globals.TimeElapsed - current_animation_play_start)
 
+func _update_heath_bar(percent):
+	_health_bar_displaying = percent > 0.0 and not dead
+	_health_bar.visible = _health_bar_displaying and _visible
+	_health_bar.SetPercent(percent)
 
 func ReceiveDamage(source : Widget, amount : float) -> void:
 	if dead:
 		return
 	health -= amount
+	_update_heath_bar(health/max_health)
 	if health <= 0:
 		dead = true
 		_play_anim("death")
@@ -59,3 +83,11 @@ func SetHealth(amount: float):
 	if health <= 0 and not dead:
 		dead = true
 		EventHandler.TriggerEvent("widget_dying",{"dying_widget" = self,"killing_widget" = null})
+	_update_heath_bar(health/max_health)
+
+func _on_visiblity_observer_visibility_update(state):
+	_visible = state
+	can_animate = _visible
+	if _visible:
+		reset_current_animation()
+	_update_visibility()

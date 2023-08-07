@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjv8bwnhul5nc"]
+
+[ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_gi0i5"]
+[ext_resource type="Script" path="res://Scripts/Unit.gd" id="2_l6c0k"]
+[ext_resource type="Script" path="res://Scripts/VisibilityModifier.gd" id="3_e4uys"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vw84q"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u7su0"]
+
+[node name="Unit" instance=ExtResource("1_gi0i5")]
+script = ExtResource("2_l6c0k")
+Speed = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+shape = SubResource("CapsuleShape3D_vw84q")
+
+[node name="VisibilityModifier" type="Node3D" parent="." index="2"]
+script = ExtResource("3_e4uys")
+Radius = 32
+
+[node name="Model" parent="." index="5"]
+mesh = SubResource("CapsuleMesh_u7su0")

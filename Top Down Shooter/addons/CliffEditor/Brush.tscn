@@ -4,7 +4,7 @@
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mehom"]
 
-[sub_resource type="Image" id="Image_3pu60"]
+[sub_resource type="Image" id="Image_8wb12"]
 data = {
 "data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 224, 208, 255, 0, 0, 0, 0),
 "format": "RGBA8",
@@ -13,14 +13,14 @@ data = {
 "width": 2
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_mr6o8"]
-image = SubResource("Image_3pu60")
+[sub_resource type="ImageTexture" id="ImageTexture_gs0c5"]
+image = SubResource("Image_8wb12")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrfrb"]
 transparency = 1
 no_depth_test = true
 shading_mode = 0
-albedo_texture = SubResource("ImageTexture_mr6o8")
+albedo_texture = SubResource("ImageTexture_gs0c5")
 texture_filter = 0
 texture_repeat = false
 

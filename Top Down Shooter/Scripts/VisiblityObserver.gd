@@ -9,14 +9,17 @@ var is_visible:
 var _last_position : Vector3
 var Previous_Grid_Position
 var Owner_Bit_Value : int
-@export_range(0,Config.MAX_PLAYERS-1) var Owner = 0:
+@export_range(-1,Config.MAX_PLAYERS-1) var Owner = -1:
 	set(value):
 		Owner = value
-		if Cache.exists("bit",Owner):
-			Owner_Bit_Value = Cache.read_from("bit",Owner)
+		if Owner == -1:
+			Owner_Bit_Value = Globals.LocalPlayerBit
 		else:
-			Owner_Bit_Value = pow(2,Owner)
-			Cache.write_to("bit",Owner,Owner_Bit_Value)
+			if Cache.exists("bit",Owner):
+				Owner_Bit_Value = Cache.read_from("bit",Owner)
+			else:
+				Owner_Bit_Value = int(pow(2,Owner))
+				Cache.write_to("bit",Owner,Owner_Bit_Value)
 signal visibility_update(state)
 
 func _ready():
@@ -26,6 +29,6 @@ func _ready():
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		if global_position != _last_position:
-			_last_position = global_position
+		if global_position.round() != _last_position:
+			_last_position = global_position.round()
 			add_to_group("UpdateObservers")

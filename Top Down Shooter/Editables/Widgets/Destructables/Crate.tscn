@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bk8rdddi734v5"]
+[gd_scene load_steps=19 format=3 uid="uid://bk8rdddi734v5"]
 
 [ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_qnmvc"]
 [ext_resource type="ArrayMesh" uid="uid://e7nexns4we8s" path="res://Assets/Models/Crate/crate.obj" id="2_33c2r"]
@@ -181,14 +181,14 @@ _data = {
 [sub_resource type="Gradient" id="Gradient_u6ims"]
 colors = PackedColorArray(0.605173, 0.437425, 0.220619, 1, 0.525345, 0.341181, 0.199147, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_6asye"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_oiipo"]
 gradient = SubResource("Gradient_u6ims")
 
 [sub_resource type="Curve" id="Curve_qbt3q"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.527273), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_x73p6"]
+[sub_resource type="CurveTexture" id="CurveTexture_pwmwj"]
 curve = SubResource("Curve_qbt3q")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duwtl"]
@@ -199,10 +199,10 @@ spread = 19.29
 initial_velocity_min = 7.0
 initial_velocity_max = 8.0
 scale_min = 0.0
-scale_curve = SubResource("CurveTexture_x73p6")
-color_ramp = SubResource("GradientTexture1D_6asye")
+scale_curve = SubResource("CurveTexture_pwmwj")
+color_ramp = SubResource("GradientTexture1D_oiipo")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rk5dk"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_phatj"]
 transparency = 1
 shading_mode = 2
 diffuse_mode = 2
@@ -212,8 +212,11 @@ billboard_mode = 1
 billboard_keep_scale = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hc80e"]
-material = SubResource("StandardMaterial3D_rk5dk")
+material = SubResource("StandardMaterial3D_phatj")
 orientation = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_202kk"]
+size = Vector3(2, 2, 2)
 
 [node name="Crate" instance=ExtResource("1_qnmvc")]
 death_time = 2.0
@@ -239,3 +242,7 @@ explosiveness = 1.0
 visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
 process_material = SubResource("ParticleProcessMaterial_duwtl")
 draw_pass_1 = SubResource("PlaneMesh_hc80e")
+
+[node name="CollisionShape3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_202kk")

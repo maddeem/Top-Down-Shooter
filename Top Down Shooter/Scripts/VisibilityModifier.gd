@@ -56,19 +56,6 @@ func _ready() -> void:
 	_update_adjuste_height()
 	add_to_group("VisibilityModifiers")
 
-func _physics_process(delta) -> void:
-	#ONLY FOR TESTING!
-	var vp = get_viewport()
-	var cam = vp.get_camera_3d()
-	var pos1 = cam.unproject_position(global_position)
-	var pos2 = vp.get_mouse_position()
-	if pos1.distance_to(pos2) > 10.0:
-		var dir = pos1.direction_to(pos2)
-		dir = Vector3(dir.x,0,dir.y) * 5 * delta
-		position += dir
-	position.y = Utility.GetTerrainHeight(Globals.HeightTerrain,Vector2(position.x,position.z))
-
-
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED and _last_Y != global_position.y:
 		_last_Y = global_position.y
