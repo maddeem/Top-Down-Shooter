@@ -6,7 +6,6 @@
 [ext_resource type="Resource" path="res://TerrainData/data.hterrain" id="8_ocib6"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain2.gdshader" id="9_d3p0c"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="10_hkixo"]
-[ext_resource type="Script" path="res://Scripts/Item.gd" id="11_2p22b"]
 [ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="11_gumr7"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="11_ig5vs"]
 [ext_resource type="PackedScene" uid="uid://bv6ccdnowub4p" path="res://Editables/Widgets/Destructables/Barrel.tscn" id="12_4g3m4"]
@@ -24,11 +23,6 @@ func _ready():
 	Globals.NavigationRegion = $NavigationRegion
 "
 
-[sub_resource type="Resource" id="Resource_pocy7"]
-script = ExtResource("10_hkixo")
-mode = 1
-textures = [[ExtResource("11_ig5vs")], [null]]
-
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
 script/source = "extends Label
 
@@ -36,32 +30,20 @@ func _process(_delta):
 	text = str(Engine.get_frames_per_second())
 "
 
+[sub_resource type="Resource" id="Resource_id3wv"]
+script = ExtResource("10_hkixo")
+mode = 1
+textures = [[ExtResource("11_ig5vs")], [null]]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_eaxq4"]
+
 [node name="World" type="Node3D"]
 script = SubResource("GDScript_pb3k6")
 
 [node name="FogOfWar" parent="." instance=ExtResource("1_0tx6p")]
 Update_Period = 0.1
 Dimensions = Vector2i(512, 512)
-Fog_Explored_Color = Color(0, 0, 0, 0.501961)
-
-[node name="HTerrain" type="Node3D" parent="."]
-script = ExtResource("7_8x5y8")
-centered = true
-_terrain_data = ExtResource("8_ocib6")
-chunk_size = 16
-collision_enabled = true
-collision_layer = 1
-collision_mask = 1
-shader_type = "Custom"
-custom_shader = ExtResource("9_d3p0c")
-custom_globalmap_shader = null
-texture_set = SubResource("Resource_pocy7")
-render_layers = 1
-cast_shadow = 1
-shader_params/u_ground_uv_scale = 20
-shader_params/u_depth_blending = true
-shader_params/u_globalmap_blend_start = null
-shader_params/u_globalmap_blend_distance = null
+Fog_Explored_Color = Color(0, 0, 0, 0.733333)
 
 [node name="FPS Label" type="Label" parent="."]
 anchors_preset = 5
@@ -74,20 +56,39 @@ grow_horizontal = 2
 script = SubResource("GDScript_5cfjs")
 
 [node name="NavigationRegion" parent="." instance=ExtResource("7_4o52j")]
-cell_size = Vector2(2, 2)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.699189, 0.714937, 0, -0.714937, -0.699189, 0, 57.0787, 0)
 
 [node name="Crate" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75817, 0.000484467, -21.1347)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.7582, 0.000484467, -25.3033)
+
+[node name="Crate2" parent="." instance=ExtResource("11_gumr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.7582, 0.000484467, -23.3033)
+
+[node name="Crate3" parent="." instance=ExtResource("11_gumr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.7582, 0.000484467, -25.3033)
+
+[node name="Crate4" parent="." instance=ExtResource("11_gumr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.7582, 0.000484467, -27.3033)
+
+[node name="Crate5" parent="." instance=ExtResource("11_gumr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.7582, 0.000484467, -25.3033)
+
+[node name="Crate6" parent="." instance=ExtResource("11_gumr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7582, 0.000484467, -25.3033)
+
+[node name="Crate7" parent="." instance=ExtResource("11_gumr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.7582, 0.000484467, -25.3033)
+
+[node name="Crate8" parent="." instance=ExtResource("11_gumr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.7582, 0.000484467, -25.3033)
 
 [node name="Barrel" parent="." instance=ExtResource("12_4g3m4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.39356, 0.000484467, -25.9167)
 
 [node name="First Aid Kit" parent="." instance=ExtResource("13_x1j02")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1358, 0.000484467, -29.5006)
-script = ExtResource("11_2p22b")
 decay_time = 0.1
 
 [node name="Player" parent="." instance=ExtResource("14_q2eyv")]
@@ -98,3 +99,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.8135, 0.000484943, -21.55
 
 [node name="test" parent="." instance=ExtResource("12_jk35b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.7835, 1.36339, -30.584)
+Turn_Speed = 5.0
+
+[node name="HTerrain" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, -512)
+script = ExtResource("7_8x5y8")
+_terrain_data = ExtResource("8_ocib6")
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Custom"
+custom_shader = ExtResource("9_d3p0c")
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_id3wv")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_globalmap_blend_start = null
+shader_params/u_globalmap_blend_distance = null
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_eaxq4")

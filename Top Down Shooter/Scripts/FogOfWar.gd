@@ -193,7 +193,7 @@ func _update_fog() -> void:
 		for point in occluder.Occlusion_Points:
 			#Clamp the values so they do not exceed our array
 			point = (point + offset).clamp(Vector2i.ZERO,_clamp_max)
-			#Add the new point to our modified memeory, so we can remove
+			#Add the new point to our modified memory, so we can remove
 			#modified points if the occluder is removed or moves
 			occluder.Last_Points_Modified.append(point)
 			#Update the occluder map

@@ -1,5 +1,15 @@
 extends Node
 
+func IsPointInCone(vec1 : Vector2, vec2 : Vector2, dir : float, fov : float) -> bool:
+	#fov is the halved opening angle of the cone
+	return cos(atan2(vec2.y-vec1.y,vec2.x-vec1.x)-dir) > cos(fov)
+
+func angle_difference(from, to):
+	return wrapf(to - from, -PI, PI)
+
+func change_angle_bounded(from, to, amount):
+	return from + clampf(wrapf(to - from, -PI, PI),-amount,amount)
+
 func frame_safe_lerp(current,target,time,frame_delta):
 	var K = 1.0 - pow(time,frame_delta)
 	#I saw this and thought it might be useful, so far idc about it

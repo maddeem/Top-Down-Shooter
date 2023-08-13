@@ -5,4 +5,3 @@
 [resource]
 shader = ExtResource("1_ufb0r")
 shader_parameter/count = 0
-shader_parameter/strength = 2

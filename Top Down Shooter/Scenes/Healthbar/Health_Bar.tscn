@@ -7,6 +7,7 @@
 [node name="Health Bar" type="Sprite3D"]
 billboard = 1
 double_sided = false
+texture = ExtResource("3_ouxo6")
 script = ExtResource("1_idky8")
 
 [node name="SubViewport" type="SubViewport" parent="."]

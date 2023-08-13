@@ -68,7 +68,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Loot:emitting")
+tracks/2/path = NodePath("Model/Loot:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -98,12 +98,12 @@ libraries = {
 "": SubResource("AnimationLibrary_dhq40")
 }
 
-[node name="Loot" parent="." index="3"]
-emitting = true
-
-[node name="Model" parent="." index="5"]
-transform = Transform3D(-0.36832, -0.36832, 0.607191, -0.565685, 0.565686, 0, -0.429349, -0.429349, -0.520883, 0, 1.08887, 0)
+[node name="Model" parent="." index="4"]
+transform = Transform3D(0.565675, 0.565675, -0.00478469, -0.565685, 0.565686, 0, 0.00338329, 0.00338329, 0.799986, 0, 1, 0)
 visible = true
 mesh = ExtResource("2_cuuxy")
 surface_material_override/0 = SubResource("StandardMaterial3D_vvcnh")
 surface_material_override/1 = SubResource("StandardMaterial3D_7ysbt")
+
+[node name="Loot" parent="Model" index="0"]
+emitting = true

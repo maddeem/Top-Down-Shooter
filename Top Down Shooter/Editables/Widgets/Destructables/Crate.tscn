@@ -1,9 +1,13 @@
-[gd_scene load_steps=19 format=3 uid="uid://bk8rdddi734v5"]
+[gd_scene load_steps=20 format=3 uid="uid://bk8rdddi734v5"]
 
 [ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_qnmvc"]
+[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="2_4qvto"]
 [ext_resource type="ArrayMesh" uid="uid://e7nexns4we8s" path="res://Assets/Models/Crate/crate.obj" id="2_33c2r"]
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_3oda2"]
 [ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="4_vjtcv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_202kk"]
+size = Vector3(2, 2, 2)
 
 [sub_resource type="Animation" id="Animation_11br2"]
 length = 0.001
@@ -215,25 +219,26 @@ billboard_keep_scale = true
 material = SubResource("StandardMaterial3D_phatj")
 orientation = 2
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_202kk"]
-size = Vector3(2, 2, 2)
-
 [node name="Crate" instance=ExtResource("1_qnmvc")]
 death_time = 2.0
 
-[node name="AnimationPlayer" parent="." index="0"]
+[node name="PathingBlocker" parent="." index="0" instance=ExtResource("2_4qvto")]
+Blocker_Texture = "res://Assets/PathingTextures/Unwalk4x4.tga"
+Block_Points = [Vector2i(-2, -2), Vector2i(-2, -1), Vector2i(-2, 0), Vector2i(-2, 1), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -2), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]
+
+[node name="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_202kk")
+
+[node name="Health Bar" parent="." index="3"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.23232, 0)
+
+[node name="AnimationPlayer" parent="." index="4"]
 libraries = {
 "": SubResource("AnimationLibrary_igsjj")
 }
 
-[node name="Health Bar" parent="." index="1"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.23232, 0)
-
-[node name="Model" parent="." index="2"]
-mesh = ExtResource("2_33c2r")
-surface_material_override/0 = ExtResource("3_3oda2")
-
-[node name="Dust" type="GPUParticles3D" parent="." index="4"]
+[node name="Dust" type="GPUParticles3D" parent="." index="5"]
 emitting = false
 amount = 96
 lifetime = 2.0
@@ -243,6 +248,6 @@ visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
 process_material = SubResource("ParticleProcessMaterial_duwtl")
 draw_pass_1 = SubResource("PlaneMesh_hc80e")
 
-[node name="CollisionShape3D" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("BoxShape3D_202kk")
+[node name="Model" parent="." index="6"]
+mesh = ExtResource("2_33c2r")
+surface_material_override/0 = ExtResource("3_3oda2")

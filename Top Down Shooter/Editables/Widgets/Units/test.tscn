@@ -1,5 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://2x8kxuxllqhx"]
+[gd_scene load_steps=3 format=3 uid="uid://2x8kxuxllqhx"]
 
 [ext_resource type="PackedScene" uid="uid://cjv8bwnhul5nc" path="res://Scenes/Widgets/Unit.tscn" id="1_gqt52"]
 
+[sub_resource type="PrismMesh" id="PrismMesh_8epr6"]
+
 [node name="test" instance=ExtResource("1_gqt52")]
+Turn_Speed = 10.0
+Movement_Angle = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Model" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.0669531, -0.997756, 0, 0.997756, 0.0669531, 0, 0, 0.597721)
+mesh = SubResource("PrismMesh_8epr6")

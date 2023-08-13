@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbf8v2iie38ij"]
+
+[ext_resource type="Script" path="res://Scripts/PathingBlocker.gd" id="1_ul66h"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_ayhiq"]
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wxsoe"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+disable_ambient_light = true
+texture_filter = 0
+texture_repeat = false
+
+[node name="PathingBlocker" type="Node3D"]
+script = ExtResource("1_ul66h")
+Blocker_Texture = "res://Assets/PathingTextures/Unwalk2x2.tga"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transparency = 0.65
+mesh = SubResource("QuadMesh_ayhiq")
+surface_material_override/0 = SubResource("StandardMaterial3D_wxsoe")

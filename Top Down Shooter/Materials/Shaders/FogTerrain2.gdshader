@@ -4,7 +4,7 @@ shader_type spatial;
 // This shader uses a texture array with multiple splatmaps, allowing up to 16 textures.
 // Only the 4 textures having highest blending weight are sampled.
 
-#include "res://addons/zylann.hterrain/shaders/include/heightmap_rgb8_encoding.gdshaderinc"
+#include "res://addons/zylann.hterrain/shaders/include/heightmap.gdshaderinc"
 
 uniform sampler2D u_terrain_heightmap;
 uniform sampler2D u_terrain_normalmap;
@@ -18,10 +18,8 @@ uniform sampler2D u_terrain_splatmap_3;
 uniform sampler2D u_terrain_globalmap : source_color;
 uniform mat4 u_terrain_inverse_transform;
 uniform mat3 u_terrain_normal_basis;
-global uniform sampler2D FogDataLocal;
-global uniform vec2 FogDimensions;
 global uniform vec2 InverseFogDimensions;
-const float blurRadius = 1.5;
+global uniform sampler2D FogDataLocal : filter_linear_mipmap_anisotropic;
 
 uniform sampler2DArray u_ground_albedo_bump_array : source_color;
 
@@ -169,7 +167,7 @@ void vertex() {
 	UV = cell_coords / vec2(textureSize(u_terrain_heightmap, 0));
 
 	// Height displacement
-	float h = decode_height_from_rgb8_unorm(texture(u_terrain_heightmap, UV).rgb);
+	float h = sample_heightmap(u_terrain_heightmap, UV);
 	VERTEX.y = h;
 	wpos.y = h;
 
@@ -190,15 +188,14 @@ void vertex() {
 	v_distance_to_camera = distance(wpos.xyz, CAMERA_POSITION_WORLD);
 }
 
-vec4 blur(vec2 uv){
+vec4 blur(vec2 uv, float blurRadius){
     vec4 result = vec4(0.0);
     float totalWeight = 0.0;
     for (float x = -blurRadius; x <= blurRadius; x++){
         for (float y = -blurRadius; y <= blurRadius; y++){
-            float dist = length(vec2(x, y));
-            float weight = exp(-0.5 * dist * dist);
-            result += texture(FogDataLocal, uv + InverseFogDimensions * vec2(x, y)) * weight * 1.25 ;
-            totalWeight += weight;
+			vec2 offset = vec2(x, y) * InverseFogDimensions;
+            result += texture(FogDataLocal, uv + offset);
+            totalWeight ++;
         }
     }
     return result /= totalWeight;
@@ -256,25 +253,12 @@ void fragment() {
 
 		ALBEDO = mix(ALBEDO, global_albedo, globalmap_factor);
 		ROUGHNESS = mix(ROUGHNESS, 1.0, globalmap_factor);
-
-//		if(count < 3) {
-//			ALBEDO = vec3(1.0, 0.0, 0.0);
-//		}
-		// Show splatmap weights
-		//ALBEDO = w.rgb;
 	}
-	// Highlight all pixels undergoing no splatmap at all
-//	else {
-//		ALBEDO = vec3(1.0, 0.0, 0.0);
-//	}
 
+	NORMAL = (VIEW_MATRIX * (vec4(terrain_normal_world, 0.0))).xyz;
 	vec2 uv = (INV_VIEW_MATRIX  * vec4(VERTEX, 1.0)).xz * InverseFogDimensions - vec2(0.5);
-	vec4 color = blur(uv);
-	if (color.a > 0.99){
-		ALBEDO = color.rgb;
-		SPECULAR = 0.0;
-	}else{
-		ALBEDO = mix(ALBEDO,color.rgb,color.a);
-		NORMAL = (VIEW_MATRIX * (vec4(terrain_normal_world, 0.0))).xyz;
-	}
+	vec4 color = blur(uv,0.5);
+	//color = texture(FogDataLocal,uv);
+	ALBEDO = mix(ALBEDO,color.rgb,color.a);
+	SPECULAR = clamp(1.0-color.a,0.0,0.5);
 }

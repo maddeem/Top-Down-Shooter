@@ -5,11 +5,11 @@ const JUMP_VELOCITY = 12.5
 @export var jumping : bool
 @onready var camera = $"Shakable Camera"
 var is_owner = false
-var _camera_offset = Vector3(0,2,0.7)
+var _camera_offset = Vector3(0,2,0.0)
 var _prev_data
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_model.top_level = true
+	super._ready()
 	is_owner = get_multiplayer_authority() == multiplayer.get_unique_id()
 	camera._camera.current = is_owner
 
@@ -39,6 +39,9 @@ func _physics_process(delta):
 			velocity.y -= Globals.Gravity * delta
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.y * SPEED
+		if velocity.is_equal_approx(Vector3.ZERO):
+			_prev_data = null
+			return
 		move_and_slide()
 		var buf = PackedByteArray()
 		buf.resize(8)
@@ -54,5 +57,9 @@ func _process(_delta):
 		camera.position = lerp(camera.position,position,0.1)+_camera_offset
 	if _prev_data:
 		var fract = clamp(Engine.get_physics_interpolation_fraction(),0,1)
-		_model.global_position = _prev_data[0].lerp(global_position,fract)
-		_model.rotation.y = lerp(_prev_data[1],rotation.y,fract)
+		var rot = _model.rotation
+		rot.y = lerp(_prev_data[1],rotation.y,fract)
+		UpdateModel(
+			_prev_data[0].lerp(global_position,fract),
+			rot
+		)

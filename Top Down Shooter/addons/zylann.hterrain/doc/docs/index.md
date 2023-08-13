@@ -22,7 +22,9 @@ This written doc should be the most up to date and precise information, but vide
 
 ### How to install
 
-You will need to use Godot 3.1 or later. It is best to use latest stable 3.x version (Godot 4 is not supported yet).
+You will need to use Godot 4.1 or later.
+
+To get the last version that supported Godot 3.x, checkout the `godot3` branch in the Git repository.
 
 #### Automatically
 
@@ -57,7 +59,7 @@ So a cleaner way would be:
 ### Development versions
 
 The latest development version of the plugin can be found on [Github](https://github.com/Zylann/godot_heightmap_plugin).
-It is the most recently developped version, but might also have some bugs.
+It is the most recently developed version, but might also have some bugs.
 
 
 Creating a terrain
@@ -127,13 +129,14 @@ As you sculpt, the plugin automatically recomputes normals of the terrain, and s
 You can enable or disable collisions by checking the `Collisions enabled` property in the inspector.
 
 Heightmap-based terrains usually implement collisions directly using the heightmap, which saves a lot of computations compared to a classic mesh collider.
-This plugin depends on the **Bullet Physics** integration in Godot, which does have a height-field collider. **Godot Physics** does not support it until version 3.4, so if you use an older version, you may want to make sure Bullet is enabled in your project settings:
 
 ![Screenshot of the option to choose physics engines in project settings](images/choose_bullet_physics.png)
 
 Some editor tools rely on colliders to work, such as snapping to ground or plugins like Scatter or other prop placement utilities. To make sure the collider is up to date, you can force it to update after sculpting with the `Terrain -> Update Editor Collider` menu:
 
 ![Screenshot of the menu to update the collider](images/update_editor_collider.png)
+
+Note: if you use Godot 3.3, you need to make sure to use the Bullet physics engine in your project settings.
 
 
 #### Known issues
@@ -717,7 +720,7 @@ Once you have textured ground, you may want to add small detail objects to it, s
 
 ### Painting details
 
-Grass is supported throught `HTerrainDetailLayer` node. They can be created as children of the `HTerrain` node. Each layer represents one kind of detail, so you may have one layer for grass, and another for flowers, for example.
+Grass is supported through `HTerrainDetailLayer` node. They can be created as children of the `HTerrain` node. Each layer represents one kind of detail, so you may have one layer for grass, and another for flowers, for example.
 
 Detail layers come in two parts:
 
@@ -770,7 +773,7 @@ A list of `uniform` parameters are recognized, some of which are required for he
 
 Parameter name                      | Type             | Format  | Description
 ------------------------------------|------------------|---------|--------------
-`u_terrain_heightmap`               | `sampler2D`      | `RH`    | The heightmap, a half-precision float texture which can be sampled in the red channel. Like the other following maps, you have to access it using cell coordinates, which can be computed as seen in the built-in shader.
+`u_terrain_heightmap`               | `sampler2D`      | `RH`    | The heightmap, a 32-bit float texture which can be sampled in the red channel. Like the other following maps, you have to access it using cell coordinates, which can be computed as seen in the built-in shader.
 `u_terrain_normalmap`               | `sampler2D`      | `RGB8`  | The precalculated normalmap of the terrain, which you can use instead of computing it from the heightmap
 `u_terrain_colormap`                | `sampler2D`      | `RGBA8` | The color map, which is the one modified by the color brush. The alpha channel is used for holes.
 `u_terrain_splatmap`                | `sampler2D`      | `RGBA8` | The classic 4-component splatmap, where each channel determines the weight of a given texture. The sum of each channel across all splatmaps must be 1.0.
@@ -911,7 +914,7 @@ func test():
 The same goes for the heightmap and grass maps, however at time of writing, there are several issues with editing it in game:
 
 - Normals of the terrain don't automatically update, you have to calculate them yourself by also modifying the normalmap. This is a bit tedious and expensive, however it may be improved in the future. Alternatively you could compute them in shader, but it makes rendering a bit more expensive.
-- The collider won't update either, for the same reason mentionned in the [section about collisions in the editor](#Collisions). You can force it to update by calling `update_collider()` but it can cause a hiccup.
+- The collider won't update either, for the same reason mentioned in the [section about collisions in the editor](#Collisions). You can force it to update by calling `update_collider()` but it can cause a hiccup.
 
 
 ### Procedural generation
@@ -1144,7 +1147,7 @@ If none of the initial checks help and you want to post a new issue, do the foll
 
 ### Terrain not saving / not up to date / not showing
 
-This issue happened a few times and had various causes so if the checks mentionned before don't help:
+This issue happened a few times and had various causes so if the checks mentioned before don't help:
 
 - Check the contents of your terrain's data folder. It must contain a `.hterrain` file and a few textures.
 - If they are present, make sure Godot has imported those textures. If it didn't, unfocus the editor, and focus it back (you should see a short progress bar as it does it)

@@ -1,7 +1,8 @@
 shader_type canvas_item;
+render_mode unshaded, blend_disabled, skip_vertex_transform;
 uniform int count = 0;
-global uniform sampler2D FogDataLocal;
-global uniform sampler2D FogData;
+global uniform sampler2D FogDataLocal : filter_nearest;
+global uniform sampler2D FogData : filter_nearest;
 global uniform vec2 InverseFogDimensions;
 global uniform vec4 FogRevealColor;
 global uniform vec4 FogExploredColor;
@@ -18,10 +19,10 @@ void fragment(){
 	if ((FogPlayerBit & color_to_bit(sample.rgb)) == FogPlayerBit){ //Is revealed
 		COLOR = FogRevealColor;
 	}else{
-		if (texture(FogDataLocal,UV).a < 1.0){
-			COLOR = FogExploredColor;
-		}else{
+		if (texture(FogDataLocal,UV).a > 0.99){
 			COLOR = FogUnexploredColor;
+		}else{
+			COLOR = FogExploredColor;
 		}
 	}
 }

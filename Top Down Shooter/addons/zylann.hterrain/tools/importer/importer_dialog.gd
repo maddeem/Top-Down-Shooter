@@ -192,7 +192,7 @@ func _validate_form() -> HT_ErrorCheckReport:
 		if min_height >= max_height:
 			res.errors.append("Minimum height must be lower than maximum height")
 			# Returning early because min and max can be slided,
-			# so we avoid loading other maps everytime to do further checks
+			# so we avoid loading other maps every time to do further checks.
 			return res
 
 		var image_size_result = _load_image_size(heightmap_path, _logger)

@@ -129,6 +129,7 @@ func _setup_pass(sector: Vector2):
 	# Note: we implicitely take off-by-one pixels into account
 	var origin := sector * _viewport_size
 	var center := origin + 0.5 * Vector2(_viewport.size)
+
 	# The heightmap is left empty, so will default to white, which is a height of 1.
 	# The camera must be placed above the terrain to see it.
 	_camera.position = Vector3(center.x, 2.0, center.y)

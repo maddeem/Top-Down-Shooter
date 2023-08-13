@@ -11,3 +11,6 @@ var LocalPlayerBit : int = 1:
 
 func _process(delta):
 	TimeElapsed += delta
+
+func _ready():
+	pass

@@ -17,12 +17,16 @@ script = ExtResource("2_6jr23")
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-snap_2d_transforms_to_pixel = true
+scaling_3d_scale = 0.25
+fsr_sharpness = 2.0
+canvas_item_default_texture_filter = 0
 positional_shadow_atlas_size = 0
 positional_shadow_atlas_quad_0 = 0
 positional_shadow_atlas_quad_1 = 0
 positional_shadow_atlas_quad_2 = 0
 positional_shadow_atlas_quad_3 = 0
+render_target_clear_mode = 1
+render_target_update_mode = 0
 
 [node name="PreviousIteration" type="TextureRect" parent="SubViewport"]
 material = ExtResource("3_6jf8f")
@@ -34,12 +38,15 @@ texture = SubResource("PlaceholderTexture2D_cyq4p")
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-snap_2d_transforms_to_pixel = true
+canvas_item_default_texture_filter = 0
+gui_snap_controls_to_pixels = false
 positional_shadow_atlas_size = 0
 positional_shadow_atlas_quad_0 = 0
 positional_shadow_atlas_quad_1 = 0
 positional_shadow_atlas_quad_2 = 0
 positional_shadow_atlas_quad_3 = 0
+render_target_clear_mode = 1
+render_target_update_mode = 0
 
 [node name="LocalPreviousIteration" type="TextureRect" parent="LocalFog"]
 material = SubResource("ShaderMaterial_fbwk1")

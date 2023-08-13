@@ -9,10 +9,13 @@ class_name Widget
 @onready var Animation_Player = $AnimationPlayer
 @onready var _model = $Model
 @onready var _health_bar = $"Health Bar"
+var revealed_once = false
 var remove_on_decay = true
 var dead := false
 var current_animation
 var current_animation_play_start
+@onready var last_visible_location = global_position
+@onready var last_visible_rotation = rotation
 var can_animate = true:
 	set(value):
 		can_animate = value
@@ -30,10 +33,13 @@ var _health_bar_displaying = false
 
 func _update_visibility():
 	if Visible_In_Fog:
-		_model.visible = true
+		_model.visible = revealed_once
 	else:
 		_model.visible = _visible
-	_health_bar.visible = _health_bar_displaying and _visible
+	if _visible:
+		_model.global_position = last_visible_location
+		_model.rotation = last_visible_rotation
+	_health_bar.visible = _health_bar_displaying and _model.visible
 
 func _play_anim(anim_name : StringName, queued : bool = false):
 	current_animation = anim_name
@@ -45,6 +51,7 @@ func _play_anim(anim_name : StringName, queued : bool = false):
 			Animation_Player.play(anim_name)
 
 func _ready():
+	_model.top_level = true
 	_play_anim("stand")
 
 func reset_current_animation():
@@ -85,9 +92,18 @@ func SetHealth(amount: float):
 		EventHandler.TriggerEvent("widget_dying",{"dying_widget" = self,"killing_widget" = null})
 	_update_heath_bar(health/max_health)
 
+func UpdateModel(pos : Vector3, rot : Vector3):
+	if _visible:
+		_model.global_position = pos
+		_model.rotation = rot
+		last_visible_location = pos
+		last_visible_rotation = rot
+	
+
 func _on_visiblity_observer_visibility_update(state):
 	_visible = state
 	can_animate = _visible
 	if _visible:
+		revealed_once = true
 		reset_current_animation()
 	_update_visibility()

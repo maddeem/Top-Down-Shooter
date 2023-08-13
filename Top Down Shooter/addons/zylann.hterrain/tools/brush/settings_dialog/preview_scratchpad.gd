@@ -21,7 +21,7 @@ func _ready():
 		# saving the scene would also save the ImageTexture in it...
 		return
 	reset_image()
-	# Default so it doesnt crash when painting and can be tested
+	# Default so it doesn't crash when painting and can be tested
 	var default_brush_texture = \
 		HT_EditorUtil.load_texture(HT_Brush.DEFAULT_BRUSH_TEXTURE_PATH, _logger)
 	_painter.get_brush().set_shapes([default_brush_texture])
