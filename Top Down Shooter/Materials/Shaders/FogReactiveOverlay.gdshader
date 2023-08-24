@@ -19,7 +19,7 @@ vec4 blur(vec2 uv, float blurRadius){
 
 void fragment() {
 	vec2 uv = (INV_VIEW_MATRIX  * vec4(VERTEX, 1.0)).xz * InverseFogDimensions - vec2(0.5);
-	vec4 color = blur(uv,0.5);
+	vec4 color = blur(uv,1.0);
 	ALBEDO = color.rgb;
 	ALPHA = color.a;
 }

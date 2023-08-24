@@ -1,5 +1,5 @@
-@tool
 extends Node3D
+class_name VisionBlocker
 const FOLDER_PATH = "res://Assets/OccluderTextures/"
 @export_range(0,255) var Occlusion_Height : float = 1.0:
 	set(value):
@@ -30,7 +30,7 @@ const FOLDER_PATH = "res://Assets/OccluderTextures/"
 		for x in size.x:
 			for y in size.y:
 				if img.get_pixel(x,y).a != 0:
-					Occlusion_Points.append(Vector2i(x,y)-half)
+					Occlusion_Points.append((Vector2i(x,y)-half))
 		Cache.write_to("occluders",Occluder_Texture,Occlusion_Points)
 
 ## Automatically generated from the Occluder texture. Do not modify unless you know what you are doing.
@@ -60,7 +60,7 @@ func _update_occlusion_height():
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		var cur_pos = Vector2i(round(global_position.x),round(global_position.z))
+		var cur_pos = Vector2i(Vector2(global_position.x,global_position.z).round())
 		if cur_pos != Last_Position:
 			Last_Position = cur_pos
 			add_to_group("UpdateOccluders")

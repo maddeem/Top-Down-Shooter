@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2a15vaf8mxb6"]
+
+[sub_resource type="GDScript" id="GDScript_q452r"]
+script/source = "extends PanelContainer
+@onready var button = $MenuButton
+@onready var popup : PopupMenu = $MenuButton.get_popup()
+var player_name: String:
+	set(value):
+		player_name = value
+		if button:
+			button.text = player_name
+var kickable : bool:
+	set(value):
+		kickable = value
+		if button:
+			popup.set_item_disabled(0,not kickable)
+signal pressed(id)
+
+func _pressed(id):
+	emit_signal(\"pressed\",id)
+
+func _ready():
+	popup.connect(\"id_pressed\",_pressed)
+"
+
+[node name="LobbyPlayer" type="PanelContainer"]
+offset_right = 55.0
+offset_bottom = 31.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = SubResource("GDScript_q452r")
+
+[node name="MenuButton" type="MenuButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Name"
+item_count = 1
+popup/item_0/text = "Kick"
+popup/item_0/id = 0
+popup/item_0/disabled = true

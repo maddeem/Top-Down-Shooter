@@ -11,17 +11,19 @@ config_version=5
 [application]
 
 config/name="Top Down Shooter"
-run/main_scene="res://Scenes/WorldScene.tscn"
+run/main_scene="res://Scenes/main_menu.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
+Lobby="*res://Scripts/Lobby.gd"
 Config="*res://Scripts/Config.gd"
 Cache="*res://Scripts/Cache.gd"
 Globals="*res://Scripts/Globals.gd"
 Utility="*res://Scripts/Utility.gd"
 EventHandler="*res://Scripts/EventHandler.gd"
+Network="*res://Scripts/Network.gd"
 
 [display]
 
@@ -74,6 +76,12 @@ Mouse_Right={
 3d_physics/layer_1="Terrain"
 3d_physics/layer_2="Destructables"
 3d_physics/layer_3="Units"
+3d_physics/layer_4="Players"
+3d_physics/layer_5="Items"
+
+[physics]
+
+3d/default_gravity=23.52
 
 [rendering]
 

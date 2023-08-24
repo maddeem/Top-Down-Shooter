@@ -15,6 +15,14 @@ func frame_safe_lerp(current,target,time,frame_delta):
 	#I saw this and thought it might be useful, so far idc about it
 	return lerp(current,target,K)
 
+func get_bit(val : int) -> int:
+	if Cache.exists("bit",val):
+		return Cache.read_from("bit",val)
+	else:
+		var bit = pow(2,val)
+		Cache.write_to("bit",val,bit)
+		return bit
+
 func convert_bit_to_color(value : int):
 	if Cache.exists("bit_color",value):
 		return Cache.read_from("bit_color",value)

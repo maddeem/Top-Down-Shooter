@@ -136,7 +136,7 @@ func _ready() -> void:
 	Globals.FogOfWar = self
 	
 func Position_To_Pixel(pos : Vector3) -> Vector2i:
-	return Vector2i(round(pos.x),round(pos.z)) + Dimensions
+	return Vector2i(Vector2(pos.x,pos.z).floor()) + Dimensions
 
 func IsPointVisibleToBitId(BitId : int, pos : Vector2) -> bool:
 	if not _last_fog_image:
@@ -167,7 +167,7 @@ func _update_fog() -> void:
 	var tex
 	var tree = get_tree()
 	for observer in tree.get_nodes_in_group("UpdateObservers"):
-		var converted_pos = Position_To_Pixel(observer.global_position)/2
+		var converted_pos = Position_To_Pixel(observer._last_position)/2
 		if observer.Previous_Grid_Position != null:
 			_observer_data[observer.Previous_Grid_Position].erase(observer)
 			if _observer_data[observer.Previous_Grid_Position].size() == 0:
@@ -213,11 +213,11 @@ func _update_fog() -> void:
 	#VISIBLITY MODIFIER LOGIC
 	#Capture modifier location and radius data and pack it into an array
 	var mods : PackedVector3Array = []
-	var mods2 : PackedVector3Array = []
+	var mods2 = []
 	for modifier in get_tree().get_nodes_in_group("VisibilityModifiers"):
 		var pos = Position_To_Pixel(modifier.global_position)
 		mods.append(Vector3i(pos.x,pos.y,modifier.Radius))
-		mods2.append(Vector3(modifier.Adjusted_Vision_Height,modifier.Owner_Bit_Value,0))
+		mods2.append(Vector4(modifier.Adjusted_Vision_Height,modifier.Owner_Bit_Value,modifier.global_rotation.y,modifier.FOV))
 	#Update our shaders with the packed data
 	_material.set_shader_parameter("visibility_modifiers",mods)
 	_material.set_shader_parameter("visiblity_data",mods2)

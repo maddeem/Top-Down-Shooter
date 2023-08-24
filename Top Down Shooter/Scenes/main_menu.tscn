@@ -1,0 +1,284 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7qmfe83d2mip"]
+
+[sub_resource type="GDScript" id="GDScript_yyld3"]
+script/source = "extends Control
+var player_slot = preload(\"res://Scenes/Lobby/lobby_player.tscn\")
+var lobby_slot = preload(\"res://Scenes/Lobby/lobby_button.tscn\")
+var lobby_slots = {}
+var player_slots = {}
+const MAX_PLAYERS = 12
+enum LOBBY_SLOT_STATE{NEW,DELETE}
+enum PLAYER_BUTTON{KICK}
+func _join_lobby_pressed(data):
+	Lobby.join_lobby(data)
+
+func _exit_lobby(host : bool):
+	$Lobby.visible = false
+	$LobbyList.visible = true
+	if not host:
+		print(\"restart connection\")
+		Lobby.start_lobby_server_connection()
+	for slot in player_slots:
+		player_slots[slot].queue_free()
+	player_slots = {}
+	Network.Players = []
+
+func _ready():
+	Lobby.connect(\"connected_to_lobby_server\",func():
+		$LobbiesOption/Create.disabled = false
+		$LobbiesOption/Join.disabled = false
+		$LobbiesOption/Label.visible = false
+		)
+	Lobby.connect(\"lobby_creation_success\",func():
+		$LobbiesOption.visible = false
+		$Lobby.visible = true
+		for slot in player_slots:
+			slot.queue_free()
+		player_slots = {}
+		Network.Players = []
+		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,1)
+		)
+	Lobby.connect(\"new_lobby_discovered\",_create_lobby_slot)
+	Lobby.connect(\"lobby_updated\",func(data,id):
+		if not lobby_slots.has(id):
+			_create_lobby_slot(data,id)
+		else:
+			var but = lobby_slots[id]
+			but.button_text = str(id) + \": \" + str(data.player_count)+\"/\"+str(MAX_PLAYERS)
+		)
+	Lobby.connect(\"lobby_closed\",func(id):
+		if lobby_slots.has(id):
+			lobby_slots[id].queue_free()
+			lobby_slots.erase(id)
+		)
+	Network.connect(\"connected_to_lobby\",func():
+		$LobbyList.visible = false
+		$Lobby.visible = true
+		for lobby in lobby_slots:
+			lobby_slots[lobby].queue_free()
+		lobby_slots = {}
+		)
+	Network.connect(\"peer_joined_lobby\",func(id):
+		for this_id in Network.Players:
+			rpc_id(id,\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,this_id)
+		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,id)
+		)
+	Network.connect(\"peer_left_lobby\",func(id):
+		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.DELETE,id)
+		)
+	Network.connect(\"disconnected\",func(in_lobby):
+		if in_lobby:
+			_exit_lobby(false)
+			print(\"disconnected\")
+		)
+	Lobby.connect(\"lobby_ping_updated\",func(id : int,ping : int):
+		if lobby_slots.has(id):
+			var lobby = lobby_slots[id]
+			if ping == -1:
+				lobby.ping_text = \"???ms\"
+				lobby.ping_color = Color(0,0,0)
+			else:
+				lobby.ping_text = str(ping)+\"ms\"
+				lobby.ping_color = Color(0,1,0).lerp(Color(1,0,0),min(ping/300.0,1))
+		)
+
+func player_slot_pressed(slot,id):
+	match slot:
+		PLAYER_BUTTON.KICK:
+			Network.disconnect_player(id)
+
+func _create_lobby_slot(data,id):
+	if lobby_slots.has(id):
+		lobby_slots[id].queue_free()
+		lobby_slots.erase(id)
+	var new = lobby_slot.instantiate()
+	$LobbyList/ScrollContainer/VBoxContainer.add_child(new)
+	lobby_slots[id] = new
+	new.connect(\"pressed\",_join_lobby_pressed.bind(data))
+	new.button_text = str(id) + \": \" + str(data.player_count)+\"/\"+str(MAX_PLAYERS)
+		
+func _create_player_slot(which_name : String, _id : int):
+	var new = player_slot.instantiate()
+	$Lobby/ScrollContainer/VBoxContainer.add_child(new)
+	new.player_name = which_name
+	player_slots[_id] = new
+	new.connect(\"pressed\",player_slot_pressed.bind(_id))
+	if multiplayer.is_server():
+		print(_id)
+		if _id != 1:
+			new.kickable = true
+
+func _on_button_lobbies_pressed():
+	$Button_Lobbies.visible = false
+	$LobbiesOption.visible = true
+
+func _on_create_pressed():
+	Lobby.rpc(\"create_lobby\")
+
+func _on_join_pressed():
+	$LobbyList.visible = true
+	$LobbiesOption.visible = false
+
+@rpc(\"call_local\",\"reliable\",\"authority\")
+func update_lobby_slot(state : int, id : int):
+	match state:
+		LOBBY_SLOT_STATE.NEW:
+			Network.Players.append(id)
+			_create_player_slot(str(id),id)
+		LOBBY_SLOT_STATE.DELETE:
+			if player_slots.has(id):
+				player_slots[id].queue_free()
+				player_slots.erase(id)
+				Network.Players.erase(id)
+
+
+func _on_lobby_back_button_pressed():
+	var host = Network.Lobby_Host
+	if host:
+		Network.close_server()
+		Lobby.rpc(\"update_lobby\",Lobby.LOBBY_STATE.DELETE,null,Lobby.Peer.get_unique_id())
+	else:
+		Lobby.Peer.close()
+	_exit_lobby(host)
+
+
+func _on_lobby_list_back_button_pressed():
+	$LobbyList.visible = false
+	$LobbiesOption.visible = true
+"
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_yyld3")
+
+[node name="Button_Lobbies" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -232.5
+offset_top = 134.0
+offset_right = 232.5
+offset_bottom = 182.0
+grow_horizontal = 2
+text = "Lobbies"
+
+[node name="LobbiesOption" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Create" type="Button" parent="LobbiesOption"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -184.5
+offset_top = 264.0
+offset_right = 184.5
+offset_bottom = 314.0
+grow_horizontal = 2
+disabled = true
+text = "Create"
+
+[node name="Join" type="Button" parent="LobbiesOption"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -184.5
+offset_top = 321.0
+offset_right = 184.5
+offset_bottom = 371.0
+grow_horizontal = 2
+disabled = true
+text = "Join
+"
+
+[node name="Label" type="Label" parent="LobbiesOption"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 393.0
+offset_top = 181.0
+offset_right = -389.0
+offset_bottom = 298.0
+grow_horizontal = 2
+text = "Connecting to server . . ."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LobbyList" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LobbyList"]
+layout_mode = 1
+offset_right = 233.0
+offset_bottom = 647.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyList/ScrollContainer"]
+layout_mode = 2
+
+[node name="LobbyListBackButton" type="Button" parent="LobbyList"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -35.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Back"
+
+[node name="Lobby" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Lobby"]
+layout_mode = 1
+offset_right = 233.0
+offset_bottom = 647.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/ScrollContainer"]
+layout_mode = 2
+
+[node name="LobbyBackButton" type="Button" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -35.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Back"
+
+[connection signal="pressed" from="Button_Lobbies" to="." method="_on_button_lobbies_pressed"]
+[connection signal="pressed" from="LobbiesOption/Create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="LobbiesOption/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="LobbyList/LobbyListBackButton" to="." method="_on_lobby_list_back_button_pressed"]
+[connection signal="pressed" from="Lobby/LobbyBackButton" to="." method="_on_lobby_back_button_pressed"]

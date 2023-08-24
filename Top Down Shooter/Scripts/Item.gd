@@ -1,5 +1,4 @@
-extends Widget
-class_name Item
+class_name Item extends Widget
 
 func _ready():
 	super._ready()

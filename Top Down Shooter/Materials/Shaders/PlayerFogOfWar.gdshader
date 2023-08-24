@@ -1,7 +1,7 @@
 shader_type canvas_item;
 render_mode unshaded, blend_disabled, skip_vertex_transform;
 uniform vec3 visibility_modifiers[2000];
-uniform vec3 visiblity_data[2000];
+uniform vec4 visiblity_data[2000];
 uniform int count = 0;
 global uniform sampler2D FogData : filter_nearest;
 global uniform sampler2D OcclusionMap : filter_nearest ;
@@ -55,15 +55,20 @@ bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
 	}
 }
 
-vec4 get_color(vec2 uv, vec2 scaler, ivec2 iuv){
+vec4 get_color(vec2 uv, vec2 scaler){
 	vec3 color = vec3(0);
+	ivec2 iuv = ivec2(uv);
 	int bit_color = 0;
 	for (int i = 0; i < count; i++){
 		vec3 circlePos = visibility_modifiers[i];
-		vec3 circleData = visiblity_data[i];
-		vec2 d = uv-circlePos.xy;
+		vec4 circleData = visiblity_data[i];
+		vec2 d = circlePos.xy - uv;
+		vec2 n = normalize(d);
+		vec2 cn = normalize(-vec2(sin(circleData.z),cos(circleData.z)));
+		float a = acos(dot(n,cn));
 		d *= d;
-		if ((bit_color & int(circleData.y)) == 0 && d.x + d.y < circlePos.z * circlePos.z) {
+		float dist = d.x + d.y;
+		if ((bit_color & int(circleData.y)) == 0 && dist < circlePos.z * circlePos.z && a <= circleData.a) {
 			if (bresenham(ivec2(circlePos.xy),iuv,scaler,circleData.x)){
 				bit_color = bit_color | int(circleData.y);
 				color = bit_to_color(bit_color);
@@ -75,5 +80,5 @@ vec4 get_color(vec2 uv, vec2 scaler, ivec2 iuv){
 
 void fragment(){
 	vec2 uv = UV * FogDimensions;
-	COLOR = get_color(uv,InverseFogDimensions,ivec2(uv));
+	COLOR = get_color(uv,InverseFogDimensions);
 }

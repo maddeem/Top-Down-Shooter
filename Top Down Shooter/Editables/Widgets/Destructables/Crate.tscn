@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://bk8rdddi734v5"]
+[gd_scene load_steps=21 format=3 uid="uid://bk8rdddi734v5"]
 
 [ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_qnmvc"]
 [ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="2_4qvto"]
 [ext_resource type="ArrayMesh" uid="uid://e7nexns4we8s" path="res://Assets/Models/Crate/crate.obj" id="2_33c2r"]
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_3oda2"]
 [ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="4_vjtcv"]
+[ext_resource type="Script" path="res://Scripts/FogOccluder.gd" id="6_ehwvm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_202kk"]
 size = Vector3(2, 2, 2)
@@ -223,8 +224,7 @@ orientation = 2
 death_time = 2.0
 
 [node name="PathingBlocker" parent="." index="0" instance=ExtResource("2_4qvto")]
-Blocker_Texture = "res://Assets/PathingTextures/Unwalk4x4.tga"
-Block_Points = [Vector2i(-2, -2), Vector2i(-2, -1), Vector2i(-2, 0), Vector2i(-2, 1), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -2), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]
+Block_Points = [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(0, -1), Vector2i(0, 0)]
 
 [node name="CollisionShape3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -251,3 +251,9 @@ draw_pass_1 = SubResource("PlaneMesh_hc80e")
 [node name="Model" parent="." index="6"]
 mesh = ExtResource("2_33c2r")
 surface_material_override/0 = ExtResource("3_3oda2")
+
+[node name="VisionBlocker" type="Node3D" parent="." index="7"]
+script = ExtResource("6_ehwvm")
+Occlusion_Height = 16.0
+Occluder_Texture = "res://Assets/OccluderTextures/Test2x2.tga"
+Occlusion_Points = [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(0, -1), Vector2i(0, 0)]

@@ -15,11 +15,7 @@ var Owner_Bit_Value : int
 		if Owner == -1:
 			Owner_Bit_Value = Globals.LocalPlayerBit
 		else:
-			if Cache.exists("bit",Owner):
-				Owner_Bit_Value = Cache.read_from("bit",Owner)
-			else:
-				Owner_Bit_Value = int(pow(2,Owner))
-				Cache.write_to("bit",Owner,Owner_Bit_Value)
+			Owner_Bit_Value = Utility.get_bit(value)
 signal visibility_update(state)
 
 func _ready():
@@ -29,6 +25,7 @@ func _ready():
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		if global_position.round() != _last_position:
-			_last_position = global_position.round()
+		var pos = (global_position + Vector3(0.5,0,0.5)).round()
+		if pos != _last_position:
+			_last_position = pos
 			add_to_group("UpdateObservers")

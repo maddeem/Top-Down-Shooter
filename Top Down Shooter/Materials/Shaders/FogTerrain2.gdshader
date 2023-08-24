@@ -257,7 +257,7 @@ void fragment() {
 
 	NORMAL = (VIEW_MATRIX * (vec4(terrain_normal_world, 0.0))).xyz;
 	vec2 uv = (INV_VIEW_MATRIX  * vec4(VERTEX, 1.0)).xz * InverseFogDimensions - vec2(0.5);
-	vec4 color = blur(uv,0.5);
+	vec4 color = blur(uv,1.0);
 	//color = texture(FogDataLocal,uv);
 	ALBEDO = mix(ALBEDO,color.rgb,color.a);
 	SPECULAR = clamp(1.0-color.a,0.0,0.5);

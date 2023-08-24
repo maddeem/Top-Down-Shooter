@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb83q7nptdj4v"]
+
+[sub_resource type="GDScript" id="GDScript_r0vd3"]
+script/source = "extends PanelContainer
+@onready var button = $HSplitContainer/lobby_button
+var button_text : String:
+	set(value):
+		button_text = value
+		button.text = value
+var ping_text : String:
+	set(value):
+		ping_text = value
+		$HSplitContainer/Label.text = value
+var ping_color : Color:
+	set(value):
+		ping_color = value
+		$HSplitContainer/Label.set(\"theme_override_colors/font_color\",value)
+signal pressed
+
+func _press_button():
+	emit_signal(\"pressed\")
+
+func _ready():
+	button.pressed.connect(_press_button)
+"
+
+[node name="PanelContainer" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = SubResource("GDScript_r0vd3")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 2
+
+[node name="lobby_button" type="Button" parent="HSplitContainer"]
+layout_mode = 2
+text = "test"
+
+[node name="Label" type="Label" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "???ms"
+horizontal_alignment = 1
+vertical_alignment = 1

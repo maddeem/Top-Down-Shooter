@@ -1,10 +1,11 @@
-[gd_scene load_steps=53 format=3 uid="uid://bv6ccdnowub4p"]
+[gd_scene load_steps=54 format=3 uid="uid://bv6ccdnowub4p"]
 
 [ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_wgbmo"]
 [ext_resource type="ArrayMesh" uid="uid://cd61ranvgc72p" path="res://Assets/Models/Barrel/barrel.obj" id="2_52xjt"]
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_k7psm"]
 [ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="4_7vpnu"]
 [ext_resource type="Texture2D" uid="uid://c8mlnfoa1cafn" path="res://Assets/Textures/Explosion/ExplosionSpriteSheet.png" id="5_dngus"]
+[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="6_3fif8"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_h0oa3"]
 height = 3.12674
@@ -476,7 +477,7 @@ death_time = 2.0
 Visible_In_Fog = false
 
 [node name="CollisionShape3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.564, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.782, 0)
 shape = SubResource("CylinderShape3D_h0oa3")
 
 [node name="Health Bar" parent="." index="2"]
@@ -506,5 +507,10 @@ animation = &"birth"
 speed_scale = 8.0
 
 [node name="Model" parent="." index="6"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = ExtResource("2_52xjt")
 surface_material_override/0 = ExtResource("3_k7psm")
+
+[node name="PathingBlocker" parent="." index="7" instance=ExtResource("6_3fif8")]
+Blocker_Texture = "res://Assets/PathingTextures/Unwalk1x1.tga"
+Block_Points = [Vector2i(0, 0)]

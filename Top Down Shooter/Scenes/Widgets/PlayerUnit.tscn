@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://vjnq8ekwhp"]
+
+[ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_nmj08"]
+[ext_resource type="PackedScene" uid="uid://c0v1qg12ksu2k" path="res://Scenes/CameraController.tscn" id="2_cmtqs"]
+[ext_resource type="Script" path="res://Scripts/PlayerUnit.gd" id="2_xc6u4"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="3_7hl8b"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3j472"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oqtan"]
+next_pass = ExtResource("3_7hl8b")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ys2lx"]
+radius = 0.45
+
+[node name="PlayerUnit" instance=ExtResource("1_nmj08")]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("2_xc6u4")
+direction = Vector2(0, 0)
+jumping = false
+friction = 25
+acceleration = 8
+Visible_In_Fog = false
+
+[node name="Health Bar" parent="." index="1"]
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.23419, 0)
+
+[node name="Model" parent="." index="3"]
+mesh = SubResource("CapsuleMesh_3j472")
+surface_material_override/0 = SubResource("StandardMaterial3D_oqtan")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="4"]
+shape = SubResource("CapsuleShape3D_ys2lx")
+
+[node name="Shakable Camera" parent="." index="5" instance=ExtResource("2_cmtqs")]
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0)

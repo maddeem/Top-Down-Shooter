@@ -9,15 +9,12 @@ class_name VisibilityModifier
 		Vision_Height = value
 		if _last_Y:
 			_update_adjuste_height()
+@export_range(0,PI) var FOV : float = PI
 ## Automatically converted to the bit value of the player so the shader knows who to render this for
 @export_range(0,Config.MAX_PLAYERS-1) var Owner = 0:
 	set(value):
 		Owner = value
-		if Cache.exists("bit",Owner):
-			Owner_Bit_Value = Cache.read_from("bit",Owner)
-		else:
-			Owner_Bit_Value = pow(2,Owner)
-			Cache.write_to("bit",Owner,Owner_Bit_Value)
+		Owner_Bit_Value = Utility.get_bit(value)
 var Adjusted_Vision_Height
 var _last_Y
 var Owner_Bit_Value

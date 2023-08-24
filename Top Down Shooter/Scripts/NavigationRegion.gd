@@ -1,23 +1,23 @@
 extends Node3D
 var astar := AStarGrid2D.new()
 var disable_weight = {}
+var queue = []
+var thread : Thread
 
 @export var size : Vector2 = Vector2(512,512):
 	set(value):
 		size = value * 2
 		var half = size/2
 		astar.region = Rect2(half.x,half.y,size.x,size.y)
+		astar.offset = -(Vector2(position.x,position.z) + size - Vector2(0.5,0.5))
 
 func _ready():
 	size = size
 	astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 	astar.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
 	#astar.jumping_enabled = true
-	update_grid()
-
-func update_grid():
-	astar.offset = -(Vector2(position.x,position.z) + size + Vector2(0.25,-0.25))
 	astar.update()
+	thread = Thread.new()
 
 var neighbor = [Vector2i(1,0),Vector2i(-1,0),Vector2i(0,1),Vector2i(0,-1)]
 func _find_nearby_open_point(point : Vector2i) -> Vector2i:
@@ -46,7 +46,20 @@ func get_point_path(start_position : Vector2, end_position : Vector2) -> PackedV
 	var path = astar.get_point_path(start_position,end_position)
 	return path
 
+
+func _finish_thread_task(u : Unit, start_position : Vector2, end_position : Vector2):
+	u.set_path(get_point_path(start_position,end_position))
+	queue.pop_front()
+
+func unit_threaded_path(u : Unit, start_position : Vector2, end_position : Vector2):
+	queue.append([u,start_position,end_position])
+
 func _process(_delta):
+	if not thread.is_alive() and queue.size() > 0:
+		var data = queue[0]
+		if thread.is_started():
+			thread.wait_to_finish()
+		thread.start(_finish_thread_task.bind(data[0],data[1],data[2]),Thread.PRIORITY_LOW)
 	for blocker in get_tree().get_nodes_in_group("UpdateBlockers"):
 		blocker.remove_from_group("UpdateBlockers")
 		#Block_Points

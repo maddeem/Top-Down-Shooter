@@ -13,5 +13,5 @@ func write_to(dir : Variant, key : Variant, value : Variant) -> void:
 
 func exists(dir : Variant, key : Variant) -> bool:
 	if _cache.has(dir):
-		return _cache.has(key)
+		return _cache[dir].has(key)
 	return false

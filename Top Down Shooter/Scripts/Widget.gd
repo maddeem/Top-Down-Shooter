@@ -14,8 +14,6 @@ var remove_on_decay = true
 var dead := false
 var current_animation
 var current_animation_play_start
-@onready var last_visible_location = global_position
-@onready var last_visible_rotation = rotation
 var can_animate = true:
 	set(value):
 		can_animate = value
@@ -37,8 +35,8 @@ func _update_visibility():
 	else:
 		_model.visible = _visible
 	if _visible:
-		_model.global_position = last_visible_location
-		_model.rotation = last_visible_rotation
+		_model.global_position = global_position
+		_model.rotation = rotation
 	_health_bar.visible = _health_bar_displaying and _model.visible
 
 func _play_anim(anim_name : StringName, queued : bool = false):
@@ -96,8 +94,6 @@ func UpdateModel(pos : Vector3, rot : Vector3):
 	if _visible:
 		_model.global_position = pos
 		_model.rotation = rot
-		last_visible_location = pos
-		last_visible_rotation = rot
 	
 
 func _on_visiblity_observer_visibility_update(state):

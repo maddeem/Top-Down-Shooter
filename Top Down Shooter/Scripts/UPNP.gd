@@ -1,46 +1,49 @@
 extends Node
 signal upnp_completed(error,tcp,udp)
-@export var TCP_Port_Explore_Range = [
-	80, 81, 443, 3478, 3479, 3480, 8080, 3074, 5223
-]
-@export var UDP_Port_Explore_Range = [
-	3074, 3075, 3478, 3479
-]
 @export var Port_Name = "TopDownShooter"
 var _upnp = UPNP.new()
+var _peer_tester := UDPServer.new()
+var _gateway
 var _thread : Thread = null
 var _udp_port
 var _tcp_port
 
-func _explore_port(list : Array, which_protocol : String) -> int:
-	for port in list:
-		var err = _upnp.add_port_mapping(port,port,Port_Name+"_"+which_protocol,which_protocol,0)
+func _explore_port(size : int, which_protocol : String) -> int:
+	for port in range(2000,2000+size):
+		var err = _gateway.add_port_mapping(port,port,Port_Name+"_"+which_protocol,which_protocol,0)
 		if err == OK:
-			return port
+			var err2 = _peer_tester.listen(port)
+			if err2 == OK:
+				return port
 		else:
-			_upnp.add_port_mapping(port,port,"",which_protocol)
+			push_error(str(err))
+			_gateway.delete_port_mapping(port,which_protocol)
 	return -1
 
 func _upnp_setup() -> void:
 	var err= _upnp.discover()
 	if err != OK:
 		push_error(str(err))
-		emit_signal("upnp_completed",err,-1,-1)
+		_thread.wait_to_finish()
+		call_deferred("emit_signal","upnp_completed",err,-1,-1)
 		return
-	if _upnp.get_gateway() and _upnp.get_gateway().is_valid_gateway():
-		_udp_port = _explore_port(UDP_Port_Explore_Range,"UDP")
-		_tcp_port = _explore_port(TCP_Port_Explore_Range,"TCP")
+	_gateway = _upnp.get_gateway()
+	if _gateway and _gateway.is_valid_gateway():
+		_udp_port = _explore_port(1000,"UDP")
 		if _tcp_port == -1:
-			err = "No TCP ports available in range: "+str(TCP_Port_Explore_Range)
+			err = "No TCP ports available in range"
 			push_error(err)
 		if _udp_port == -1:
-			err = "No UDP ports available in range: "+str(UDP_Port_Explore_Range)
+			err = "No UDP ports available in range"
 			push_error(err)
-		emit_signal("upnp_completed",err,_tcp_port,_udp_port)
+		_peer_tester.stop()
+		_peer_tester = null
+		call_deferred("emit_signal","upnp_completed",err,_tcp_port,_udp_port)
 
 func start():
 	_thread = Thread.new()
 	_thread.start(_upnp_setup)
+
 
 
 func _on_tree_exiting():
