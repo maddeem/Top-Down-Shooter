@@ -32,6 +32,7 @@ func _ready():
 	Lobby.connect(\"lobby_creation_success\",func():
 		$LobbiesOption.visible = false
 		$Lobby.visible = true
+		$Lobby/LobbyStartButton.visible = true
 		for slot in player_slots:
 			slot.queue_free()
 		player_slots = {}
@@ -41,7 +42,8 @@ func _ready():
 	Lobby.connect(\"new_lobby_discovered\",_create_lobby_slot)
 	Lobby.connect(\"lobby_updated\",func(data,id):
 		if not lobby_slots.has(id):
-			_create_lobby_slot(data,id)
+			if not Network.In_Lobby or Network.Lobby_Host:
+				_create_lobby_slot(data,id)
 		else:
 			var but = lobby_slots[id]
 			but.button_text = str(id) + \": \" + str(data.player_count)+\"/\"+str(MAX_PLAYERS)
@@ -54,8 +56,10 @@ func _ready():
 	Network.connect(\"connected_to_lobby\",func():
 		$LobbyList.visible = false
 		$Lobby.visible = true
+		$Lobby/LobbyStartButton.visible = false
 		for lobby in lobby_slots:
 			lobby_slots[lobby].queue_free()
+		Lobby.lobbies_open = {}
 		lobby_slots = {}
 		)
 	Network.connect(\"peer_joined_lobby\",func(id):
@@ -81,6 +85,9 @@ func _ready():
 				lobby.ping_text = str(ping)+\"ms\"
 				lobby.ping_color = Color(0,1,0).lerp(Color(1,0,0),min(ping/300.0,1))
 		)
+	Network.connect(\"game_loading\",func():
+		get_tree().change_scene_to_packed(Globals.GAME_SCENE)
+		)
 
 func player_slot_pressed(slot,id):
 	match slot:
@@ -104,7 +111,6 @@ func _create_player_slot(which_name : String, _id : int):
 	player_slots[_id] = new
 	new.connect(\"pressed\",player_slot_pressed.bind(_id))
 	if multiplayer.is_server():
-		print(_id)
 		if _id != 1:
 			new.kickable = true
 
@@ -140,11 +146,16 @@ func _on_lobby_back_button_pressed():
 	else:
 		Lobby.Peer.close()
 	_exit_lobby(host)
+	$Lobby/LobbyStartButton.visible = false
 
 
 func _on_lobby_list_back_button_pressed():
 	$LobbyList.visible = false
 	$LobbiesOption.visible = true
+
+
+func _on_lobby_start_button_pressed():
+	Network.rpc(\"start_game\")
 "
 
 [node name="MainMenu" type="Control"]
@@ -277,8 +288,23 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Back"
 
+[node name="LobbyStartButton" type="Button" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -74.0
+offset_bottom = -39.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Start"
+
 [connection signal="pressed" from="Button_Lobbies" to="." method="_on_button_lobbies_pressed"]
 [connection signal="pressed" from="LobbiesOption/Create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="LobbiesOption/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="LobbyList/LobbyListBackButton" to="." method="_on_lobby_list_back_button_pressed"]
 [connection signal="pressed" from="Lobby/LobbyBackButton" to="." method="_on_lobby_back_button_pressed"]
+[connection signal="pressed" from="Lobby/LobbyStartButton" to="." method="_on_lobby_start_button_pressed"]

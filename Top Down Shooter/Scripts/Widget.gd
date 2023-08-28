@@ -28,6 +28,8 @@ var can_animate = true:
 			_update_visibility()
 var _visible = false
 var _health_bar_displaying = false
+@onready var _prev_trans : PackedVector3Array = [global_position,rotation]
+@onready var _target_trans : PackedVector3Array = [global_position,rotation]
 
 func _update_visibility():
 	if Visible_In_Fog:
@@ -35,8 +37,9 @@ func _update_visibility():
 	else:
 		_model.visible = _visible
 	if _visible:
+		_target_trans = [global_position,rotation]
+		_prev_trans = [global_position,rotation]
 		_model.global_position = global_position
-		_model.rotation = rotation
 	_health_bar.visible = _health_bar_displaying and _model.visible
 
 func _play_anim(anim_name : StringName, queued : bool = false):
@@ -49,6 +52,7 @@ func _play_anim(anim_name : StringName, queued : bool = false):
 			Animation_Player.play(anim_name)
 
 func _ready():
+	set_notify_transform(true)
 	_model.top_level = true
 	_play_anim("stand")
 
@@ -90,10 +94,10 @@ func SetHealth(amount: float):
 		EventHandler.TriggerEvent("widget_dying",{"dying_widget" = self,"killing_widget" = null})
 	_update_heath_bar(health/max_health)
 
-func UpdateModel(pos : Vector3, rot : Vector3):
+func UpdateModel(trans : Array):
 	if _visible:
-		_model.global_position = pos
-		_model.rotation = rot
+		_model.global_position = trans[0]
+	_model.rotation = trans[1]
 	
 
 func _on_visiblity_observer_visibility_update(state):
@@ -103,3 +107,34 @@ func _on_visiblity_observer_visibility_update(state):
 		revealed_once = true
 		reset_current_animation()
 	_update_visibility()
+
+@rpc("unreliable_ordered","call_remote","any_peer")
+func _get_transform(buf : PackedByteArray):
+	var pos = Vector3(buf.decode_half(0),buf.decode_half(2),buf.decode_half(4))
+	var rot = rotation
+	rot.y = buf.decode_half(6)
+	_prev_trans = [_model.global_position,_model.rotation]
+	_target_trans = [pos,rot]
+	set_deferred("global_position",pos)
+	set_deferred("rotation",rot)
+	
+func _notification(what: int) -> void:
+	if multiplayer and not multiplayer.is_server():
+		return
+	if what == NOTIFICATION_TRANSFORM_CHANGED:
+		var buf = PackedByteArray()
+		buf.resize(8)
+		buf.encode_half(0,global_position.x)
+		buf.encode_half(2,global_position.y)
+		buf.encode_half(4,global_position.z)
+		buf.encode_half(6,rotation.y)
+		_prev_trans = [_model.global_position,_model.rotation]
+		_target_trans = [global_position,rotation]
+		_get_transform.rpc(buf)
+
+func _process(delta):
+	var fract = min(Engine.get_physics_interpolation_fraction(),1.0)
+	UpdateModel([
+		_prev_trans[0].lerp(_target_trans[0],fract),
+		_prev_trans[1].lerp(_target_trans[1],fract),
+	])

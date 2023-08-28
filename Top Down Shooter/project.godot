@@ -24,6 +24,7 @@ Globals="*res://Scripts/Globals.gd"
 Utility="*res://Scripts/Utility.gd"
 EventHandler="*res://Scripts/EventHandler.gd"
 Network="*res://Scripts/Network.gd"
+PlayerLib="*res://Scripts/PlayerLib.gd"
 
 [display]
 

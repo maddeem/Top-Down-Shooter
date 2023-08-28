@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dkjoaboj78bim"]
+[gd_scene load_steps=11 format=3 uid="uid://dkjoaboj78bim"]
 
 [ext_resource type="PackedScene" uid="uid://d0g3x4gk074vi" path="res://Scenes/Widgets/Item.tscn" id="1_umvtx"]
 [ext_resource type="ArrayMesh" uid="uid://bte7vn00kasma" path="res://Assets/Models/First Aid Kit/FirstAidKit.obj" id="2_cuuxy"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="3_hehct"]
 
 [sub_resource type="Animation" id="Animation_ijk03"]
 resource_name = "damaged"
@@ -87,9 +88,11 @@ _data = {
 }
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vvcnh"]
+next_pass = ExtResource("3_hehct")
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ysbt"]
+next_pass = ExtResource("3_hehct")
 
 [node name="First Aid Kit" instance=ExtResource("1_umvtx")]
 
@@ -99,7 +102,7 @@ libraries = {
 }
 
 [node name="Model" parent="." index="4"]
-transform = Transform3D(0.565675, 0.565675, -0.00478469, -0.565685, 0.565686, 0, 0.00338329, 0.00338329, 0.799986, 0, 1, 0)
+transform = Transform3D(0.565685, 0.565685, 0, -0.565685, 0.565686, 0, 0, 0, 0.8, 0, 1, 0)
 visible = true
 mesh = ExtResource("2_cuuxy")
 surface_material_override/0 = SubResource("StandardMaterial3D_vvcnh")

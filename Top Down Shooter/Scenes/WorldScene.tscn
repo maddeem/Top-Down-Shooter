@@ -1,6 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
+[ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_etb36"]
 [ext_resource type="PackedScene" uid="uid://djov7wgd3gdcm" path="res://Scenes/navigation_region.tscn" id="7_4o52j"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="7_8x5y8"]
 [ext_resource type="Resource" path="res://TerrainData/data.hterrain" id="8_ocib6"]
@@ -8,19 +9,9 @@
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="10_hkixo"]
 [ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="11_gumr7"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="11_ig5vs"]
+[ext_resource type="PackedScene" uid="uid://cbcxx5xri533q" path="res://Scenes/Editor/player_spawner.tscn" id="12_0qpk4"]
 [ext_resource type="PackedScene" uid="uid://2x8kxuxllqhx" path="res://Editables/Widgets/Units/test.tscn" id="12_jk35b"]
 [ext_resource type="PackedScene" uid="uid://dkjoaboj78bim" path="res://Editables/Widgets/Items/FirstAidKit.tscn" id="13_x1j02"]
-[ext_resource type="PackedScene" uid="uid://vjnq8ekwhp" path="res://Scenes/Widgets/PlayerUnit.tscn" id="14_q2eyv"]
-
-[sub_resource type="GDScript" id="GDScript_pb3k6"]
-script/source = "extends Node3D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	Globals.HeightTerrain = $HTerrain
-	Globals.NavigationRegion = $NavigationRegion
-"
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
 script/source = "extends Label
@@ -35,7 +26,7 @@ mode = 1
 textures = [[ExtResource("11_ig5vs")], [null]]
 
 [node name="World" type="Node3D"]
-script = SubResource("GDScript_pb3k6")
+script = ExtResource("1_etb36")
 
 [node name="FogOfWar" parent="." instance=ExtResource("1_0tx6p")]
 Update_Period = 0.1
@@ -76,7 +67,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -20)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -22)
 
 [node name="Crate14" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, -24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, -30)
 
 [node name="Crate15" parent="." instance=ExtResource("11_gumr7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, -26)
@@ -91,18 +82,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -24)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -26)
 
 [node name="Crate19" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -28)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -30)
 
 [node name="First Aid Kit" parent="." instance=ExtResource("13_x1j02")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1358, 0.000484467, -29.5006)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.1358, 0.000484467, -37.5006)
 decay_time = 0.1
-
-[node name="Player" parent="." instance=ExtResource("14_q2eyv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.049, 10.858, -22.5551)
 
 [node name="test" parent="." instance=ExtResource("12_jk35b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.7835, 1.36339, -30.584)
 Turn_Speed = 5.0
+
+[node name="test2" parent="." instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.0624, 1.36339, -44.0618)
+Turn_Speed = 5.0
+player_owner = 1
+
+[node name="test3" parent="." instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.9376, 1.36339, -51.0618)
+Turn_Speed = 5.0
+player_owner = 2
 
 [node name="HTerrain" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, -512)
@@ -122,3 +120,14 @@ shader_params/u_ground_uv_scale = 20
 shader_params/u_depth_blending = true
 shader_params/u_globalmap_blend_start = null
 shader_params/u_globalmap_blend_distance = null
+
+[node name="Player Spawner" parent="." instance=ExtResource("12_0qpk4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.3375, 1, -39.0777)
+
+[node name="Player Spawner2" parent="." instance=ExtResource("12_0qpk4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3905, 1, -39.0777)
+
+[node name="Player Spawner3" parent="." instance=ExtResource("12_0qpk4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.21023, 1, -39.0777)
+
+[node name="Widgets" type="Node3D" parent="."]

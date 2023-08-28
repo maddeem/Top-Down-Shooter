@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbcxx5xri533q"]
+
+[ext_resource type="PackedScene" uid="uid://d4gvuo04kcgxm" path="res://Scenes/Editor/editor_exclamation.tscn" id="1_6onps"]
+
+[sub_resource type="GDScript" id="GDScript_1p2f7"]
+script/source = "extends Node3D
+
+func _ready():
+	PlayerLib.PlayerSpawnPoints.append(global_position)
+	visible = false
+	queue_free()
+"
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_0ogji"]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+disable_ambient_light = true
+albedo_color = Color(1, 0.462745, 0, 1)
+
+[node name="Player Spawner" instance=ExtResource("1_6onps")]
+script = SubResource("GDScript_1p2f7")
+
+[node name="ExclamationMark" parent="." index="0"]
+surface_material_override/0 = SubResource("ORMMaterial3D_0ogji")

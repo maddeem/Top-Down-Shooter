@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://rmc124sorn7j"
+path="res://.godot/imported/exclamation_mark.obj-b7b04bec26ad096394d9834470eb454b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/exclamation_mark.obj-b7b04bec26ad096394d9834470eb454b.mesh"]
+
+source_file="res://Assets/Models/Editor/exclamation_mark.obj"
+dest_files=["res://.godot/imported/exclamation_mark.obj-b7b04bec26ad096394d9834470eb454b.mesh", "res://.godot/imported/exclamation_mark.obj-b7b04bec26ad096394d9834470eb454b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

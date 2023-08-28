@@ -5,11 +5,9 @@ class_name Unit extends Widget
 @export var player_owner := 0:
 	set(value):
 		player_owner = value
-		if vision_observer:
+		if vision_modifier:
 			_bit_owner = Utility.get_bit(value)
-			vision_observer.Owner = player_owner
 			vision_modifier.Owner = player_owner
-@onready var vision_observer = $VisiblityObserver
 @onready var vision_modifier = $VisibilityModifier
 var _bit_owner
 var _path
@@ -76,11 +74,6 @@ func _push_away():
 	velocity.x = push.x
 	velocity.z = push.z
 
-@rpc("unreliable")
-func _update_data(buf : PackedByteArray):
-	_prev_data = [global_position,rotation.y]
-	global_position = Vector3(buf.decode_half(0),buf.decode_half(2),buf.decode_half(4))
-	rotation.y = buf.decode_half(6)
 
 func _physics_process(delta):
 	if multiplayer.is_server():
@@ -96,24 +89,7 @@ func _physics_process(delta):
 			return
 		move_and_slide()
 		push = Vector3.ZERO
-		var buf = PackedByteArray()
-		buf.resize(8)
-		buf.encode_half(0,global_position.x)
-		buf.encode_half(2,global_position.y)
-		buf.encode_half(4,global_position.z)
-		buf.encode_half(6,rotation.y)
-		_prev_data = [global_position,rotation.y]
-		rpc("_update_data",buf)
 
-func _process(_delta):
-	if _prev_data:
-		var fract = clamp(Engine.get_physics_interpolation_fraction(),0,1)
-		var rot = _model.rotation
-		rot.y = lerp(_prev_data[1],rotation.y,fract)
-		UpdateModel(
-			_prev_data[0].lerp(global_position,fract),
-			rot
-		)
 
 func _on_area_3d_body_entered(body):
 	if body is Widget:

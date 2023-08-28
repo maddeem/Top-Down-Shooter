@@ -10,6 +10,7 @@ var _target_ip
 var _target_port
 var _ping_timer = Timer.new()
 var server_api = MultiplayerAPI.create_default_interface()
+var ping_thread := Thread.new()
 enum LOBBY_STATE{
 	NEW,
 	DELETE,
@@ -44,21 +45,30 @@ func start_lobby_server_connection():
 	_target_port = LOBBY_SERVER_PORT
 	_connect()
 
+func _threaded_ping():
+	var results = {}
+	for id in lobbies_open:
+		var lobby = lobbies_open[id]
+		var output = []
+		OS.execute('ping', ['-n', '2', '-l', '1', lobby.ip], output,true)
+		var tar : String = output[0]
+		var pos = tar.find("Average = ")
+		if pos != -1:
+			results[id] = int(tar.substr(pos + 10))
+		else:
+			results[id] = -1
+	ping_thread.call_deferred("wait_to_finish")
+	for id in results:
+		call_deferred("emit_signal","lobby_ping_updated",id,results[id])
+
 func _ready():
 	add_child(_ping_timer)
 	_ping_timer.start()
 	_ping_timer.wait_time = 3
 	_ping_timer.timeout.connect(func():
-		for id in lobbies_open:
-			var lobby = lobbies_open[id]
-			var output = []
-			OS.execute('ping', ['-n', '1', '-l', '1', lobby.ip], output,true)
-			var tar : String = output[0]
-			var pos = tar.find("Average = ")
-			if pos != -1:
-				emit_signal("lobby_ping_updated",id,int(tar.substr(pos + 10)))
-			else:
-				emit_signal("lobby_ping_updated",id,-1)
+		if not ping_thread.is_alive() or not ping_thread.is_started():
+			ping_thread = Thread.new()
+			ping_thread.start(_threaded_ping,Thread.PRIORITY_LOW)
 		)
 	get_tree().set_multiplayer(server_api, self.get_path())
 	UNPN_Handler = load("res://Scenes/UPNP.tscn").instantiate()

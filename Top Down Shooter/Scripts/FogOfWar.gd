@@ -150,7 +150,7 @@ func _check_observers():
 		var color = Utility.convert_color_to_bit(_last_fog_image.get_pixelv(point))
 		for observer in _observer_data[point]:
 			if is_instance_valid(observer):
-				observer.is_visible = observer.Owner_Bit_Value & color == observer.Owner_Bit_Value
+				observer.is_visible = Globals.LocalPlayerBit & color == Globals.LocalPlayerBit
 			else:
 				_observer_data[point].erase(observer)
 				if _observer_data[point].size() == 0:

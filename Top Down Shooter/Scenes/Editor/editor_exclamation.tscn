@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4gvuo04kcgxm"]
+
+[ext_resource type="ArrayMesh" uid="uid://rmc124sorn7j" path="res://Assets/Models/Editor/exclamation_mark.obj" id="1_k0if4"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_i8vwh"]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+disable_ambient_light = true
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="Animation" id="Animation_sid2p"]
+resource_name = "stand"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExclamationMark:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.25, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hmn1a"]
+_data = {
+"stand": SubResource("Animation_sid2p")
+}
+
+[node name="Editor_Exclamation" type="Node3D"]
+
+[node name="ExclamationMark" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.248526, 0)
+mesh = ExtResource("1_k0if4")
+surface_material_override/0 = SubResource("ORMMaterial3D_i8vwh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "stand"
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_hmn1a")
+}
