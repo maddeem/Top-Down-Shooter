@@ -14,8 +14,6 @@ var player_owner : Player:
 		camera._camera.current = is_owner
 var is_owner = false
 var _camera_offset = Vector3(0,2,0.7)
-var _prev_data
-var _last_updated = 0.0
 
 func _ready():
 	super._ready()
@@ -34,11 +32,6 @@ func _input(_event):
 	if dir != direction or jump_press:
 		direction = dir
 		rpc("sync_input",dir,jump_press)
-
-func _update_prev_data(index : int,data : Variant) -> void:
-	if _prev_data == null:
-		_prev_data = [_model.global_position,_model.rotation.y]
-	_prev_data[index] = data
 	
 
 func move_instantly(pos : Vector3):
@@ -48,6 +41,7 @@ func move_instantly(pos : Vector3):
 	UpdateModel(_target_trans)
 
 func _physics_process(delta):
+	super._physics_process(delta)
 	if not is_on_floor():
 		velocity.y -= Globals.Gravity * delta
 	var vel = Vector2(velocity.x,velocity.z)
@@ -58,7 +52,6 @@ func _physics_process(delta):
 	velocity.x = vel.x
 	velocity.z = vel.y
 	if velocity.is_equal_approx(Vector3.ZERO):
-		_prev_data = null
 		return
 	move_and_slide()
 

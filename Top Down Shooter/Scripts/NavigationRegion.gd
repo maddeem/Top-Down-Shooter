@@ -41,8 +41,8 @@ func _find_nearby_open_point(point : Vector2i) -> Vector2i:
 	return Vector2i.ZERO
 
 func get_point_path(start_position : Vector2, end_position : Vector2) -> PackedVector2Array:
-	start_position = _find_nearby_open_point(Vector2i((start_position + size).round()))
-	end_position = _find_nearby_open_point(Vector2i((end_position + size).round()))
+	start_position = _find_nearby_open_point(Vector2i((start_position + size - Vector2(0.5,0.5)).round()))
+	end_position = _find_nearby_open_point(Vector2i((end_position + size - Vector2(0.5,0.5)).round()))
 	var path = astar.get_point_path(start_position,end_position)
 	return path
 

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh4wlg4vyavw4"]
+
+[ext_resource type="Texture2D" uid="uid://3de6hlb4gn3d" path="res://Assets/Textures/UI/SelectionCircle/SelectionCircle.png" id="1_dp3xp"]
+
+[node name="Selection_Circle" type="Decal"]
+top_level = true
+layers = 2
+size = Vector3(2, 17, 2)
+texture_albedo = ExtResource("1_dp3xp")
+modulate = Color(0, 1, 0, 1)
+cull_mask = 2

@@ -70,7 +70,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -22)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, -30)
 
 [node name="Crate15" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, -26)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, -26)
 
 [node name="Crate16" parent="." instance=ExtResource("11_gumr7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, -28)
@@ -88,19 +88,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -30)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.1358, 0.000484467, -37.5006)
 decay_time = 0.1
 
-[node name="test" parent="." instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.7835, 1.36339, -30.584)
-Turn_Speed = 5.0
-
-[node name="test2" parent="." instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.0624, 1.36339, -44.0618)
-Turn_Speed = 5.0
-player_owner = 1
-
-[node name="test3" parent="." instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.9376, 1.36339, -51.0618)
-Turn_Speed = 5.0
-player_owner = 2
+[node name="test8" parent="." instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.7835, 1.36339, -31.584)
+Turn_Speed = 1.0
+Movement_Angle = 0.001
 
 [node name="HTerrain" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, -512)
@@ -114,7 +105,7 @@ shader_type = "Custom"
 custom_shader = ExtResource("9_d3p0c")
 custom_globalmap_shader = null
 texture_set = SubResource("Resource_40jow")
-render_layers = 1
+render_layers = 2
 cast_shadow = 0
 shader_params/u_ground_uv_scale = 20
 shader_params/u_depth_blending = true

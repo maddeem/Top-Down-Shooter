@@ -5,7 +5,7 @@ func IsPointInCone(vec1 : Vector2, vec2 : Vector2, dir : float, fov : float) -> 
 	return cos(atan2(vec2.y-vec1.y,vec2.x-vec1.x)-dir) > cos(fov)
 
 func angle_difference(from, to):
-	return wrapf(to - from, -PI, PI)
+	return fposmod(to-from + PI, TAU) - PI
 
 func change_angle_bounded(from, to, amount):
 	return from + clampf(wrapf(to - from, -PI, PI),-amount,amount)
@@ -44,7 +44,18 @@ func convert_color_to_bit(color):
 	Cache.write_to("bit_color",color,val)
 	return val
 
-func get_interpolated_height(x, y, data):
+func get_interpolated_normal(x, y, data):
+	var x1 = int(x)
+	var y1 = int(y)
+	var heightT = data.get_height_at(x1, y1+1)
+	var heightL = data.get_height_at(x1-1, y1)
+	var heightR = data.get_height_at(x1+1, y1)
+	var heightB = data.get_height_at(x1, y1-1)
+	var dx = heightR-heightL;
+	var dy = heightB-heightT;
+	return Vector3(dx*2,-4,dy*2).normalized()
+
+func get_interpolated_height(x : float, y : float, data) -> float:
 	var x1 = int(x)
 	var y1 = int(y)
 	var x2 = x1 + 1
@@ -59,8 +70,7 @@ func get_interpolated_height(x, y, data):
 	var fractional_height2 = height4 + (height3 - height4) * dx
 	return fractional_height1 + (fractional_height2 - fractional_height1) * dy
 
-func GetTerrainHeight(terrain, pos : Vector2):
-	var data = terrain.get_data()
+func get_terrain_offset(terrain,data):
 	var offset
 	if Cache.exists("terrain_offset",terrain):
 		offset = Cache.read_from("terrain_offset",terrain)
@@ -68,8 +78,17 @@ func GetTerrainHeight(terrain, pos : Vector2):
 		var img : Image = data.get_image(data.CHANNEL_HEIGHT)
 		offset = Vector2(img.get_width(),img.get_height())/2 - Vector2(0.5,0.5)
 		Cache.write_to("terrain_offset",terrain,offset)
-	pos = pos + offset
+	return offset
+
+func GetTerrainHeight(terrain, pos : Vector2):
+	var data = terrain.get_data()
+	pos = pos + get_terrain_offset(terrain,data)
 	return get_interpolated_height(pos.x,pos.y,data)
+
+func GetTerrainNormal(terrain, pos : Vector2):
+	var data = terrain.get_data()
+	pos = pos + get_terrain_offset(terrain,data)
+	return get_interpolated_normal(pos.x,pos.y,data)
 
 func raycast_from_mouse(source : Node3D, ray_length: float, collision_mask : int):
 	var viewport  = get_viewport()

@@ -24,9 +24,6 @@ func set_path(p : PackedVector2Array):
 	if size == 0:
 		_path = null
 		return
-	_path.remove_at(0)
-	if size == 1:
-		_path = null
 
 func set_path_target(target : Vector2):
 	Globals.NavigationRegion.unit_threaded_path(self,Vector2(position.x,position.z),target)
@@ -39,13 +36,14 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("Mouse_Right"):
 		var cast = Utility.raycast_from_mouse(self,1000,1)
+		$MeshInstance3D.position = cast.position.floor() + Vector3(0.5,0,0.5)
 		set_path_target(Vector2(cast.position.x,cast.position.z))
 
 func _is_facing_correctly(delta, dir : Vector2):
 	var current_angle = atan2(dir.x,dir.y)
 	var angle_diff = abs(Utility.angle_difference(rotation.y,current_angle))
 	var delta_turn = Turn_Speed * delta
-	if angle_diff < delta_turn:
+	if angle_diff <= delta_turn:
 		rotation.y = current_angle
 	else:
 		rotation.y = Utility.change_angle_bounded(rotation.y,current_angle,delta_turn)
@@ -76,6 +74,7 @@ func _push_away():
 
 
 func _physics_process(delta):
+	super._physics_process(delta)
 	if multiplayer.is_server():
 		if not is_on_floor():
 			velocity.y -= Globals.Gravity * delta

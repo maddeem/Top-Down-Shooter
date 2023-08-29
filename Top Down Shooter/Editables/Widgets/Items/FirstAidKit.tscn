@@ -101,8 +101,12 @@ libraries = {
 "": SubResource("AnimationLibrary_dhq40")
 }
 
-[node name="Model" parent="." index="4"]
-transform = Transform3D(0.565685, 0.565685, 0, -0.565685, 0.565686, 0, 0, 0, 0.8, 0, 1, 0)
+[node name="Selection Circle" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = true
+
+[node name="Model" parent="." index="5"]
+transform = Transform3D(0.565686, 0.565685, 0, -0.565685, 0.565685, 0, 0, 0, 0.8, 0, 1, 0)
 visible = true
 mesh = ExtResource("2_cuuxy")
 surface_material_override/0 = SubResource("StandardMaterial3D_vvcnh")

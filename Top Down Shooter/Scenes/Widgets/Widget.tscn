@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://h0b8vci70lp5"]
+[gd_scene load_steps=10 format=3 uid="uid://h0b8vci70lp5"]
 
 [ext_resource type="Script" path="res://Scripts/Widget.gd" id="1_77jj5"]
 [ext_resource type="PackedScene" uid="uid://cuexr6oralw54" path="res://Scenes/VisiblityObserver.tscn" id="2_c4af3"]
 [ext_resource type="PackedScene" uid="uid://k8rxrlyljhxg" path="res://Scenes/Healthbar/Health_Bar.tscn" id="2_uv6bp"]
+[ext_resource type="PackedScene" uid="uid://dh4wlg4vyavw4" path="res://Scenes/selection_circle.tscn" id="4_7iekg"]
 
 [sub_resource type="Animation" id="Animation_6ddo1"]
 resource_name = "damaged"
@@ -38,6 +39,8 @@ autoplay = "stand"
 libraries = {
 "": SubResource("AnimationLibrary_fapjm")
 }
+
+[node name="Selection Circle" parent="." instance=ExtResource("4_7iekg")]
 
 [node name="Model" type="MeshInstance3D" parent="."]
 
