@@ -25,6 +25,7 @@ Utility="*res://Scripts/Utility.gd"
 EventHandler="*res://Scripts/EventHandler.gd"
 Network="*res://Scripts/Network.gd"
 PlayerLib="*res://Scripts/PlayerLib.gd"
+WidgetFactory="*res://Scripts/WidgetFactory.gd"
 
 [display]
 

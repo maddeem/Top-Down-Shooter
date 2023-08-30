@@ -44,7 +44,6 @@ func start_game():
 	Lobby.multiplayer.multiplayer_peer = null
 	Lobby.Peer = null
 	emit_signal("game_loading")
-	
 
 func _ready():
 	Lobby.connect("port_open",func():

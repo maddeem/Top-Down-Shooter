@@ -17,6 +17,9 @@ var remove_on_decay = true
 var dead := false
 var current_animation
 var current_animation_play_start
+var object_id : int:
+	get:
+		return Cache.read_from("WidgetID",scene_file_path)
 var can_animate = true:
 	set(value):
 		can_animate = value
@@ -132,7 +135,13 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
 		_send_trans = true
 
-func _physics_process(delta):
+func move_instantly(pos : Vector3):
+	global_position = pos
+	_prev_trans = [pos,rotation.y]
+	_target_trans = _prev_trans
+	UpdateModel(_target_trans)
+
+func _physics_process(_delta):
 	if _send_trans:
 		_send_trans = false
 		var buf = PackedByteArray()

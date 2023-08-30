@@ -90,8 +90,6 @@ decay_time = 0.1
 
 [node name="test8" parent="." instance=ExtResource("12_jk35b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.7835, 1.36339, -31.584)
-Turn_Speed = 1.0
-Movement_Angle = 0.001
 
 [node name="HTerrain" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, -512)

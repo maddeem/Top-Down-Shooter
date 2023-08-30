@@ -44,7 +44,7 @@ func convert_color_to_bit(color):
 	Cache.write_to("bit_color",color,val)
 	return val
 
-func get_interpolated_normal(x, y, data):
+func get_interpolated_normal(x : float, y : float, data):
 	var x1 = int(x)
 	var y1 = int(y)
 	var heightT = data.get_height_at(x1, y1+1)
@@ -99,3 +99,21 @@ func raycast_from_mouse(source : Node3D, ray_length: float, collision_mask : int
 	var ray_end = ray_start + camera.project_ray_normal(pos) * ray_length
 	var param := PhysicsRayQueryParameters3D.create(ray_start, ray_end, collision_mask)
 	return space_state.intersect_ray(param)
+
+func dir_contents(path : String) -> PackedStringArray:
+	var dir_list = [path]
+	var list : PackedStringArray = []
+	var cur_path
+	while dir_list.size() > 0:
+		cur_path = dir_list.pop_back()
+		var dir = DirAccess.open(cur_path)
+		if dir:
+			dir.list_dir_begin()
+			var file_name = dir.get_next()
+			while file_name != "":
+				if dir.current_is_dir():
+					dir_list.append(cur_path + "/" + file_name)
+				else:
+					list.append(cur_path + "/" + file_name)
+				file_name = dir.get_next()
+	return list

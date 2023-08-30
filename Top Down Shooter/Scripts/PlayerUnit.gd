@@ -32,13 +32,6 @@ func _input(_event):
 	if dir != direction or jump_press:
 		direction = dir
 		rpc("sync_input",dir,jump_press)
-	
-
-func move_instantly(pos : Vector3):
-	global_position = pos
-	_prev_trans = [pos,rotation]
-	_target_trans = _prev_trans
-	UpdateModel(_target_trans)
 
 func _physics_process(delta):
 	super._physics_process(delta)
