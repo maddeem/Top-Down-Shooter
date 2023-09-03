@@ -1,16 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://b81f7fkpb7eqn"]
+[gd_scene load_steps=16 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
 [ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_etb36"]
 [ext_resource type="PackedScene" uid="uid://djov7wgd3gdcm" path="res://Scenes/navigation_region.tscn" id="7_4o52j"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="7_8x5y8"]
-[ext_resource type="Resource" path="res://TerrainData/data.hterrain" id="8_ocib6"]
+[ext_resource type="Resource" path="res://TerrainData/data.hterrain" id="9_a3mi6"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain2.gdshader" id="9_d3p0c"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="10_hkixo"]
 [ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="11_gumr7"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="11_ig5vs"]
 [ext_resource type="PackedScene" uid="uid://cbcxx5xri533q" path="res://Scenes/Editor/player_spawner.tscn" id="12_0qpk4"]
 [ext_resource type="PackedScene" uid="uid://2x8kxuxllqhx" path="res://Editables/Widgets/Units/test.tscn" id="12_jk35b"]
+[ext_resource type="PackedScene" uid="uid://chlh077chdnfl" path="res://Scenes/creep_spawner.tscn" id="13_8lu1q"]
 [ext_resource type="PackedScene" uid="uid://dkjoaboj78bim" path="res://Editables/Widgets/Items/FirstAidKit.tscn" id="13_x1j02"]
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
@@ -20,7 +21,7 @@ func _process(_delta):
 	text = str(Engine.get_frames_per_second())
 "
 
-[sub_resource type="Resource" id="Resource_40jow"]
+[sub_resource type="Resource" id="Resource_34uci"]
 script = ExtResource("10_hkixo")
 mode = 1
 textures = [[ExtResource("11_ig5vs")], [null]]
@@ -46,7 +47,12 @@ script = SubResource("GDScript_5cfjs")
 [node name="NavigationRegion" parent="." instance=ExtResource("7_4o52j")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.699189, 0.714937, 0, -0.714937, -0.699189, 0, 57.0787, 0)
+transform = Transform3D(1, 0, 0, 0, -0.878892, 0.477021, 0, -0.477021, -0.878892, 0, 34.2096, -50.9579)
+shadow_enabled = true
+shadow_blur = 1.5
+directional_shadow_split_2 = 0.321
+directional_shadow_split_3 = 0.3
+directional_shadow_blend_splits = true
 
 [node name="Crate8" parent="." instance=ExtResource("11_gumr7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, -18)
@@ -91,25 +97,6 @@ decay_time = 0.1
 [node name="test8" parent="." instance=ExtResource("12_jk35b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.7835, 1.36339, -31.584)
 
-[node name="HTerrain" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -512, 0, -512)
-script = ExtResource("7_8x5y8")
-_terrain_data = ExtResource("8_ocib6")
-chunk_size = 32
-collision_enabled = true
-collision_layer = 1
-collision_mask = 1
-shader_type = "Custom"
-custom_shader = ExtResource("9_d3p0c")
-custom_globalmap_shader = null
-texture_set = SubResource("Resource_40jow")
-render_layers = 2
-cast_shadow = 0
-shader_params/u_ground_uv_scale = 20
-shader_params/u_depth_blending = true
-shader_params/u_globalmap_blend_start = null
-shader_params/u_globalmap_blend_distance = null
-
 [node name="Player Spawner" parent="." instance=ExtResource("12_0qpk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.3375, 1, -39.0777)
 
@@ -120,3 +107,43 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3905, 1, -39.0777)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.21023, 1, -39.0777)
 
 [node name="Widgets" type="Node3D" parent="."]
+
+[node name="HTerrain" type="Node3D" parent="."]
+script = ExtResource("7_8x5y8")
+centered = true
+_terrain_data = ExtResource("9_a3mi6")
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Custom"
+custom_shader = ExtResource("9_d3p0c")
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_34uci")
+render_layers = 2
+cast_shadow = 1
+shader_params/CreepData = null
+shader_params/CreepCount = null
+shader_params/FogExploredColor = null
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_globalmap_blend_start = null
+shader_params/u_globalmap_blend_distance = null
+shader_params/u_tile_reduction = null
+shader_params/CreepTexture = null
+shader_params/Noise = null
+
+[node name="CreepSpawner" parent="." instance=ExtResource("13_8lu1q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.811, 0, -28.07)
+radius = 30.0
+spread_per_second = 1.0
+
+[node name="CreepSpawner2" parent="." instance=ExtResource("13_8lu1q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.1079, 0, -40.4712)
+radius = 30.0
+spread_per_second = 1.0
+
+[node name="CreepSpawner3" parent="." instance=ExtResource("13_8lu1q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.582, 0, -45.3936)
+radius = 30.0
+spread_per_second = 2.0

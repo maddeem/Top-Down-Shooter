@@ -34,8 +34,12 @@ var can_animate = true:
 			_update_visibility()
 var _visible = false
 var _health_bar_displaying = false
-@onready var _prev_trans = [global_position,rotation.y]
+@onready var _prev_trans = [global_position,rotation.y]:
+	set(value):
+		_prev_trans = value
+		_move_fract = 0
 @onready var _target_trans = [global_position,rotation.y]
+var _target_pos
 
 func _update_visibility():
 	if Visible_In_Fog:
@@ -125,8 +129,7 @@ func _get_transform(buf : PackedByteArray):
 	var rot = buf.decode_half(6)
 	_prev_trans = [_model.global_position,_model.rotation.y]
 	_target_trans = [pos,rot]
-	set_deferred("global_position",pos)
-	set_deferred("rotation:y",rot)
+	_target_pos = _target_trans
 
 var _send_trans = false
 func _notification(what: int) -> void:
@@ -142,21 +145,28 @@ func move_instantly(pos : Vector3):
 	UpdateModel(_target_trans)
 
 func _physics_process(_delta):
+	if _target_pos:
+		global_position = _target_pos[0]
+		rotation.y = _target_pos[1]
+		_target_pos = null
 	if _send_trans:
 		_send_trans = false
+		_prev_trans = [_model.global_position,_model.rotation.y]
+		_target_trans = [global_position,rotation.y]
 		var buf = PackedByteArray()
 		buf.resize(8)
 		buf.encode_half(0,global_position.x)
 		buf.encode_half(2,global_position.y)
 		buf.encode_half(4,global_position.z)
 		buf.encode_half(6,rotation.y)
-		_prev_trans = [_model.global_position,_model.rotation.y]
-		_target_trans = [global_position,rotation.y]
 		_get_transform.rpc(buf)
 
+var _move_fract := 0.0
 func _process(_delta):
-	var fract = min(Engine.get_physics_interpolation_fraction(),1.0)
+	if _move_fract == 1.0:
+		return
+	_move_fract = min(_move_fract + Engine.get_physics_interpolation_fraction(),1.0)
 	UpdateModel([
-		_prev_trans[0].lerp(_target_trans[0],fract),
-		lerp_angle(_prev_trans[1],_target_trans[1],fract),
+		_prev_trans[0].lerp(_target_trans[0],_move_fract),
+		lerp_angle(_prev_trans[1],_target_trans[1],_move_fract),
 	])

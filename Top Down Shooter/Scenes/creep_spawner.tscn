@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://chlh077chdnfl"]
+
+[ext_resource type="Script" path="res://Scripts/CreepSpawner.gd" id="1_ri5we"]
+
+[node name="CreepSpawner" type="Node3D"]
+script = ExtResource("1_ri5we")

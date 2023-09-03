@@ -71,6 +71,7 @@ func _push_away():
 		push = (push / push_size) * push_strength
 	velocity.x = push.x
 	velocity.z = push.z
+	push = Vector3.ZERO
 
 
 func _physics_process(delta):
@@ -91,7 +92,7 @@ func _physics_process(delta):
 
 
 func _on_area_3d_body_entered(body):
-	if body is Widget:
+	if body is Widget and body != self:
 		push_list.append(body)
 
 

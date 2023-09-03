@@ -26,6 +26,7 @@ EventHandler="*res://Scripts/EventHandler.gd"
 Network="*res://Scripts/Network.gd"
 PlayerLib="*res://Scripts/PlayerLib.gd"
 WidgetFactory="*res://Scripts/WidgetFactory.gd"
+Creep="*res://Scripts/Creep.gd"
 
 [display]
 
@@ -33,7 +34,7 @@ window/size/resizable=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/zylann.hterrain/plugin.cfg", "res://addons/CliffEditor/plugin.cfg")
+enabled=PackedStringArray("res://addons/zylann.hterrain/plugin.cfg")
 
 [input]
 

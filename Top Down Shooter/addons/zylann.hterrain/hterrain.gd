@@ -823,7 +823,6 @@ func set_data(new_data: HTerrainData):
 func update_collider():
 	assert(_collision_enabled)
 	assert(_collider != null)
-	_data.check_images()
 	_collider.create_from_terrain_data(_data)
 
 
