@@ -21,9 +21,11 @@ func set_path(p : PackedVector2Array):
 	_path_ind = 0
 	_path = p
 	var size = _path.size()
+	_path.pop_front()
 	if size == 0:
 		_path = null
 		return
+	
 
 func set_path_target(target : Vector2):
 	Globals.NavigationRegion.unit_threaded_path(self,Vector2(position.x,position.z),target)

@@ -26,7 +26,6 @@ EventHandler="*res://Scripts/EventHandler.gd"
 Network="*res://Scripts/Network.gd"
 PlayerLib="*res://Scripts/PlayerLib.gd"
 WidgetFactory="*res://Scripts/WidgetFactory.gd"
-Creep="*res://Scripts/Creep.gd"
 
 [display]
 
@@ -86,7 +85,7 @@ Mouse_Right={
 
 [physics]
 
-3d/default_gravity=23.52
+common/max_physics_steps_per_frame=10
 
 [rendering]
 
@@ -129,4 +128,16 @@ FogDataLocal={
 FogPlayerBit={
 "type": "int",
 "value": 1
+}
+CreepData={
+"type": "sampler2D",
+"value": "res://Materials/DO NOT DELETE.tres"
+}
+CreepTexture={
+"type": "sampler2D",
+"value": "res://Assets/Textures/CreepTexture.jpg"
+}
+CreepDataIn={
+"type": "sampler2D",
+"value": "res://Materials/DO NOT DELETE.tres"
 }

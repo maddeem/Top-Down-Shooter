@@ -165,7 +165,7 @@ var _move_fract := 0.0
 func _process(_delta):
 	if _move_fract == 1.0:
 		return
-	_move_fract = min(_move_fract + Engine.get_physics_interpolation_fraction(),1.0)
+	_move_fract = min(_move_fract + Globals.TicksPerSecond * _delta,1.0)
 	UpdateModel([
 		_prev_trans[0].lerp(_target_trans[0],_move_fract),
 		lerp_angle(_prev_trans[1],_target_trans[1],_move_fract),

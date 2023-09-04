@@ -29,7 +29,7 @@ bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
 	int dx = iabs(p1.x - p0.x);
 	int dy = -iabs(p1.y - p0.y);
 	int err = dx + dy;
-	int e2 = 2 * err;
+//	int e2 = 2 * err;
 	int sx = 2 * when_lt(p0.x,p1.x) -1;
 	int sy = 2 * when_lt(p0.y,p1.y) -1;
 	float walls_hit = 0.0;
@@ -45,13 +45,16 @@ bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
 		if (p0==p1){
 			return true;
 		}
-		e2 = 2 * err;
-		int ge = when_ge(e2,dy);
-		err += dy * ge;
-		p0.x += sx * ge;
-		int le = when_le(e2,dx);
-		err += dx * le;
-		p0.y += sy * le;
+
+        if (err * 2 - dy > dx - err * 2) {
+            // horizontal step
+            err += dy;
+            p0.x += sx;
+        } else {
+            // vertical step
+            err += dx;
+            p0.y += sy;
+        }
 	}
 }
 

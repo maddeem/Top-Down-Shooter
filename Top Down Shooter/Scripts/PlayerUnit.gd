@@ -5,7 +5,7 @@ class_name PlayerUnit extends Widget
 @export var jumping : bool
 @onready var camera = $"Shakable Camera"
 @export var friction := 25
-@export var acceleration = 10
+@export var acceleration_smoothing = 10
 @export var turn_speed = 1.0
 var player_owner : Player:
 	set(value):
@@ -38,10 +38,7 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= Globals.Gravity * delta
 	var vel = Vector2(velocity.x,velocity.z)
-	if direction.length() > 0:
-		vel = vel.lerp(direction * SPEED, acceleration * delta)
-	else:
-		vel = vel.lerp(Vector2.ZERO,friction * delta)
+	vel = vel.lerp(direction * SPEED, 1 - exp(-delta * acceleration_smoothing))
 	velocity.x = vel.x
 	velocity.z = vel.y
 	if velocity.is_equal_approx(Vector3.ZERO):

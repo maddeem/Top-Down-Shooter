@@ -100,9 +100,6 @@ decay_time = 0.1
 [node name="test8" parent="." instance=ExtResource("12_jk35b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.7835, 1.36339, -31.584)
 
-[node name="CreepSpawner" parent="test8" instance=ExtResource("13_8lu1q")]
-grow_per_tick = 2
-
 [node name="Player Spawner" parent="." instance=ExtResource("12_0qpk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.3375, 1, -39.0777)
 
@@ -134,3 +131,18 @@ shader_params/u_depth_blending = true
 shader_params/u_globalmap_blend_start = null
 shader_params/u_globalmap_blend_distance = null
 shader_params/u_tile_reduction = null
+
+[node name="CreepSpawner" parent="." instance=ExtResource("13_8lu1q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.811, 0, -28.07)
+radius = 30.0
+spread_per_second = 1.0
+
+[node name="CreepSpawner2" parent="." instance=ExtResource("13_8lu1q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.1079, 0, -40.4712)
+radius = 30.0
+spread_per_second = 1.0
+
+[node name="CreepSpawner3" parent="." instance=ExtResource("13_8lu1q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.582, 0, -45.3936)
+radius = 30.0
+spread_per_second = 2.0

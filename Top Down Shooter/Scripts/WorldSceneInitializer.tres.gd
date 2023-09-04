@@ -5,6 +5,7 @@ func _ready():
 	Globals.HeightTerrain = $HTerrain
 	Globals.NavigationRegion = $NavigationRegion
 	Globals.World = self
+	Globals.CreepHandler = $Creep
 	Network.connect("game_starting",func():
 		PlayerLib.create_players()
 		)

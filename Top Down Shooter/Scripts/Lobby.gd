@@ -71,10 +71,10 @@ func _ready():
 			ping_thread.start(_threaded_ping,Thread.PRIORITY_LOW)
 		)
 	get_tree().set_multiplayer(server_api, self.get_path())
-#	UNPN_Handler = load("res://Scenes/UPNP.tscn").instantiate()
-#	add_child(UNPN_Handler)
-#	UNPN_Handler.connect("upnp_completed",_ports_ready)
-#	UNPN_Handler.start()
+	UNPN_Handler = load("res://Scenes/UPNP.tscn").instantiate()
+	add_child(UNPN_Handler)
+	UNPN_Handler.connect("upnp_completed",_ports_ready)
+	UNPN_Handler.start()
 	multiplayer.server_disconnected.connect(func():
 		Peer = null
 		multiplayer.multiplayer_peer = null
@@ -102,8 +102,6 @@ func _ready():
 		lobby.player_count -= 1
 		rpc_id(1,"update_lobby",LOBBY_STATE.UPDATE,lobby,lobby_owner)
 		)
-	await get_tree().create_timer(1).timeout
-	_ports_ready(OK,5110,5110)
 
 @rpc("any_peer","reliable")
 func update_lobby(state,data,_id = 0):

@@ -1,6 +1,8 @@
 shader_type spatial;
 
 #include "res://addons/zylann.hterrain/shaders/include/heightmap.gdshaderinc"
+#include "res://Materials/Shaders/SimplexNoise3D.gdshaderinc"
+#include "res://Materials/Shaders/Blur.gdshaderinc"
 
 uniform sampler2D u_terrain_heightmap;
 uniform sampler2D u_terrain_normalmap;
@@ -14,11 +16,9 @@ uniform mat4 u_terrain_inverse_transform;
 uniform mat3 u_terrain_normal_basis;
 global uniform vec2 InverseFogDimensions;
 global uniform sampler2D FogDataLocal : filter_linear_mipmap_anisotropic;
-uniform vec3[2000] CreepData;
-uniform int CreepCount = 0;
+global uniform sampler2D CreepData : filter_linear_mipmap_anisotropic;
+global uniform sampler2D CreepTexture : filter_linear_mipmap_anisotropic;
 uniform vec4 FogExploredColor;
-uniform sampler2D CreepTexture;
-uniform sampler2D Noise;
 uniform sampler2DArray u_ground_albedo_bump_array : source_color;
 uniform sampler2DArray u_ground_normal_roughness_array;
 
@@ -181,124 +181,106 @@ void vertex() {
 	v_distance_to_camera = distance(wpos.xyz, CAMERA_POSITION_WORLD);
 }
 
-vec4 blur(vec2 uv, float blurRadius){
-    vec4 result = vec4(0.0);
-    float totalWeight = 0.0;
-    for (float x = -blurRadius; x <= blurRadius; x++){
-        for (float y = -blurRadius; y <= blurRadius; y++){
-			vec2 offset = vec2(x, y) * InverseFogDimensions;
-            result += texture(FogDataLocal, uv + offset);
-            totalWeight ++;
-        }
-    }
-    return result /= totalWeight;
-}
+
+
 void fragment() {
 	if (v_hole < 0.5) {
 		// TODO Add option to use vertex discarding instead, using NaNs
 		discard;
 	}
-	vec3 terrain_normal_world = 
-		u_terrain_normal_basis * (unpack_normal(texture(u_terrain_normalmap, UV)));
-	terrain_normal_world = normalize(terrain_normal_world);
-	vec3 normal = terrain_normal_world;
-	float globalmap_factor = clamp((v_distance_to_camera - u_globalmap_blend_start)
-		 * u_globalmap_blend_distance, 0.0, 1.0);
-	globalmap_factor *= globalmap_factor; // slower start, faster transition but far away
-	vec3 global_albedo = texture(u_terrain_globalmap, UV).rgb;
-	ALBEDO = global_albedo;
-	if (globalmap_factor < 1.0) {
-		vec4 high_indices;
-		vec4 high_weights;
-		get_splat_weights(UV, high_indices, high_weights);
-		vec4 ab0, ab1, ab2, ab3;
-		vec4 nr0, nr1, nr2, nr3;
-		if (u_tile_reduction) {
-			ab0 = texture_array_antitile(
-				u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
-				vec3(v_ground_uv.xz, high_indices.x), nr0);
-			ab1 = texture_array_antitile(
-				u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
-				vec3(v_ground_uv.xz, high_indices.y), nr1);
-			ab2 = texture_array_antitile(
-				u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
-				vec3(v_ground_uv.xz, high_indices.z), nr2);
-			ab3 = texture_array_antitile(
-				u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
-				vec3(v_ground_uv.xz, high_indices.w), nr3);
-		} else {
-			ab0 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.x));
-			ab1 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.y));
-			ab2 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.z));
-			ab3 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.w));
-			nr0 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.x));
-			nr1 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.y));
-			nr2 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.z));
-			nr3 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.w));
-		}
-		vec3 col0 = ab0.rgb * v_tint;
-		vec3 col1 = ab1.rgb * v_tint;
-		vec3 col2 = ab2.rgb * v_tint;
-		vec3 col3 = ab3.rgb * v_tint;
-		vec4 rough = vec4(nr0.a, nr1.a, nr2.a, nr3.a);
-		vec3 normal0 = unpack_normal(nr0);
-		vec3 normal1 = unpack_normal(nr1);
-		vec3 normal2 = unpack_normal(nr2);
-		vec3 normal3 = unpack_normal(nr3);
-		vec4 w;
-		// TODO An #ifdef macro would be nice! Or copy/paste everything in a different shader...
-		if (u_depth_blending) {
-			w = get_depth_blended_weights(high_weights, vec4(ab0.a, ab1.a, ab2.a, ab3.a));
-		} else {
-			w = high_weights;
-		}
-		float w_sum = (w.r + w.g + w.b + w.a);
-		ALBEDO = (
-			w.r * col0.rgb +
-			w.g * col1.rgb +
-			w.b * col2.rgb +
-			w.a * col3.rgb) / w_sum;
-
-		ROUGHNESS = (
-			w.r * rough.r +
-			w.g * rough.g +
-			w.b * rough.b +
-			w.a * rough.a) / w_sum;
-
-		vec3 ground_normal = /*u_terrain_normal_basis **/ (
-			w.r * normal0 +
-			w.g * normal1 +
-			w.b * normal2 +
-			w.a * normal3) / w_sum;
-		normal = normalize(vec3(
-			terrain_normal_world.x + ground_normal.x,
-			terrain_normal_world.y,
-			terrain_normal_world.z + ground_normal.z));
-		normal = mix(normal, terrain_normal_world, globalmap_factor);
-		ALBEDO = mix(ALBEDO, global_albedo, globalmap_factor);
-		ROUGHNESS = mix(ROUGHNESS, 1.0, globalmap_factor);
-	}
-
-	NORMAL = (VIEW_MATRIX * (vec4(terrain_normal_world, 0.0))).xyz;
 	vec2 uv2 = (INV_VIEW_MATRIX  * vec4(VERTEX, 1.0)).xz;
 	vec2 uv = uv2 * InverseFogDimensions - vec2(0.5);
-	vec4 color = blur(uv,1.0);
-	ALBEDO = mix(ALBEDO,color.rgb,color.a);
-	SPECULAR = clamp(1.0-color.a,0.0,0.5);
-	if (color.a != 1.0){
-		for (int i = 0; i < CreepCount; i++){
-			vec3 creepPos = CreepData[i];
-			vec2 d = creepPos.xy - uv2;
-			d *= d;
-			float dist = d.x + d.y;
-			float r = creepPos.z * creepPos.z;
-			if (dist < r){
-				float Step =  smoothstep(1.0,0.2,dist/r);
-				float step2 = smoothstep(FogExploredColor.a,0.7,color.a);
-				float alpha = mix(1.0 - step2,0.0,min(1.0,texture(Noise,uv2*0.04 + sin(TIME)*0.01).r*1.6));
-				
-				ALBEDO = mix(ALBEDO,texture(CreepTexture,uv2*0.1).rgb,min(Step,alpha));
+	vec4 color = blur(uv,2.0,InverseFogDimensions,FogDataLocal);
+	if (color.a < 1.0){
+	
+		vec3 terrain_normal_world = 
+			u_terrain_normal_basis * (unpack_normal(texture(u_terrain_normalmap, UV)));
+		terrain_normal_world = normalize(terrain_normal_world);
+		vec3 normal = terrain_normal_world;
+		float globalmap_factor = clamp((v_distance_to_camera - u_globalmap_blend_start)
+			 * u_globalmap_blend_distance, 0.0, 1.0);
+		globalmap_factor *= globalmap_factor; // slower start, faster transition but far away
+		vec3 global_albedo = texture(u_terrain_globalmap, UV).rgb;
+		ALBEDO = global_albedo;
+		if (globalmap_factor < 1.0) {
+			vec4 high_indices;
+			vec4 high_weights;
+			get_splat_weights(UV, high_indices, high_weights);
+			vec4 ab0, ab1, ab2, ab3;
+			vec4 nr0, nr1, nr2, nr3;
+			if (u_tile_reduction) {
+				ab0 = texture_array_antitile(
+					u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
+					vec3(v_ground_uv.xz, high_indices.x), nr0);
+				ab1 = texture_array_antitile(
+					u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
+					vec3(v_ground_uv.xz, high_indices.y), nr1);
+				ab2 = texture_array_antitile(
+					u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
+					vec3(v_ground_uv.xz, high_indices.z), nr2);
+				ab3 = texture_array_antitile(
+					u_ground_albedo_bump_array, u_ground_normal_roughness_array, 
+					vec3(v_ground_uv.xz, high_indices.w), nr3);
+			} else {
+				ab0 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.x));
+				ab1 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.y));
+				ab2 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.z));
+				ab3 = texture(u_ground_albedo_bump_array, vec3(v_ground_uv.xz, high_indices.w));
+				nr0 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.x));
+				nr1 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.y));
+				nr2 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.z));
+				nr3 = texture(u_ground_normal_roughness_array, vec3(v_ground_uv.xz, high_indices.w));
 			}
+			vec3 col0 = ab0.rgb * v_tint;
+			vec3 col1 = ab1.rgb * v_tint;
+			vec3 col2 = ab2.rgb * v_tint;
+			vec3 col3 = ab3.rgb * v_tint;
+			vec4 rough = vec4(nr0.a, nr1.a, nr2.a, nr3.a);
+			vec3 normal0 = unpack_normal(nr0);
+			vec3 normal1 = unpack_normal(nr1);
+			vec3 normal2 = unpack_normal(nr2);
+			vec3 normal3 = unpack_normal(nr3);
+			vec4 w;
+			// TODO An #ifdef macro would be nice! Or copy/paste everything in a different shader...
+			if (u_depth_blending) {
+				w = get_depth_blended_weights(high_weights, vec4(ab0.a, ab1.a, ab2.a, ab3.a));
+			} else {
+				w = high_weights;
+			}
+			float w_sum = (w.r + w.g + w.b + w.a);
+			ALBEDO = (
+				w.r * col0.rgb +
+				w.g * col1.rgb +
+				w.b * col2.rgb +
+				w.a * col3.rgb) / w_sum;
+
+			ROUGHNESS = (
+				w.r * rough.r +
+				w.g * rough.g +
+				w.b * rough.b +
+				w.a * rough.a) / w_sum;
+
+			vec3 ground_normal = /*u_terrain_normal_basis **/ (
+				w.r * normal0 +
+				w.g * normal1 +
+				w.b * normal2 +
+				w.a * normal3) / w_sum;
+			normal = normalize(vec3(
+				terrain_normal_world.x + ground_normal.x,
+				terrain_normal_world.y,
+				terrain_normal_world.z + ground_normal.z));
+			normal = mix(normal, terrain_normal_world, globalmap_factor);
+			ALBEDO = mix(ALBEDO, global_albedo, globalmap_factor);
+			ROUGHNESS = mix(ROUGHNESS, 1.0, globalmap_factor);
 		}
+		vec4 sample = texture(CreepData,uv);
+		float alpha = min(sample.a,blur(uv,2.0,InverseFogDimensions,CreepData).a * (snoise(vec3(uv2 * 0.1,TIME*0.1)) + 1.0) * 0.5);
+		ALBEDO = mix(ALBEDO,texture(CreepTexture,uv2 * 0.1).rgb,alpha * sample.g);
+		NORMAL = (VIEW_MATRIX * (vec4(terrain_normal_world, 0.0))).xyz;
+		ALBEDO = mix(ALBEDO,color.rgb,color.a);
+		SPECULAR = clamp(1.0-color.a,0.0,0.5);
+	}else{
+		ALBEDO = color.rgb;
+		SPECULAR = 0.0;
 	}
 }
