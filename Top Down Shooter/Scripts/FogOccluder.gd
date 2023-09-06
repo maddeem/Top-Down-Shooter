@@ -1,6 +1,12 @@
+@tool
 extends Node3D
 class_name VisionBlocker
-const FOLDER_PATH = "res://Assets/OccluderTextures/"
+const FOLDER_PATH = "res://Assets/PathingTextures/"
+@onready var debug = $MeshInstance3D
+@export var disabled := false:
+	set(value):
+		disabled = value
+		add_to_group("UpdateOccluders")
 @export_range(0,255) var Occlusion_Height : float = 1.0:
 	set(value):
 		Occlusion_Height = value
@@ -10,6 +16,14 @@ const FOLDER_PATH = "res://Assets/OccluderTextures/"
 @export_file("*.tga") var Occluder_Texture = FOLDER_PATH:
 	set(value):
 		Occluder_Texture = value
+		if Last_Rotation == null:
+			return
+		var img : Image = load(Occluder_Texture).get_image()
+		img = img.duplicate()
+		img.decompress()
+		if debug:
+			debug.get_surface_override_material(0).albedo_texture = load(Occluder_Texture)
+			debug.scale = Vector3(img.get_width(),1,img.get_height())*0.25
 		if _last_Y != null:
 			add_to_group("UpdateOccluders")
 		if value == FOLDER_PATH or value == null:
@@ -17,26 +31,27 @@ const FOLDER_PATH = "res://Assets/OccluderTextures/"
 			return
 		else:
 			if Cache.exists("occluders",Occluder_Texture):
-				Occlusion_Points = Cache.read_from("occluders",Occluder_Texture)
+				Occlusion_Points = Cache.read_from("occluders",Occluder_Texture+str(Last_Rotation))
 				return
 		#This is expensive for larger textures, so we cache the results. The caching
 		#Is done at run time, but I can look into making the cache be part of the loading
 		#phase
 		Occlusion_Points = []
-		var img : Image = load(Occluder_Texture).get_image()
-		img.decompress()
+		for i in Last_Rotation:
+			img.rotate_90(COUNTERCLOCKWISE)
 		var size = Vector2i(img.get_width(),img.get_height())
 		var half = size/2
 		for x in size.x:
 			for y in size.y:
 				if img.get_pixel(x,y).a != 0:
 					Occlusion_Points.append((Vector2i(x,y)-half))
-		Cache.write_to("occluders",Occluder_Texture,Occlusion_Points)
+		Cache.write_to("occluders",Occluder_Texture+str(Last_Rotation),Occlusion_Points)
 
 ## Automatically generated from the Occluder texture. Do not modify unless you know what you are doing.
 @export var Occlusion_Points = []
 var Last_Points_Modified = []
 var Last_Position
+var Last_Rotation
 var Adjusted_Occlusion_Height : Color
 var Previous_Occlusion_Height
 var _last_Y
@@ -67,3 +82,7 @@ func _notification(what: int) -> void:
 		if _last_Y != global_position.y:
 			_last_Y = global_position.y
 			_update_occlusion_height()
+		var cur_angle = wrapi(round(global_rotation_degrees.y/90)+1,0,4)
+		if Last_Rotation != cur_angle:
+			Last_Rotation = cur_angle
+			Occluder_Texture = Occluder_Texture

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dineqjit24le1"
+path="res://.godot/imported/InnerCorner1.obj-d42afd23e7866c28c6a61a611948969f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/InnerCorner1.obj-d42afd23e7866c28c6a61a611948969f.mesh"]
+
+source_file="res://Assets/Models/Cliffs/InnerCorner1.obj"
+dest_files=["res://.godot/imported/InnerCorner1.obj-d42afd23e7866c28c6a61a611948969f.mesh", "res://.godot/imported/InnerCorner1.obj-d42afd23e7866c28c6a61a611948969f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

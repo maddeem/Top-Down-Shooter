@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dhhrx81q5vei"
-path.s3tc="res://.godot/imported/ScifiTexturePack.png-0479ced59a2f913de133fc88e5cbb900.s3tc.ctex"
+path="res://.godot/imported/ScifiTexturePack.png-0479ced59a2f913de133fc88e5cbb900.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Assets/Textures/ScifiTexturePack.png"
-dest_files=["res://.godot/imported/ScifiTexturePack.png-0479ced59a2f913de133fc88e5cbb900.s3tc.ctex"]
+dest_files=["res://.godot/imported/ScifiTexturePack.png-0479ced59a2f913de133fc88e5cbb900.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

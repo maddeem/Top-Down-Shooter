@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bxeyr0cj5yhoi"
+path="res://.godot/imported/OuterCorner1.obj-936798ce78c588c3f0113a2045c342da.mesh"
+
+[deps]
+
+files=["res://.godot/imported/OuterCorner1.obj-936798ce78c588c3f0113a2045c342da.mesh"]
+
+source_file="res://Assets/Models/Cliffs/OuterCorner1.obj"
+dest_files=["res://.godot/imported/OuterCorner1.obj-936798ce78c588c3f0113a2045c342da.mesh", "res://.godot/imported/OuterCorner1.obj-936798ce78c588c3f0113a2045c342da.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://cal3kpbv5m8ka"]
+
+[ext_resource type="PackedScene" uid="uid://bqo6ytcy8t33p" path="res://Scenes/cliff.tscn" id="1_uxp21"]
+[ext_resource type="ArrayMesh" uid="uid://bxeyr0cj5yhoi" path="res://Assets/Models/Cliffs/OuterCorner1.obj" id="2_ngyi4"]
+[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_yu4ia"]
+[ext_resource type="Material" uid="uid://bcmbjpws2kjvi" path="res://Materials/SolidUnshaded.tres" id="4_71j6h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tbobo"]
+size = Vector3(0.5, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bkefg"]
+size = Vector3(0.5, 6, 0.5)
+
+[node name="Cliff_Corner_Outer" instance=ExtResource("1_uxp21")]
+mesh = ExtResource("2_ngyi4")
+surface_material_override/0 = ExtResource("3_yu4ia")
+surface_material_override/1 = ExtResource("4_71j6h")
+
+[node name="VisionBlocker" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.1, 0.5)
+Occluder_Texture = "res://Assets/PathingTextures/Unwalk4x4.tga"
+Occlusion_Points = [Vector2i(-2, -2), Vector2i(-2, -1), Vector2i(-2, 0), Vector2i(-2, 1), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -2), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]
+
+[node name="PathingBlocker" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
+Blocker_Texture = "res://Assets/PathingTextures/Unwalk4x4.tga"
+Block_Points = [Vector2i(-2, -2), Vector2i(-2, -1), Vector2i(-2, 0), Vector2i(-2, 1), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -2), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.25, 3, 0.5)
+shape = SubResource("BoxShape3D_tbobo")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" index="1"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.75, 3, 0.25)
+shape = SubResource("BoxShape3D_bkefg")

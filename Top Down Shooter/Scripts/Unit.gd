@@ -21,12 +21,13 @@ func set_path(p : PackedVector2Array):
 	_path_ind = 0
 	_path = p
 	var size = _path.size()
-	_path.pop_front()
+	if size > 0:
+		_path.pop_front()
+		size -= 1
 	if size == 0:
 		_path = null
 		return
 	
-
 func set_path_target(target : Vector2):
 	Globals.NavigationRegion.unit_threaded_path(self,Vector2(position.x,position.z),target)
 
@@ -77,20 +78,19 @@ func _push_away():
 
 
 func _physics_process(delta):
-	super._physics_process(delta)
+	_push_away()
+	push = Vector3.ZERO
+	if not is_on_floor():
+		velocity.y -= Globals.Gravity * delta
 	if multiplayer.is_server():
-		if not is_on_floor():
-			velocity.y -= Globals.Gravity * delta
 		var dir = _get_path_dir(delta)
-		_push_away()
 		if dir != Vector2.ZERO and _is_facing_correctly(delta,dir):
 			velocity.x += dir.x * Speed
 			velocity.z += dir.y * Speed
 		if velocity.is_equal_approx(Vector3.ZERO):
 			_prev_data = null
-			return
-		move_and_slide()
-		push = Vector3.ZERO
+	move_and_slide()
+	super._physics_process(delta)
 
 
 func _on_area_3d_body_entered(body):

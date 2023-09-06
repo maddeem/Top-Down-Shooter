@@ -1,19 +1,27 @@
-[gd_scene load_steps=17 format=3 uid="uid://b81f7fkpb7eqn"]
+[gd_scene load_steps=71 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
 [ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_etb36"]
 [ext_resource type="PackedScene" uid="uid://bdx7sn0fuds8d" path="res://Scenes/CreepHandler.tscn" id="2_s3v4m"]
 [ext_resource type="PackedScene" uid="uid://djov7wgd3gdcm" path="res://Scenes/navigation_region.tscn" id="7_4o52j"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="7_8x5y8"]
+[ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="9_8c8ae"]
 [ext_resource type="Resource" path="res://TerrainData/data.hterrain" id="9_a3mi6"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain2.gdshader" id="9_d3p0c"]
+[ext_resource type="PackedScene" uid="uid://bv6ccdnowub4p" path="res://Editables/Widgets/Destructables/Barrel.tscn" id="10_4ghog"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="10_hkixo"]
-[ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="11_gumr7"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="11_ig5vs"]
 [ext_resource type="PackedScene" uid="uid://cbcxx5xri533q" path="res://Scenes/Editor/player_spawner.tscn" id="12_0qpk4"]
 [ext_resource type="PackedScene" uid="uid://2x8kxuxllqhx" path="res://Editables/Widgets/Units/test.tscn" id="12_jk35b"]
-[ext_resource type="PackedScene" uid="uid://chlh077chdnfl" path="res://Scenes/creep_spawner.tscn" id="13_8lu1q"]
 [ext_resource type="PackedScene" uid="uid://dkjoaboj78bim" path="res://Editables/Widgets/Items/FirstAidKit.tscn" id="13_x1j02"]
+[ext_resource type="Texture2D" uid="uid://dhhrx81q5vei" path="res://Assets/Textures/ScifiTexturePack.png" id="14_2carf"]
+[ext_resource type="PackedScene" uid="uid://c7y8hvtwgcahf" path="res://Editables/Cliffs/cliff_corner.tscn" id="14_av43x"]
+[ext_resource type="PackedScene" uid="uid://cal3kpbv5m8ka" path="res://Editables/Cliffs/cliff_corner_outer.tscn" id="14_jicqe"]
+[ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="15_0jdes"]
+[ext_resource type="PackedScene" uid="uid://cj81g07vd40qr" path="res://Editables/Cliffs/cliff_straight.tscn" id="15_bv1i0"]
+[ext_resource type="PackedScene" uid="uid://dmlgk4ho82u4w" path="res://Editables/Cliffs/CliffDarknessFlat.tscn" id="16_f5214"]
+[ext_resource type="PackedScene" uid="uid://co0ymn02epk7" path="res://Editables/Cliffs/CliffDarknessSquare.tscn" id="19_dh7fu"]
+[ext_resource type="PackedScene" uid="uid://cfpa5g1giuu56" path="res://Editables/Widgets/Destructables/Hatch.tscn" id="20_vs4ky"]
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
 script/source = "extends Label
@@ -26,6 +34,397 @@ func _process(_delta):
 script = ExtResource("10_hkixo")
 mode = 1
 textures = [[ExtResource("11_ig5vs")], [null]]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23w7t"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1s643"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_23w7t")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhwpt"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kbp8k"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_vhwpt")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1fvk7"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_so66o"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_1fvk7")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ngws"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qn575"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_7ngws")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_50yqm"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hm0bm"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_50yqm")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ttrob"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_doatl"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_ttrob")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bg805"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uo3c7"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_bg805")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qughy"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqr20"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_qughy")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_114w4"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3puw"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_114w4")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_to7x2"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w5ge0"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_to7x2")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k7fd0"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ylyjj"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_k7fd0")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_75cpy"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bl5jj"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_75cpy")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h3uut"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8p1ov"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_h3uut")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gvoi6"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1fecv"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_gvoi6")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cb0lg"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxktw"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_cb0lg")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkv61"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_parjd"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_jkv61")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_013kk"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llcy0"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_013kk")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sdpyq"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c23dw"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_sdpyq")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7crye"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2mbme"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_7crye")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ug8q8"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_poi6g"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_ug8q8")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mplsw"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7rd8"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_mplsw")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ff8qr"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2c6ik"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_ff8qr")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_av7jm"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2gv4i"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_av7jm")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_etb36")
@@ -50,69 +449,252 @@ script = SubResource("GDScript_5cfjs")
 [node name="NavigationRegion" parent="." instance=ExtResource("7_4o52j")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.878892, 0.477021, 0, -0.477021, -0.878892, 0, 34.2096, -50.9579)
+transform = Transform3D(-1, 8.74228e-08, -1.04251e-15, 0, 1.19249e-08, 1, 8.74228e-08, 1, -1.19249e-08, 0, 34.2096, -50.9579)
+visible = false
+light_color = Color(0.54902, 0.552941, 0.627451, 1)
 shadow_enabled = true
-shadow_blur = 1.5
-directional_shadow_split_2 = 0.321
-directional_shadow_split_3 = 0.3
+shadow_bias = 0.05
+shadow_normal_bias = 10.0
+shadow_blur = 0.346
+directional_shadow_mode = 0
+directional_shadow_split_2 = 0.1
+directional_shadow_split_3 = 0.12
 directional_shadow_blend_splits = true
-
-[node name="Crate8" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -18)
-
-[node name="Crate9" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -20)
-
-[node name="Crate10" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -22)
-
-[node name="Crate11" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -18)
-
-[node name="Crate12" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -20)
-
-[node name="Crate13" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -22)
-
-[node name="Crate14" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -30)
-
-[node name="Crate15" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -26)
-
-[node name="Crate16" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -28)
-
-[node name="Crate17" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -24)
-
-[node name="Crate18" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -26)
-
-[node name="Crate19" parent="." instance=ExtResource("11_gumr7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -30)
-
-[node name="First Aid Kit" parent="." instance=ExtResource("13_x1j02")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.1358, 0.000484467, -37.5006)
-decay_time = 0.1
-
-[node name="test8" parent="." instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.7835, 1.36339, -31.584)
-
-[node name="CreepSpawner" parent="test8" instance=ExtResource("13_8lu1q")]
-grow_per_tick = 2
+directional_shadow_fade_start = 1.0
+directional_shadow_max_distance = 59.0
+directional_shadow_pancake_size = 0.0
 
 [node name="Player Spawner" parent="." instance=ExtResource("12_0qpk4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.3375, 1, -39.0777)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3375, 1, -39.0777)
 
 [node name="Player Spawner2" parent="." instance=ExtResource("12_0qpk4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3905, 1, -39.0777)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3905, 1, -39.0777)
 
 [node name="Player Spawner3" parent="." instance=ExtResource("12_0qpk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.21023, 1, -39.0777)
 
 [node name="Widgets" type="Node3D" parent="."]
+
+[node name="test" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -43)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test"]
+
+[node name="test2" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -43)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test2"]
+
+[node name="test3" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -43)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test3"]
+
+[node name="test4" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -44)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test4"]
+
+[node name="test5" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -44)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test5"]
+
+[node name="test6" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -44)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test6"]
+
+[node name="test7" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -45)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test7"]
+
+[node name="test8" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -45)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test8"]
+
+[node name="test9" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -45)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test9"]
+
+[node name="test10" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -46)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test10"]
+
+[node name="test11" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -46)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test11"]
+
+[node name="test12" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -46)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test12"]
+
+[node name="test13" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -47)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test13"]
+
+[node name="test14" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -47)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test14"]
+
+[node name="test15" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -47)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test15"]
+
+[node name="test16" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -48)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test16"]
+
+[node name="test17" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -48)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test17"]
+
+[node name="test18" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -48)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test18"]
+
+[node name="test19" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -49)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test19"]
+
+[node name="test20" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -49)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test20"]
+
+[node name="test21" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -49)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test21"]
+
+[node name="test22" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -50)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test22"]
+
+[node name="test23" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -50)
+player_owner = 1
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test23"]
+
+[node name="test24" parent="Widgets" instance=ExtResource("12_jk35b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -50)
+player_owner = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test24"]
+
+[node name="Crate" parent="Widgets" instance=ExtResource("9_8c8ae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -50)
+max_health = null
+health = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
+[node name="Crate4" parent="Widgets" instance=ExtResource("9_8c8ae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -48)
+max_health = null
+health = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
+[node name="Crate5" parent="Widgets" instance=ExtResource("9_8c8ae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -46)
+max_health = null
+health = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
+[node name="Crate2" parent="Widgets" instance=ExtResource("9_8c8ae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -50)
+max_health = null
+health = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
+[node name="Crate3" parent="Widgets" instance=ExtResource("9_8c8ae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2, -50)
+max_health = null
+health = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
+[node name="Barrel" parent="Widgets" instance=ExtResource("10_4ghog")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, -49.5)
+max_health = null
+health = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
+[node name="Hatch" parent="Widgets" instance=ExtResource("20_vs4ky")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, -32)
+
+[node name="First Aid Kit" parent="Widgets" instance=ExtResource("13_x1j02")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -50)
+max_health = null
+health = null
+death_time = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
+[node name="First Aid Kit2" parent="Widgets" instance=ExtResource("13_x1j02")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -50)
+max_health = null
+health = null
+death_time = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
 
 [node name="HTerrain" type="Node3D" parent="."]
 script = ExtResource("7_8x5y8")
@@ -134,3 +716,122 @@ shader_params/u_depth_blending = true
 shader_params/u_globalmap_blend_start = null
 shader_params/u_globalmap_blend_distance = null
 shader_params/u_tile_reduction = null
+
+[node name="Cliffs" type="Node3D" parent="."]
+
+[node name="Cliff_Corner" parent="Cliffs" instance=ExtResource("14_av43x")]
+transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -9, 0, -47)
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_1s643")
+
+[node name="Cliff_Corner2" parent="Cliffs" instance=ExtResource("14_av43x")]
+transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, -1, 0, -47)
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_kbp8k")
+
+[node name="Cliff_Corner3" parent="Cliffs" instance=ExtResource("14_av43x")]
+transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, 3, 0, -13)
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_so66o")
+
+[node name="Cliff_Corner6" parent="Cliffs" instance=ExtResource("14_av43x")]
+transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -21, 0, -21)
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_qn575")
+
+[node name="Cliff_Corner4" parent="Cliffs" instance=ExtResource("14_av43x")]
+transform = Transform3D(5.24537e-07, 0, 4, 0, 4, 0, -4, 0, 5.24537e-07, 3, 0, -13)
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_hm0bm")
+
+[node name="Cliff_Corner5" parent="Cliffs" instance=ExtResource("14_av43x")]
+transform = Transform3D(4, 0, -6.99382e-07, 0, 4, 0, 6.99382e-07, 0, 4, -21, 0, -13)
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_doatl")
+
+[node name="Cliff_Straight2" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(5.24537e-07, 0, -4, 0, 4, 0, 4, 0, 5.24537e-07, -5, 0, -47)
+surface_material_override/0 = SubResource("StandardMaterial3D_uo3c7")
+
+[node name="Cliff_Straight9" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -1, 0, -13)
+surface_material_override/0 = SubResource("StandardMaterial3D_pqr20")
+
+[node name="Cliff_Straight10" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -9, 0, -13)
+surface_material_override/0 = SubResource("StandardMaterial3D_x3puw")
+
+[node name="Cliff_Straight11" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -17, 0, -13)
+surface_material_override/0 = SubResource("StandardMaterial3D_w5ge0")
+
+[node name="Cliff_Straight12" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(1.22392e-06, 0, -4, 0, 4, 0, 4, 0, 1.22392e-06, -17, 0, -13)
+surface_material_override/0 = SubResource("StandardMaterial3D_ylyjj")
+
+[node name="Cliff_Straight14" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-4, 0, -1.04907e-06, 0, 4, 0, 1.04907e-06, 0, -4, -25, 0, -21)
+surface_material_override/0 = SubResource("StandardMaterial3D_bl5jj")
+
+[node name="Cliff_Straight3" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -43)
+surface_material_override/0 = SubResource("StandardMaterial3D_8p1ov")
+
+[node name="Cliff_Straight8" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -5, 0, -25)
+surface_material_override/0 = SubResource("StandardMaterial3D_1fecv")
+
+[node name="Cliff_Straight13" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -21, 0, -17)
+surface_material_override/0 = SubResource("StandardMaterial3D_xxktw")
+
+[node name="Cliff_Straight5" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -35)
+surface_material_override/0 = SubResource("StandardMaterial3D_parjd")
+
+[node name="Cliff_Straight4" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -1, 0, -43)
+surface_material_override/0 = SubResource("StandardMaterial3D_llcy0")
+
+[node name="Cliff_Straight7" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -5, 0, -25)
+surface_material_override/0 = SubResource("StandardMaterial3D_c23dw")
+
+[node name="Cliff_Straight6" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -1, 0, -35)
+surface_material_override/0 = SubResource("StandardMaterial3D_2mbme")
+
+[node name="Cliff_Corner_Outer2" parent="Cliffs" instance=ExtResource("14_jicqe")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -33)
+surface_material_override/0 = SubResource("StandardMaterial3D_poi6g")
+
+[node name="Cliff_Corner_Outer4" parent="Cliffs" instance=ExtResource("14_jicqe")]
+transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -9, 0, -17)
+surface_material_override/0 = SubResource("StandardMaterial3D_l7rd8")
+
+[node name="Cliff_Corner_Outer5" parent="Cliffs" instance=ExtResource("14_jicqe")]
+transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, -1, 0, -17)
+surface_material_override/0 = SubResource("StandardMaterial3D_2c6ik")
+
+[node name="Cliff_Corner_Outer3" parent="Cliffs" instance=ExtResource("14_jicqe")]
+transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, -1, 0, -33)
+surface_material_override/0 = SubResource("StandardMaterial3D_2gv4i")
+
+[node name="CliffDarkness2" parent="Cliffs" instance=ExtResource("16_f5214")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -14, 2, -31)
+skeleton = NodePath("../..")
+
+[node name="CliffDarkness" parent="Cliffs" instance=ExtResource("16_f5214")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 4, 2, -31)
+skeleton = NodePath("../..")
+
+[node name="CliffDarkness3" parent="Cliffs" instance=ExtResource("19_dh7fu")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -20, 2, -26)
+skeleton = NodePath("../..")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5, 14, -42)
+light_energy = 10.026
+shadow_enabled = true
+spot_range = 25.0
+spot_angle = 54.5131

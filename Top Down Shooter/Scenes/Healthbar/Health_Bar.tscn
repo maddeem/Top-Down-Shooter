@@ -5,7 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://bwd4vskb1xhr2" path="res://Scenes/Healthbar/GreenBar.png" id="3_ouxo6"]
 
 [node name="Health Bar" type="Sprite3D"]
+cast_shadow = 0
 billboard = 1
+transparent = false
 double_sided = false
 texture = ExtResource("3_ouxo6")
 script = ExtResource("1_idky8")

@@ -188,19 +188,20 @@ func _update_fog() -> void:
 			if occluder.Previous_Occlusion_Height >= _occluder_map[point.x][point.y]:
 				_occluder_map[point.x][point.y] = 0
 				update_pixels[point] = Color(0,0,0,0)
-		var offset : Vector2i = occluder.Last_Position + Dimensions
-		occluder.Last_Points_Modified = []
-		for point in occluder.Occlusion_Points:
-			#Clamp the values so they do not exceed our array
-			point = (point + offset).clamp(Vector2i.ZERO,_clamp_max)
-			#Add the new point to our modified memory, so we can remove
-			#modified points if the occluder is removed or moves
-			occluder.Last_Points_Modified.append(point)
-			#Update the occluder map
-			if occluder.Occlusion_Height >= _occluder_map[point.x][point.y]:
-				occluder.Previous_Occlusion_Height = occluder.Occlusion_Height
-				_occluder_map[point.x][point.y] = occluder.Occlusion_Height
-				update_pixels[point] = occluder.Adjusted_Occlusion_Height
+		if not occluder.disabled:
+			var offset : Vector2i = occluder.Last_Position + Dimensions
+			occluder.Last_Points_Modified = []
+			for point in occluder.Occlusion_Points:
+				#Clamp the values so they do not exceed our array
+				point = (point + offset).clamp(Vector2i.ZERO,_clamp_max)
+				#Add the new point to our modified memory, so we can remove
+				#modified points if the occluder is removed or moves
+				occluder.Last_Points_Modified.append(point)
+				#Update the occluder map
+				if occluder.Occlusion_Height >= _occluder_map[point.x][point.y]:
+					occluder.Previous_Occlusion_Height = occluder.Occlusion_Height
+					_occluder_map[point.x][point.y] = occluder.Occlusion_Height
+					update_pixels[point] = occluder.Adjusted_Occlusion_Height
 
 			#Add this pixel to a dictionary via the vect2, which prevents duplicate entries
 	#Update our bitmap with whatever pixels we need to change

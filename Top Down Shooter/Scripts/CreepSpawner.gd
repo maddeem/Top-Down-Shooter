@@ -31,7 +31,6 @@ func _process(delta):
 func _ready():
 	radius = radius
 	set_notify_transform(true)
-	_notification(NOTIFICATION_TRANSFORM_CHANGED)
 	next_points.append(Last_Position)
 
 func is_point_valid(point : Vector2):
@@ -60,7 +59,7 @@ func grow():
 func kill():
 	dying = true
 
-var Last_Position := Vector2.ZERO
+@onready var Last_Position := Vector2(global_position.x,global_position.z).round()
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
 		var cur_pos = Vector2(global_position.x,global_position.z).round()

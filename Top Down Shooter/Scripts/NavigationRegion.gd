@@ -70,12 +70,13 @@ func _process(_delta):
 					disable_weight.erase(point)
 					astar.set_point_solid(point,false)
 		blocker.Last_Points_Modified = []
-		var pos = blocker.Last_Position
-		for point in blocker.Block_Points:
-			var adjusted = pos + point + Vector2i(size)
-			if disable_weight.has(adjusted):
-				disable_weight[adjusted] += 1
-			else:
-				disable_weight[adjusted] = 1
-				astar.set_point_solid(adjusted,true)
-			blocker.Last_Points_Modified.append(adjusted)
+		if not blocker.disabled:
+			var pos = blocker.Last_Position
+			for point in blocker.Block_Points:
+				var adjusted = pos + point + Vector2i(size)
+				if disable_weight.has(adjusted):
+					disable_weight[adjusted] += 1
+				else:
+					disable_weight[adjusted] = 1
+					astar.set_point_solid(adjusted,true)
+				blocker.Last_Points_Modified.append(adjusted)

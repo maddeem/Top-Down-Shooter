@@ -1,15 +1,21 @@
-[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dicwd68pxutsr"]
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://dicwd68pxutsr"]
 
 [ext_resource type="Texture2D" uid="uid://dhhrx81q5vei" path="res://Assets/Textures/ScifiTexturePack.png" id="1_ph486"]
-[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="2_rw8mb"]
+[ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="2_my324"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ck1n"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_my324")
+shader_parameter/color_override = Color(1, 1, 1, 0)
 
 [resource]
 resource_local_to_scene = true
-next_pass = ExtResource("2_rw8mb")
+next_pass = SubResource("ShaderMaterial_0ck1n")
 shading_mode = 2
-diffuse_mode = 3
-vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("1_ph486")
-metallic = 0.55
-roughness = 0.45
+metallic = 0.39
 emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true

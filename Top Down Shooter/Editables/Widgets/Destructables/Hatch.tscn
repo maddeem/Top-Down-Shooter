@@ -1,0 +1,251 @@
+[gd_scene load_steps=20 format=3 uid="uid://cfpa5g1giuu56"]
+
+[ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_y4rx8"]
+[ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/VisionBlocker.tscn" id="2_g0exo"]
+[ext_resource type="Script" path="res://Scripts/Hatch.gd" id="2_qfby8"]
+[ext_resource type="PackedScene" uid="uid://dsk0kkoq71ca5" path="res://Assets/Models/Cliffs/cliff_hatch.glb" id="2_vqm7b"]
+[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="3_r40ef"]
+[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_sgmlr"]
+[ext_resource type="Material" uid="uid://bcmbjpws2kjvi" path="res://Materials/SolidUnshaded.tres" id="5_orc6o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dvyb0"]
+size = Vector3(1.2, 13.9993, 8)
+
+[sub_resource type="Animation" id="Animation_q3ega"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/cliff_hatch/MeshR:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/cliff_hatch/MeshL:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/cliff_hatch/MeshR:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Model/cliff_hatch/MeshL:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2f16a"]
+resource_name = "damaged"
+length = 0.35
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/cliff_hatch/MeshR:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.35),
+"transitions": PackedFloat32Array(2.73208, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 0.258824), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.35),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.0523599, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/cliff_hatch/MeshL:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.35),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.0523599, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0mskq"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/cliff_hatch/MeshR:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(-4, 1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 0), Vector3(0.66, 0, -1.2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/cliff_hatch/MeshL:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(-4, 1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 0), Vector3(0.66, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ktmlv"]
+resource_name = "decay"
+
+[sub_resource type="Animation" id="Animation_y3cnk"]
+resource_name = "stand"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_viu7e"]
+_data = {
+"RESET": SubResource("Animation_q3ega"),
+"damaged": SubResource("Animation_2f16a"),
+"death": SubResource("Animation_0mskq"),
+"decay": SubResource("Animation_ktmlv"),
+"stand": SubResource("Animation_y3cnk")
+}
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m0spl"]
+load_path = "res://.godot/imported/ScifiTexturePack.png-0479ced59a2f913de133fc88e5cbb900.ctex"
+
+[sub_resource type="Shader" id="Shader_fco6a"]
+code = "shader_type spatial;
+#include \"res://Materials/Shaders/Blur.gdshaderinc\"
+render_mode unshaded;
+global uniform sampler2D FogDataLocal : filter_linear_mipmap_anisotropic;
+global uniform vec2 InverseFogDimensions;
+global uniform vec4 FogExploredColor;
+uniform vec4 color_override : source_color = vec4(0);
+
+void fragment() {
+	vec2 uv = (INV_VIEW_MATRIX  * vec4(VERTEX, 1.0)).xz * InverseFogDimensions - vec2(0.5);
+	vec4 color = blur(uv,1.0,InverseFogDimensions,FogDataLocal);
+    vec4 finalColor = mix(color_override,color,smoothstep(FogExploredColor.a,color_override.a,min(1.0,color.a + FogExploredColor.a)));
+
+    ALBEDO = finalColor.rgb;
+    ALPHA = finalColor.a;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s8ygx"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_fco6a")
+shader_parameter/color_override = Color(0, 0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fyet0"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_s8ygx")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = SubResource("CompressedTexture2D_m0spl")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8cuqj"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_s8ygx")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = SubResource("CompressedTexture2D_m0spl")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[node name="Hatch" instance=ExtResource("1_y4rx8")]
+script = ExtResource("2_qfby8")
+remove_on_decay = false
+
+[node name="VisionBlocker" parent="." index="0" instance=ExtResource("2_g0exo")]
+Occlusion_Height = 1.5
+Occluder_Texture = "res://Assets/PathingTextures/hatch.tga"
+Occlusion_Points = [Vector2i(-1, -4), Vector2i(-1, -3), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(-1, 2), Vector2i(-1, 3), Vector2i(0, -4), Vector2i(0, -3), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, 2), Vector2i(0, 3)]
+
+[node name="PathingBlocker" parent="." index="1" instance=ExtResource("3_r40ef")]
+Blocker_Texture = "res://Assets/PathingTextures/hatch.tga"
+Block_Points = [Vector2i(-1, -4), Vector2i(-1, -3), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(-1, 2), Vector2i(-1, 3), Vector2i(0, -4), Vector2i(0, -3), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, 2), Vector2i(0, 3)]
+
+[node name="CollisionShape3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.105, 0)
+shape = SubResource("BoxShape3D_dvyb0")
+
+[node name="Health Bar" parent="." index="4"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 4.21816, 0)
+
+[node name="AnimationPlayer" parent="." index="5"]
+autoplay = ""
+libraries = {
+"": SubResource("AnimationLibrary_viu7e")
+}
+
+[node name="cliff_hatch" parent="Model" index="0" instance=ExtResource("2_vqm7b")]
+transform = Transform3D(4, 0, 0, 0, 3.9, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="MeshR" parent="Model/cliff_hatch" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_fyet0")
+
+[node name="MeshL" parent="Model/cliff_hatch" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660465, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_8cuqj")
+
+[node name="Cube_001" parent="Model/cliff_hatch" index="2"]
+surface_material_override/0 = ExtResource("5_orc6o")
+surface_material_override/1 = ExtResource("3_sgmlr")
+
+[editable path="Model/cliff_hatch"]

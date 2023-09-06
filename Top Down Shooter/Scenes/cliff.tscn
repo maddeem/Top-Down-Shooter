@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqo6ytcy8t33p"]
+
+[ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/VisionBlocker.tscn" id="4_5x1hb"]
+[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="4_4463y"]
+
+[node name="Cliff" type="MeshInstance3D"]
+transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, 0, 0, 0)
+
+[node name="VisionBlocker" parent="." instance=ExtResource("4_5x1hb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+Occlusion_Height = 255.0
+
+[node name="PathingBlocker" parent="." instance=ExtResource("4_4463y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+Blocker_Texture = "res:"
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+visible = false
+collision_layer = 32
+collision_mask = 0

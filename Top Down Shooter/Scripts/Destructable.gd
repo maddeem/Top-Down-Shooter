@@ -1,7 +1,5 @@
-extends Widget
-class_name Destructable
+class_name Destructable extends Widget
 
 func _ready():
 	super._ready()
-	remove_on_decay = false
 	_update_visibility()

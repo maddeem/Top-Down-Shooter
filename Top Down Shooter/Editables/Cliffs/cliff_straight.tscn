@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://cj81g07vd40qr"]
+
+[ext_resource type="PackedScene" uid="uid://bqo6ytcy8t33p" path="res://Scenes/cliff.tscn" id="1_od6uh"]
+[ext_resource type="ArrayMesh" uid="uid://cp15dfuguce6q" path="res://Assets/Models/Cliffs/Straight1.obj" id="2_cunxe"]
+[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_yrsfy"]
+[ext_resource type="Material" uid="uid://bcmbjpws2kjvi" path="res://Materials/SolidUnshaded.tres" id="4_4sen3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mou3w"]
+size = Vector3(0.5, 6, 2)
+
+[node name="Cliff_Straight" instance=ExtResource("1_od6uh")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+mesh = ExtResource("2_cunxe")
+surface_material_override/0 = ExtResource("3_yrsfy")
+surface_material_override/1 = ExtResource("4_4sen3")
+
+[node name="VisionBlocker" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.1, -4.96541e-09)
+Occluder_Texture = "res://Assets/PathingTextures/CliffStraight1.tga"
+Occlusion_Points = [Vector2i(2, -4), Vector2i(2, -3), Vector2i(2, -2), Vector2i(2, -1), Vector2i(2, 0), Vector2i(2, 1), Vector2i(2, 2), Vector2i(2, 3), Vector2i(3, -4), Vector2i(3, -3), Vector2i(3, -2), Vector2i(3, -1), Vector2i(3, 0), Vector2i(3, 1), Vector2i(3, 2), Vector2i(3, 3)]
+
+[node name="PathingBlocker" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -4.96541e-09)
+Blocker_Texture = "res://Assets/PathingTextures/CliffStraight1.tga"
+Block_Points = [Vector2i(2, -4), Vector2i(2, -3), Vector2i(2, -2), Vector2i(2, -1), Vector2i(2, 0), Vector2i(2, 1), Vector2i(2, 2), Vector2i(2, 3), Vector2i(3, -4), Vector2i(3, -3), Vector2i(3, -2), Vector2i(3, -1), Vector2i(3, 0), Vector2i(3, 1), Vector2i(3, 2), Vector2i(3, 3)]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 3, 0)
+shape = SubResource("BoxShape3D_mou3w")

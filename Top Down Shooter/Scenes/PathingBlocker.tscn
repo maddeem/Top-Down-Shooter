@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cbf8v2iie38ij"]
 
 [ext_resource type="Script" path="res://Scripts/PathingBlocker.gd" id="1_ul66h"]
-[ext_resource type="Texture2D" uid="uid://dy1opgk1q2vpj" path="res://Assets/PathingTextures/Unwalk2x2.tga" id="2_escqg"]
+[ext_resource type="Texture2D" uid="uid://btr5cbhyx8s0o" path="res://Assets/PathingTextures/Unwalk2x2.tga" id="2_escqg"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_ayhiq"]
 orientation = 1
@@ -9,8 +9,7 @@ orientation = 1
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wxsoe"]
 resource_local_to_scene = true
 transparency = 1
-no_depth_test = true
-shading_mode = 0
+shading_mode = 2
 disable_ambient_light = true
 albedo_texture = ExtResource("2_escqg")
 texture_filter = 0
@@ -19,10 +18,10 @@ texture_repeat = false
 [node name="PathingBlocker" type="Node3D"]
 script = ExtResource("1_ul66h")
 Blocker_Texture = "res://Assets/PathingTextures/Unwalk2x2.tga"
-Block_Points = [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(0, -1), Vector2i(0, 0)]
+Block_Points = [Vector2i(-1, 0), Vector2i(0, 0)]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.25, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 visible = false
 transparency = 0.65
 mesh = SubResource("QuadMesh_ayhiq")

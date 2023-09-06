@@ -1,7 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxtjen6injqrr"]
+[gd_scene load_steps=5 format=3 uid="uid://dxtjen6injqrr"]
 
 [ext_resource type="Script" path="res://Scripts/FogOccluder.gd" id="1_jxw0v"]
+[ext_resource type="Texture2D" uid="uid://c25p7p27eolca" path="res://Assets/PathingTextures/CliffInnerCorner.tga" id="2_4dwn7"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_nlycy"]
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hikiq"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 2
+disable_ambient_light = true
+albedo_color = Color(0, 1, 1, 1)
+albedo_texture = ExtResource("2_4dwn7")
+texture_filter = 0
+texture_repeat = false
 
 [node name="VisionBlocker" type="Node3D"]
 script = ExtResource("1_jxw0v")
-Occlusion_Points = null
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-6.55671e-08, 0, 1.5, 0, 0.25, 0, -1.5, 0, -6.55671e-08, 0, 0, 0)
+visible = false
+transparency = 0.65
+mesh = SubResource("QuadMesh_nlycy")
+surface_material_override/0 = SubResource("StandardMaterial3D_hikiq")

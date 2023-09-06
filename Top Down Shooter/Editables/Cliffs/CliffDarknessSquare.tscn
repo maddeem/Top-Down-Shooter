@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://co0ymn02epk7"]
+
+[ext_resource type="Material" uid="uid://bcmbjpws2kjvi" path="res://Materials/SolidUnshaded.tres" id="1_7mahw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_p8r6q"]
+size = Vector3(0.5, 1, 0.5)
+
+[node name="CliffDarkness" type="MeshInstance3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 2, 0)
+material_override = ExtResource("1_7mahw")
+mesh = SubResource("BoxMesh_p8r6q")
