@@ -70,7 +70,6 @@ func _play_anim(anim_name : StringName, queued : bool = false):
 
 func _ready():
 	instance_id = WidgetFactory.get_new_id(self)
-	set_deferred("name",str(instance_id))
 	tree_exiting.connect(func():
 		WidgetFactory.recycle_id(self)
 		)
@@ -120,15 +119,11 @@ func SetHealth(amount: float):
 		WidgetFactory.server_call(instance_id,"_death")
 	_update_heath_bar(health/max_health)
 
-func UpdateModel(trans : Array):
-	if _visible:
+func UpdateModel(trans : Array, forced := false):
+	if _visible or forced:
 		_model.global_position = trans[0]
 		_selection_circle.global_position = trans[0]
 		_model.rotation.y = trans[1]
-#	var normal = Utility.GetTerrainNormal(
-#		Globals.HeightTerrain,
-#		Vector2(global_position.x,global_position.z),
-#		)
 
 func _on_visiblity_observer_visibility_update(state):
 	_visible = state
@@ -138,15 +133,17 @@ func _on_visiblity_observer_visibility_update(state):
 		reset_current_animation()
 	_update_visibility()
 
-func _get_transform(buf : PackedByteArray):
-	var pos = Vector3(buf.decode_half(0),buf.decode_half(2),buf.decode_half(4))
-	var rot = buf.decode_half(6)
-	global_position = pos
-	rotation.y = rot
-	new_buffer(pos,rot)
+func set_next_transform(sender : int, pos : Vector3, rot : float):
+	if multiplayer.get_unique_id() != sender:
+		global_position = pos
+		rotation.y = rot
+		new_buffer(pos,rot)
 
 func _apply_update_scale(value : Variant):
-	return round(value / Globals.NETWORK_UPDATE_SCALE) * Globals.NETWORK_UPDATE_SCALE
+	var snap = Globals.NETWORK_UPDATE_SCALE
+	if value is Vector3:
+		snap = Vector3(snap,snap,snap)
+	return snapped(value,snap)
 
 func _notification(what: int) -> void:
 	if multiplayer and not multiplayer.is_server():
@@ -163,7 +160,10 @@ func move_instantly(pos : Vector3):
 	global_position = pos
 	_prev_trans = [pos,rotation.y]
 	_target_trans = _prev_trans
-	UpdateModel(_target_trans)
+	_move_fract = 0.0
+	UpdateModel(_target_trans,true)
+	buffer = []
+	new_buffer(pos,rotation.y)
 
 func new_buffer(pos : Vector3, rot : float):
 	buffer.append({
@@ -180,25 +180,16 @@ func pop_buffer():
 	_target_trans = [next.next_pos,next.next_rot]
 	_move_fract = 0.0
 
-func pack_data() -> PackedByteArray:
-	var buf = PackedByteArray()
-	buf.resize(8)
-	buf.encode_half(0,global_position.x)
-	buf.encode_half(2,global_position.y)
-	buf.encode_half(4,global_position.z)
-	buf.encode_half(6,rotation.y)
-	return buf
-
 func _physics_process(_delta):
 	if buffer_last_sent > 0 and multiplayer.is_server():
 		buffer_last_sent -= 1
 		new_buffer(global_position,rotation.y)
-		WidgetFactory.server_call(instance_id,"_get_transform",pack_data(),false,false)
+		WidgetFactory.queue_movement(self)
 
 var _move_fract := 0.0
 func _process(_delta):
 	if _move_fract == 1.0:
-		if buffer.size() >= Globals.BUFFER_SIZE:
+		if buffer.size() > 0:
 			pop_buffer()
 		else:
 			return

@@ -2,9 +2,7 @@ extends Node
 var id2widget = {}
 var _id_count = 0
 var _recycle_list = []
-var server_cache_local = []
-var server_cache_remote = []
-var peer_cache = []
+var packed_movement_data := PackedByteArray()
 
 
 func _ready():
@@ -35,7 +33,10 @@ func create_unit_at(id : int,pos : Vector3,player_owner : int):
 	return new
 
 func Instance2Widget(inst :int) -> Widget:
-	return id2widget[inst]
+	if id2widget.has(inst):
+		return id2widget[inst]
+	else:
+		return null
 
 func get_new_id(source : Widget) -> int:
 	var id
@@ -122,3 +123,36 @@ func peer_call(inst : int, func_name : String, args : Variant = null, reliable :
 		scrr.rpc_id(1,inst,method2int(inst,func_name),args)
 	else:
 		scru.rpc_id(1,inst,method2int(inst,func_name),args)
+
+func queue_movement(source : Widget):
+	var buf = PackedByteArray()
+	buf.resize(10)
+	buf.encode_u16(0,source.instance_id)
+	buf.encode_half(2,source.global_position.x)
+	buf.encode_half(4,source.global_position.y)
+	buf.encode_half(6,source.global_position.z)
+	buf.encode_half(8,source.rotation.y)
+	packed_movement_data.append_array(buf)
+
+func _process(_delta):
+	if packed_movement_data.size() > 0:
+		if multiplayer.is_server():
+			unpack_movement_data.rpc(packed_movement_data)
+		else:
+			unpack_movement_data.rpc_id(1,packed_movement_data)
+	packed_movement_data = PackedByteArray()
+	
+@rpc("any_peer","reliable","call_remote")
+func unpack_movement_data(data : PackedByteArray):
+	var size = data.size()
+	var pos = 0
+	var sender = multiplayer.get_remote_sender_id()
+	while pos < size:
+		var inst : Widget = Instance2Widget(data.decode_u16(pos))
+		if inst:
+			inst.set_next_transform(
+				sender,
+				Vector3(data.decode_half(pos+2),data.decode_half(pos+4),data.decode_half(pos+6)),
+				data.decode_half(pos+8)
+			)
+		pos += 10

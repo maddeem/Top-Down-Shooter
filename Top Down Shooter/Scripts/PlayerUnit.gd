@@ -25,16 +25,13 @@ func _input(_event):
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-func _get_transform(buf : PackedByteArray):
-	if is_owner:
-		return
-	var pos = Vector3(buf.decode_half(0),buf.decode_half(2),buf.decode_half(4))
-	var rot = buf.decode_half(6)
-	global_position = pos
-	rotation.y = rot
-	new_buffer(pos,rot)
-	if multiplayer.is_server():
-		WidgetFactory.server_call(instance_id,"_get_transform",pack_data(),false)
+func set_next_transform(_sender : int, pos : Vector3, rot : float):
+	if player_owner.id != multiplayer.get_unique_id():
+		global_position = pos
+		rotation.y = rot
+		new_buffer(pos,rot)
+		if multiplayer.is_server():
+			WidgetFactory.queue_movement(self)
 
 func _notification(what: int) -> void:
 	if not is_owner:
@@ -60,10 +57,7 @@ func _physics_process(delta):
 	if is_owner and buffer_last_sent > 0:
 		buffer_last_sent -= 1
 		new_buffer(global_position,rotation.y)
-		if multiplayer.is_server():
-			WidgetFactory.server_call(instance_id,"_get_transform",pack_data(),true,false)
-		else:
-			WidgetFactory.peer_call(instance_id,"_get_transform",pack_data(),false)
+		WidgetFactory.queue_movement(self)
 
 func _process(delta):
 	super._process(delta)

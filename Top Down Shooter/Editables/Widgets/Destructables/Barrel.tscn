@@ -474,7 +474,6 @@ animations = [{
 
 [node name="Barrel" instance=ExtResource("1_wgbmo")]
 death_time = 2.0
-Visible_In_Fog = false
 
 [node name="CollisionShape3D" parent="." index="1"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.782, 0)

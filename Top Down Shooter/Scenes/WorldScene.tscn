@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://b81f7fkpb7eqn"]
+[gd_scene load_steps=75 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
 [ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_etb36"]
@@ -22,6 +22,9 @@
 [ext_resource type="PackedScene" uid="uid://dmlgk4ho82u4w" path="res://Editables/Cliffs/CliffDarknessFlat.tscn" id="16_f5214"]
 [ext_resource type="PackedScene" uid="uid://co0ymn02epk7" path="res://Editables/Cliffs/CliffDarknessSquare.tscn" id="19_dh7fu"]
 [ext_resource type="PackedScene" uid="uid://cfpa5g1giuu56" path="res://Editables/Widgets/Destructables/Hatch.tscn" id="20_vs4ky"]
+[ext_resource type="PackedScene" uid="uid://5gwoa7l23ihj" path="res://Editables/Doodads/locker.tscn" id="23_vwuyo"]
+[ext_resource type="PackedScene" uid="uid://rkvsu0meirjp" path="res://Editables/Doodads/wall-pipe.tscn" id="24_7b3gw"]
+[ext_resource type="PackedScene" uid="uid://b4mggscmibqgp" path="res://Editables/Widgets/Destructables/LongCrate.tscn" id="25_jgxhn"]
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
 script/source = "extends Label
@@ -41,7 +44,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1s643"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oye0x"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_23w7t")
 shading_mode = 2
@@ -58,7 +61,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kbp8k"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oa161"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_vhwpt")
 shading_mode = 2
@@ -75,7 +78,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_so66o"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uwu5i"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_1fvk7")
 shading_mode = 2
@@ -92,7 +95,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qn575"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1kxxt"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_7ngws")
 shading_mode = 2
@@ -109,7 +112,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hm0bm"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vcxvm"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_50yqm")
 shading_mode = 2
@@ -126,7 +129,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_doatl"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f4bay"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_ttrob")
 shading_mode = 2
@@ -143,7 +146,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uo3c7"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tgiwj"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_bg805")
 shading_mode = 2
@@ -160,7 +163,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqr20"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wlhw2"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_qughy")
 shading_mode = 2
@@ -177,7 +180,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3puw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfcgn"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_114w4")
 shading_mode = 2
@@ -194,7 +197,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w5ge0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tli8u"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_to7x2")
 shading_mode = 2
@@ -211,7 +214,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ylyjj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_olqcl"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_k7fd0")
 shading_mode = 2
@@ -228,7 +231,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bl5jj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e62tx"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_75cpy")
 shading_mode = 2
@@ -245,7 +248,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8p1ov"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_njffd"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_h3uut")
 shading_mode = 2
@@ -262,7 +265,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1fecv"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ca41b"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_gvoi6")
 shading_mode = 2
@@ -279,7 +282,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxktw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jff6d"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_cb0lg")
 shading_mode = 2
@@ -296,7 +299,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_parjd"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j1etk"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_jkv61")
 shading_mode = 2
@@ -313,7 +316,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llcy0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44bky"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_013kk")
 shading_mode = 2
@@ -330,7 +333,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c23dw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3yvwa"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_sdpyq")
 shading_mode = 2
@@ -347,7 +350,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2mbme"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wb2w"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_7crye")
 shading_mode = 2
@@ -364,7 +367,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_poi6g"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1b556"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_ug8q8")
 shading_mode = 2
@@ -381,7 +384,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7rd8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_leymq"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_mplsw")
 shading_mode = 2
@@ -398,7 +401,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2c6ik"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_igegp"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_ff8qr")
 shading_mode = 2
@@ -415,7 +418,7 @@ render_priority = 0
 shader = ExtResource("15_0jdes")
 shader_parameter/color_override = Color(1, 1, 1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2gv4i"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2uxx"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_av7jm")
 shading_mode = 2
@@ -425,6 +428,9 @@ metallic = 0.39
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.48
 rim_enabled = true
+
+[sub_resource type="Environment" id="Environment_fmx5x"]
+background_mode = 2
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_etb36")
@@ -450,19 +456,17 @@ script = SubResource("GDScript_5cfjs")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, -1.04251e-15, 0, 1.19249e-08, 1, 8.74228e-08, 1, -1.19249e-08, 0, 34.2096, -50.9579)
-visible = false
-light_color = Color(0.54902, 0.552941, 0.627451, 1)
-shadow_enabled = true
+light_color = Color(0.239216, 0.239216, 0.239216, 1)
 shadow_bias = 0.05
 shadow_normal_bias = 10.0
 shadow_blur = 0.346
-directional_shadow_mode = 0
 directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.12
 directional_shadow_blend_splits = true
 directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 59.0
 directional_shadow_pancake_size = 0.0
+sky_mode = 1
 
 [node name="Player Spawner" parent="." instance=ExtResource("12_0qpk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3375, 1, -39.0777)
@@ -475,141 +479,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.21023, 1, -39.0777)
 
 [node name="Widgets" type="Node3D" parent="."]
 
-[node name="test" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -43)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test"]
-
-[node name="test2" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -43)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test2"]
-
-[node name="test3" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -43)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test3"]
-
 [node name="test4" parent="Widgets" instance=ExtResource("12_jk35b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -44)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test4"]
-
-[node name="test5" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -44)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test5"]
-
-[node name="test6" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -44)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test6"]
-
-[node name="test7" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -45)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test7"]
-
-[node name="test8" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -45)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test8"]
-
-[node name="test9" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -45)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test9"]
-
-[node name="test10" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -46)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test10"]
-
-[node name="test11" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -46)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test11"]
-
-[node name="test12" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -46)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test12"]
-
-[node name="test13" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -47)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test13"]
-
-[node name="test14" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -47)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test14"]
-
-[node name="test15" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -47)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test15"]
-
-[node name="test16" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -48)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test16"]
-
-[node name="test17" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -48)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test17"]
-
-[node name="test18" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -48)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test18"]
-
-[node name="test19" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -49)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test19"]
-
-[node name="test20" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -49)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test20"]
-
-[node name="test21" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -49)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test21"]
-
-[node name="test22" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -50)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test22"]
-
-[node name="test23" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 20, -50)
-player_owner = 1
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test23"]
-
-[node name="test24" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 20, -50)
-player_owner = 2
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test24"]
 
 [node name="Crate" parent="Widgets" instance=ExtResource("9_8c8ae")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -50)
@@ -671,6 +544,16 @@ remove_on_decay = null
 Visible_Once_Revealed = null
 always_visible_in_fog = null
 
+[node name="Barrel2" parent="Widgets" instance=ExtResource("10_4ghog")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.5, 0, -48.5)
+max_health = null
+health = null
+decay_time = null
+interact_size = null
+remove_on_decay = null
+Visible_Once_Revealed = null
+always_visible_in_fog = null
+
 [node name="Hatch" parent="Widgets" instance=ExtResource("20_vs4ky")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, -32)
 
@@ -696,6 +579,15 @@ remove_on_decay = null
 Visible_Once_Revealed = null
 always_visible_in_fog = null
 
+[node name="Long Crate" parent="Widgets" instance=ExtResource("25_jgxhn")]
+transform = Transform3D(4.17272e-08, 0, 1, 0, 1, 0, -1, 0, 4.17272e-08, 2.5, 0, -40)
+
+[node name="Long Crate3" parent="Widgets" instance=ExtResource("25_jgxhn")]
+transform = Transform3D(4.17272e-08, 0, 1, 0, 1, 0, -1, 0, 4.17272e-08, 2.5, 1, -41)
+
+[node name="Long Crate2" parent="Widgets" instance=ExtResource("25_jgxhn")]
+transform = Transform3D(4.17272e-08, 0, 1, 0, 1, 0, -1, 0, 4.17272e-08, 2.5, 0, -42)
+
 [node name="HTerrain" type="Node3D" parent="."]
 script = ExtResource("7_8x5y8")
 centered = true
@@ -717,117 +609,138 @@ shader_params/u_globalmap_blend_start = null
 shader_params/u_globalmap_blend_distance = null
 shader_params/u_tile_reduction = null
 
-[node name="Cliffs" type="Node3D" parent="."]
+[node name="StaticObjects" type="Node3D" parent="."]
 
-[node name="Cliff_Corner" parent="Cliffs" instance=ExtResource("14_av43x")]
+[node name="Cliff_Corner" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -9, 0, -47)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_1s643")
+surface_material_override/0 = SubResource("StandardMaterial3D_oye0x")
 
-[node name="Cliff_Corner2" parent="Cliffs" instance=ExtResource("14_av43x")]
+[node name="Cliff_Corner2" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, -1, 0, -47)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_kbp8k")
+surface_material_override/0 = SubResource("StandardMaterial3D_oa161")
 
-[node name="Cliff_Corner3" parent="Cliffs" instance=ExtResource("14_av43x")]
+[node name="Cliff_Corner3" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, 3, 0, -13)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_so66o")
+surface_material_override/0 = SubResource("StandardMaterial3D_uwu5i")
 
-[node name="Cliff_Corner6" parent="Cliffs" instance=ExtResource("14_av43x")]
+[node name="Cliff_Corner6" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -21, 0, -21)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_qn575")
+surface_material_override/0 = SubResource("StandardMaterial3D_1kxxt")
 
-[node name="Cliff_Corner4" parent="Cliffs" instance=ExtResource("14_av43x")]
+[node name="Cliff_Corner4" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(5.24537e-07, 0, 4, 0, 4, 0, -4, 0, 5.24537e-07, 3, 0, -13)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_hm0bm")
+surface_material_override/0 = SubResource("StandardMaterial3D_vcxvm")
 
-[node name="Cliff_Corner5" parent="Cliffs" instance=ExtResource("14_av43x")]
+[node name="Cliff_Corner5" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(4, 0, -6.99382e-07, 0, 4, 0, 6.99382e-07, 0, 4, -21, 0, -13)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_doatl")
+surface_material_override/0 = SubResource("StandardMaterial3D_f4bay")
 
-[node name="Cliff_Straight2" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight2" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(5.24537e-07, 0, -4, 0, 4, 0, 4, 0, 5.24537e-07, -5, 0, -47)
-surface_material_override/0 = SubResource("StandardMaterial3D_uo3c7")
+surface_material_override/0 = SubResource("StandardMaterial3D_tgiwj")
 
-[node name="Cliff_Straight9" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight9" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -1, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_pqr20")
+surface_material_override/0 = SubResource("StandardMaterial3D_wlhw2")
 
-[node name="Cliff_Straight10" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight10" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -9, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_x3puw")
+surface_material_override/0 = SubResource("StandardMaterial3D_jfcgn")
 
-[node name="Cliff_Straight11" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight11" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -17, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_w5ge0")
+surface_material_override/0 = SubResource("StandardMaterial3D_tli8u")
 
-[node name="Cliff_Straight12" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight12" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(1.22392e-06, 0, -4, 0, 4, 0, 4, 0, 1.22392e-06, -17, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_ylyjj")
+surface_material_override/0 = SubResource("StandardMaterial3D_olqcl")
 
-[node name="Cliff_Straight14" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight14" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-4, 0, -1.04907e-06, 0, 4, 0, 1.04907e-06, 0, -4, -25, 0, -21)
-surface_material_override/0 = SubResource("StandardMaterial3D_bl5jj")
+surface_material_override/0 = SubResource("StandardMaterial3D_e62tx")
 
-[node name="Cliff_Straight3" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight3" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -43)
-surface_material_override/0 = SubResource("StandardMaterial3D_8p1ov")
+surface_material_override/0 = SubResource("StandardMaterial3D_njffd")
 
-[node name="Cliff_Straight8" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight8" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -5, 0, -25)
-surface_material_override/0 = SubResource("StandardMaterial3D_1fecv")
+surface_material_override/0 = SubResource("StandardMaterial3D_ca41b")
 
-[node name="Cliff_Straight13" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight13" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -21, 0, -17)
-surface_material_override/0 = SubResource("StandardMaterial3D_xxktw")
+surface_material_override/0 = SubResource("StandardMaterial3D_jff6d")
 
-[node name="Cliff_Straight5" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight5" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -35)
-surface_material_override/0 = SubResource("StandardMaterial3D_parjd")
+surface_material_override/0 = SubResource("StandardMaterial3D_j1etk")
 
-[node name="Cliff_Straight4" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight4" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -1, 0, -43)
-surface_material_override/0 = SubResource("StandardMaterial3D_llcy0")
+surface_material_override/0 = SubResource("StandardMaterial3D_44bky")
 
-[node name="Cliff_Straight7" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight7" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -5, 0, -25)
-surface_material_override/0 = SubResource("StandardMaterial3D_c23dw")
+surface_material_override/0 = SubResource("StandardMaterial3D_3yvwa")
 
-[node name="Cliff_Straight6" parent="Cliffs" instance=ExtResource("15_bv1i0")]
+[node name="Cliff_Straight6" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -1, 0, -35)
-surface_material_override/0 = SubResource("StandardMaterial3D_2mbme")
+surface_material_override/0 = SubResource("StandardMaterial3D_2wb2w")
 
-[node name="Cliff_Corner_Outer2" parent="Cliffs" instance=ExtResource("14_jicqe")]
+[node name="Cliff_Corner_Outer2" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -33)
-surface_material_override/0 = SubResource("StandardMaterial3D_poi6g")
+surface_material_override/0 = SubResource("StandardMaterial3D_1b556")
 
-[node name="Cliff_Corner_Outer4" parent="Cliffs" instance=ExtResource("14_jicqe")]
+[node name="Cliff_Corner_Outer4" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -9, 0, -17)
-surface_material_override/0 = SubResource("StandardMaterial3D_l7rd8")
+surface_material_override/0 = SubResource("StandardMaterial3D_leymq")
 
-[node name="Cliff_Corner_Outer5" parent="Cliffs" instance=ExtResource("14_jicqe")]
+[node name="Cliff_Corner_Outer5" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, -1, 0, -17)
-surface_material_override/0 = SubResource("StandardMaterial3D_2c6ik")
+surface_material_override/0 = SubResource("StandardMaterial3D_igegp")
 
-[node name="Cliff_Corner_Outer3" parent="Cliffs" instance=ExtResource("14_jicqe")]
+[node name="Cliff_Corner_Outer3" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, -1, 0, -33)
-surface_material_override/0 = SubResource("StandardMaterial3D_2gv4i")
+surface_material_override/0 = SubResource("StandardMaterial3D_b2uxx")
 
-[node name="CliffDarkness2" parent="Cliffs" instance=ExtResource("16_f5214")]
+[node name="CliffDarkness2" parent="StaticObjects" instance=ExtResource("16_f5214")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -14, 2, -31)
 skeleton = NodePath("../..")
 
-[node name="CliffDarkness" parent="Cliffs" instance=ExtResource("16_f5214")]
+[node name="CliffDarkness" parent="StaticObjects" instance=ExtResource("16_f5214")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 4, 2, -31)
 skeleton = NodePath("../..")
 
-[node name="CliffDarkness3" parent="Cliffs" instance=ExtResource("19_dh7fu")]
+[node name="CliffDarkness3" parent="StaticObjects" instance=ExtResource("19_dh7fu")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -20, 2, -26)
 skeleton = NodePath("../..")
+
+[node name="Locker" parent="StaticObjects" instance=ExtResource("23_vwuyo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.5, 0, -44.5)
+
+[node name="Locker2" parent="StaticObjects" instance=ExtResource("23_vwuyo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.5, 0, -42.5)
+
+[node name="Locker3" parent="StaticObjects" instance=ExtResource("23_vwuyo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.5, 0, -40.5)
+
+[node name="Locker4" parent="StaticObjects" instance=ExtResource("23_vwuyo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.5, 0, -38.5)
+
+[node name="Locker5" parent="StaticObjects" instance=ExtResource("23_vwuyo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.5, 0, -36.5)
+
+[node name="Pipe" parent="StaticObjects" instance=ExtResource("24_7b3gw")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.5, 0, -47.5)
+
+[node name="Pipe2" parent="StaticObjects" instance=ExtResource("24_7b3gw")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0, -50.5)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5, 14, -42)
@@ -835,3 +748,6 @@ light_energy = 10.026
 shadow_enabled = true
 spot_range = 25.0
 spot_angle = 54.5131
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fmx5x")

@@ -24,7 +24,7 @@ const FOLDER_PATH = "res://Assets/PathingTextures/"
 				img.rotate_90(CLOCKWISE)
 		if debug:
 			debug.get_surface_override_material(0).albedo_texture = load(Blocker_Texture)
-			debug.scale = Vector3(img.get_width(),1,img.get_height())*0.25
+			debug.scale = Vector3(img.get_width(),1,img.get_height()) / global_transform.basis.get_scale()
 		if value == FOLDER_PATH or value == null:
 			Block_Points = null
 			return
@@ -56,7 +56,7 @@ func _ready():
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		var cur_pos = Vector2i(Vector2(global_position.x,global_position.z).round())
+		var cur_pos = Vector2i(Vector2(global_position.x,global_position.z).floor())
 		var cur_angle = wrapi(round(global_rotation_degrees.y/90)+1,0,4)
 		if Last_Rotation != cur_angle:
 			Last_Rotation = cur_angle

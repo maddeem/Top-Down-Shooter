@@ -12,7 +12,6 @@ class_name Unit extends Widget
 var _bit_owner
 var _path
 var _path_ind : int
-var _prev_data
 var push := Vector3.ZERO
 var push_list := []
 var push_strength = 4
@@ -78,18 +77,17 @@ func _push_away():
 
 
 func _physics_process(delta):
-	_push_away()
-	push = Vector3.ZERO
 	if not is_on_floor():
 		velocity.y -= Globals.Gravity * delta
 	if multiplayer.is_server():
+		_push_away()
+		push = Vector3.ZERO
 		var dir = _get_path_dir(delta)
 		if dir != Vector2.ZERO and _is_facing_correctly(delta,dir):
 			velocity.x += dir.x * Speed
 			velocity.z += dir.y * Speed
-		if velocity.is_equal_approx(Vector3.ZERO):
-			_prev_data = null
-	move_and_slide()
+	if not velocity.is_equal_approx(Vector3.ZERO):
+		move_and_slide()
 	super._physics_process(delta)
 
 

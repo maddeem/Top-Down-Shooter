@@ -17,5 +17,4 @@ albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("1_ph486")
 metallic = 0.39
 emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 0.48
 rim_enabled = true

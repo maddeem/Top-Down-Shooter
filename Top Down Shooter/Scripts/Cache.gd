@@ -15,7 +15,3 @@ func exists(dir : Variant, key : Variant) -> bool:
 	if _cache.has(dir):
 		return _cache[dir].has(key)
 	return false
-
-#func _process(_delta):
-#	return
-#	_cache = {}

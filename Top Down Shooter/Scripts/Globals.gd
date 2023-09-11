@@ -1,7 +1,7 @@
 extends Node
 @onready var Gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 const GAME_SCENE = preload("res://Scenes/WorldScene.tscn")
-const BUFFER_SIZE = 4
+const BUFFER_SIZE = 2
 const NETWORK_UPDATE_SCALE = 0.05
 var FogOfWar
 var HeightTerrain

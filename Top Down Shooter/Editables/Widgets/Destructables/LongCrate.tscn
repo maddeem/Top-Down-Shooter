@@ -1,13 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://bk8rdddi734v5"]
+[gd_scene load_steps=20 format=3 uid="uid://b4mggscmibqgp"]
 
-[ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_qnmvc"]
-[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="2_4qvto"]
-[ext_resource type="ArrayMesh" uid="uid://e7nexns4we8s" path="res://Assets/Models/Crate/crate.obj" id="2_33c2r"]
-[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_3oda2"]
-[ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="4_vjtcv"]
+[ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_hosch"]
+[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="2_h33c1"]
+[ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="3_6qjg4"]
+[ext_resource type="ArrayMesh" uid="uid://dsuqdpmrh4eiq" path="res://Assets/Models/long_crate.obj" id="4_rt0cm"]
+[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="5_bkoa5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_202kk"]
-size = Vector3(2, 2, 2)
+size = Vector3(2, 1, 1)
 
 [sub_resource type="Animation" id="Animation_11br2"]
 length = 0.001
@@ -33,7 +33,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 0)]
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -187,7 +187,7 @@ transparency = 1
 shading_mode = 2
 diffuse_mode = 2
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("4_vjtcv")
+albedo_texture = ExtResource("3_6qjg4")
 billboard_mode = 1
 billboard_keep_scale = true
 
@@ -195,17 +195,21 @@ billboard_keep_scale = true
 material = SubResource("StandardMaterial3D_phatj")
 orientation = 2
 
-[node name="Crate" instance=ExtResource("1_qnmvc")]
+[node name="Long Crate" instance=ExtResource("1_hosch")]
+transform = Transform3D(-1, 0, -1.98418e-09, 0, 1, 0, 1.98418e-09, 0, -1, 0, 0, 0)
 death_time = 2.0
 
-[node name="PathingBlocker" parent="." index="0" instance=ExtResource("2_4qvto")]
+[node name="PathingBlocker" parent="." index="0" instance=ExtResource("2_h33c1")]
+transform = Transform3D(1, 0, 4.37114e-08, 0, 1, 0, -4.37114e-08, 0, 1, 0, 0, 0.5)
+Blocker_Texture = "res://Assets/PathingTextures/2x1.tga"
+Block_Points = [Vector2i(-1, 0), Vector2i(0, 0)]
 
 [node name="CollisionShape3D" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_202kk")
 
 [node name="Health Bar" parent="." index="3"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.23232, 0)
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 1.232, 0)
 
 [node name="AnimationPlayer" parent="." index="4"]
 libraries = {
@@ -222,9 +226,7 @@ visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
 process_material = SubResource("ParticleProcessMaterial_duwtl")
 draw_pass_1 = SubResource("PlaneMesh_hc80e")
 
-[node name="Selection Circle" parent="." index="6"]
-visible = true
-
 [node name="Model" parent="." index="7"]
-mesh = ExtResource("2_33c2r")
-surface_material_override/0 = ExtResource("3_3oda2")
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = ExtResource("4_rt0cm")
+surface_material_override/0 = ExtResource("5_bkoa5")
