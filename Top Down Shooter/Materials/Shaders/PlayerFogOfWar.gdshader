@@ -29,7 +29,6 @@ bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
 	int dx = iabs(p1.x - p0.x);
 	int dy = -iabs(p1.y - p0.y);
 	int err = dx + dy;
-//	int e2 = 2 * err;
 	int sx = 2 * when_lt(p0.x,p1.x) -1;
 	int sy = 2 * when_lt(p0.y,p1.y) -1;
 	float walls_hit = 0.0;
@@ -38,8 +37,8 @@ bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
 		last = walls_hit;
 		vec4 sample = texture(OcclusionMap,vec2(p0)*scaler);
 		float result = sample.r + sample.g + sample.b - sample.a;
-		walls_hit += fwhen_gt(result,height);
-		if (walls_hit != 0.0 && last == walls_hit){
+		walls_hit += min(1.0,fwhen_gt(result,height));
+		if (walls_hit != 0.0 && last == walls_hit || walls_hit == 4.0){
 			return false;	
 		}
 		if (p0==p1){

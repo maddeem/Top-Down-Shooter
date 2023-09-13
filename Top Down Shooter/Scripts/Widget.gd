@@ -57,7 +57,7 @@ func _update_visibility():
 	_health_bar.visible = _health_bar_displaying and _model.visible
 	#_selection_circle.visible = _model.visible
 
-func _play_anim(anim_name : StringName, queued : bool = false):
+func _play_anim(anim_name : StringName, queued : bool = false, custom_blend: float = -1):
 	current_animation = anim_name
 	current_animation_play_start = Globals.TimeElapsed
 	if can_animate:
@@ -66,7 +66,7 @@ func _play_anim(anim_name : StringName, queued : bool = false):
 		else:
 			if Animation_Player.is_playing():
 				Animation_Player.advance(100)
-			Animation_Player.play(anim_name)
+			Animation_Player.play(anim_name,custom_blend)
 
 func _ready():
 	instance_id = WidgetFactory.get_new_id(self)
@@ -82,7 +82,7 @@ func reset_current_animation():
 		return
 	Animation_Player.stop()
 	Animation_Player.play(current_animation)
-	Animation_Player.advance(Globals.TimeElapsed - current_animation_play_start)
+	Animation_Player.advance(min(Animation_Player.current_animation_length,Globals.TimeElapsed - current_animation_play_start))
 
 func _update_heath_bar(percent):
 	_health_bar_displaying = percent > 0.0 and not dead
@@ -106,6 +106,7 @@ func ReceiveDamage(_source : int, amount : float) -> void:
 
 func _death():
 	dead = true
+	Animation_Player.clear_queue()
 	_play_anim("death")
 	await get_tree().create_timer(death_time).timeout
 	_play_anim("decay")
@@ -189,7 +190,7 @@ func _physics_process(_delta):
 var _move_fract := 0.0
 func _process(_delta):
 	if _move_fract == 1.0:
-		if buffer.size() > 0:
+		if buffer.size() >= Globals.BUFFER_SIZE:
 			pop_buffer()
 		else:
 			return

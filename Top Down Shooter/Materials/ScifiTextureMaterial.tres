@@ -7,7 +7,7 @@
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_my324")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
 [resource]
 resource_local_to_scene = true

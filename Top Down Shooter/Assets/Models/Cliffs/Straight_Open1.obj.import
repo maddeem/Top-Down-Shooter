@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dk6ted121e3rc"
+path="res://.godot/imported/Straight_Open1.obj-186a8841ed9befd2279d62f3b69ec388.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Straight_Open1.obj-186a8841ed9befd2279d62f3b69ec388.mesh"]
+
+source_file="res://Assets/Models/Cliffs/Straight_Open1.obj"
+dest_files=["res://.godot/imported/Straight_Open1.obj-186a8841ed9befd2279d62f3b69ec388.mesh", "res://.godot/imported/Straight_Open1.obj-186a8841ed9befd2279d62f3b69ec388.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

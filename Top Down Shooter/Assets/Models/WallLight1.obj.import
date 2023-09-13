@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://deoqjbv8lcea3"
+path="res://.godot/imported/WallLight1.obj-0f8729e512db45d668281f0e4b790e7e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/WallLight1.obj-0f8729e512db45d668281f0e4b790e7e.mesh"]
+
+source_file="res://Assets/Models/WallLight1.obj"
+dest_files=["res://.godot/imported/WallLight1.obj-0f8729e512db45d668281f0e4b790e7e.mesh", "res://.godot/imported/WallLight1.obj-0f8729e512db45d668281f0e4b790e7e.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

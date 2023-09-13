@@ -274,7 +274,7 @@ void fragment() {
 			ROUGHNESS = mix(ROUGHNESS, 1.0, globalmap_factor);
 		}
 		vec4 sample = texture(CreepData,uv);
-		float alpha = min(sample.a,blur(uv,1.0,InverseFogDimensions,CreepData).a * (snoise(vec3(uv2 * 0.1,TIME*0.1)) + 1.0) * 0.5);
+		float alpha = min(sample.a,blur(uv,2.0,InverseFogDimensions,CreepData).a * (snoise(vec3(uv2 * 0.1,TIME*0.1)) + 1.0) * 0.5);
 		ALBEDO = mix(ALBEDO,texture(CreepTexture,uv2 * 0.1).rgb,alpha * sample.g);
 		NORMAL = (VIEW_MATRIX * (vec4(terrain_normal_world, 0.0))).xyz;
 		ALBEDO = mix(ALBEDO,color.rgb,color.a);

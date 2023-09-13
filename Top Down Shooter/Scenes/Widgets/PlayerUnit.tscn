@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://vjnq8ekwhp"]
+[gd_scene load_steps=9 format=3 uid="uid://vjnq8ekwhp"]
 
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_nmj08"]
 [ext_resource type="PackedScene" uid="uid://c0v1qg12ksu2k" path="res://Scenes/CameraController.tscn" id="2_cmtqs"]
 [ext_resource type="Script" path="res://Scripts/PlayerUnit.gd" id="2_xc6u4"]
 [ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="3_7hl8b"]
+[ext_resource type="PackedScene" uid="uid://gjkmrmycqwtv" path="res://Scenes/VisibilityModifier.tscn" id="3_oy0ij"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ys2lx"]
 radius = 0.45
@@ -24,24 +25,19 @@ jumping = false
 friction = 25
 acceleration_smoothing = 10
 turn_speed = 1.0
-max_health = 10
-health = 10.0
-death_time = 1.0
-decay_time = 10.0
-interact_size = 1.0
-remove_on_decay = true
-Visible_Once_Revealed = true
-always_visible_in_fog = false
 
-[node name="Health Bar" parent="." index="1"]
+[node name="VisibilityModifier" parent="." index="0" instance=ExtResource("3_oy0ij")]
+Radius = 16
+
+[node name="Health Bar" parent="." index="2"]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.21022, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
 shape = SubResource("CapsuleShape3D_ys2lx")
 
-[node name="Shakable Camera" parent="." index="5" instance=ExtResource("2_cmtqs")]
+[node name="Shakable Camera" parent="." index="6" instance=ExtResource("2_cmtqs")]
 transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 0, 0)
 
-[node name="Model" parent="." index="6"]
+[node name="Model" parent="." index="7"]
 mesh = SubResource("CapsuleMesh_3j472")
 surface_material_override/0 = SubResource("StandardMaterial3D_oqtan")

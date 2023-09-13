@@ -73,7 +73,7 @@ func _process(_delta):
 		if not blocker.disabled:
 			var pos = blocker.Last_Position
 			for point in blocker.Block_Points:
-				var adjusted = pos + point + Vector2i(size)
+				var adjusted = round(pos + point + Vector2(size) - Vector2(0.5,0.5))
 				if disable_weight.has(adjusted):
 					disable_weight[adjusted] += 1
 				else:

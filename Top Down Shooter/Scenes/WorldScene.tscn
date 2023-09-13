@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://b81f7fkpb7eqn"]
+[gd_scene load_steps=86 format=3 uid="uid://b81f7fkpb7eqn"]
 
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="1_0tx6p"]
 [ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_etb36"]
@@ -12,7 +12,6 @@
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="10_hkixo"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="11_ig5vs"]
 [ext_resource type="PackedScene" uid="uid://cbcxx5xri533q" path="res://Scenes/Editor/player_spawner.tscn" id="12_0qpk4"]
-[ext_resource type="PackedScene" uid="uid://2x8kxuxllqhx" path="res://Editables/Widgets/Units/test.tscn" id="12_jk35b"]
 [ext_resource type="PackedScene" uid="uid://dkjoaboj78bim" path="res://Editables/Widgets/Items/FirstAidKit.tscn" id="13_x1j02"]
 [ext_resource type="Texture2D" uid="uid://dhhrx81q5vei" path="res://Assets/Textures/ScifiTexturePack.png" id="14_2carf"]
 [ext_resource type="PackedScene" uid="uid://c7y8hvtwgcahf" path="res://Editables/Cliffs/cliff_corner.tscn" id="14_av43x"]
@@ -25,6 +24,9 @@
 [ext_resource type="PackedScene" uid="uid://5gwoa7l23ihj" path="res://Editables/Doodads/locker.tscn" id="23_vwuyo"]
 [ext_resource type="PackedScene" uid="uid://rkvsu0meirjp" path="res://Editables/Doodads/wall-pipe.tscn" id="24_7b3gw"]
 [ext_resource type="PackedScene" uid="uid://b4mggscmibqgp" path="res://Editables/Widgets/Destructables/LongCrate.tscn" id="25_jgxhn"]
+[ext_resource type="PackedScene" uid="uid://bpfc8chr62hw" path="res://Editables/Cliffs/cliff_straight_open.tscn" id="26_5htme"]
+[ext_resource type="PackedScene" uid="uid://2x8kxuxllqhx" path="res://Editables/Widgets/Units/test.tscn" id="27_xu7dh"]
+[ext_resource type="PackedScene" uid="uid://drfvh6pfd8oxq" path="res://Editables/Widgets/Lights/WallLight.tscn" id="28_c1bsu"]
 
 [sub_resource type="GDScript" id="GDScript_5cfjs"]
 script/source = "extends Label
@@ -42,9 +44,9 @@ textures = [[ExtResource("11_ig5vs")], [null]]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oye0x"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffggw"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_23w7t")
 shading_mode = 2
@@ -59,9 +61,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oa161"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o5jgf"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_vhwpt")
 shading_mode = 2
@@ -76,9 +78,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uwu5i"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pg0oq"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_1fvk7")
 shading_mode = 2
@@ -93,9 +95,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1kxxt"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_algo7"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_7ngws")
 shading_mode = 2
@@ -110,9 +112,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vcxvm"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qh4n1"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_50yqm")
 shading_mode = 2
@@ -127,9 +129,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f4bay"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2df24"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_ttrob")
 shading_mode = 2
@@ -144,9 +146,31 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tgiwj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i1t8e"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_bg805")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqh6w"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_bg805")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x77sc"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_bg805")
 shading_mode = 2
@@ -161,9 +185,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wlhw2"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qhqmf"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_qughy")
 shading_mode = 2
@@ -178,9 +202,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfcgn"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_35kf6"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_114w4")
 shading_mode = 2
@@ -195,9 +219,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tli8u"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cv3nj"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_to7x2")
 shading_mode = 2
@@ -212,9 +236,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_olqcl"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i241q"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_k7fd0")
 shading_mode = 2
@@ -229,9 +253,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e62tx"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jwiev"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_75cpy")
 shading_mode = 2
@@ -246,9 +270,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_njffd"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jsm1y"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_h3uut")
 shading_mode = 2
@@ -263,9 +287,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ca41b"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8od0"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_gvoi6")
 shading_mode = 2
@@ -280,9 +304,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jff6d"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slcex"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_cb0lg")
 shading_mode = 2
@@ -297,9 +321,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j1etk"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4n14i"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_jkv61")
 shading_mode = 2
@@ -314,28 +338,11 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44bky"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pu613"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_013kk")
-shading_mode = 2
-albedo_color = Color(1, 1, 1, 0)
-albedo_texture = ExtResource("14_2carf")
-metallic = 0.39
-emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 0.48
-rim_enabled = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sdpyq"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3yvwa"]
-resource_local_to_scene = true
-next_pass = SubResource("ShaderMaterial_sdpyq")
 shading_mode = 2
 albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("14_2carf")
@@ -348,9 +355,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wb2w"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrrm1"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_7crye")
 shading_mode = 2
@@ -365,9 +372,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1b556"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v1g2n"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_ug8q8")
 shading_mode = 2
@@ -382,9 +389,31 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_leymq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vcn7m"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_mplsw")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5abm5"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_mplsw")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
+rim_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_54mwi"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_mplsw")
 shading_mode = 2
@@ -399,9 +428,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_igegp"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_75ghc"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_ff8qr")
 shading_mode = 2
@@ -416,9 +445,9 @@ rim_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("15_0jdes")
-shader_parameter/color_override = Color(1, 1, 1, 0)
+shader_parameter/color_override = Color(0, 0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2uxx"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qubil"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_av7jm")
 shading_mode = 2
@@ -429,8 +458,59 @@ emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.48
 rim_enabled = true
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wot3x"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(0, 0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nsos5"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_wot3x")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+rim_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xm5dh"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(0, 0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gfdf0"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_xm5dh")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+rim_enabled = true
+
+[sub_resource type="Sky" id="Sky_fjm7j"]
+
 [sub_resource type="Environment" id="Environment_fmx5x"]
 background_mode = 2
+sky = SubResource("Sky_fjm7j")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ahqt7"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("15_0jdes")
+shader_parameter/color_override = Color(0, 0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3l5bs"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_ahqt7")
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("14_2carf")
+metallic = 0.39
+emission = Color(1, 1, 1, 1)
+rim_enabled = true
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_etb36")
@@ -440,7 +520,7 @@ script = ExtResource("1_etb36")
 [node name="FogOfWar" parent="." instance=ExtResource("1_0tx6p")]
 Update_Period = 0.1
 Dimensions = Vector2i(512, 512)
-Fog_Explored_Color = Color(0, 0, 0, 0.733333)
+Fog_Explored_Color = Color(0, 0, 0, 0.858824)
 
 [node name="FPS Label" type="Label" parent="."]
 anchors_preset = 5
@@ -456,7 +536,7 @@ script = SubResource("GDScript_5cfjs")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, -1.04251e-15, 0, 1.19249e-08, 1, 8.74228e-08, 1, -1.19249e-08, 0, 34.2096, -50.9579)
-light_color = Color(0.239216, 0.239216, 0.239216, 1)
+light_color = Color(0, 0, 0, 1)
 shadow_bias = 0.05
 shadow_normal_bias = 10.0
 shadow_blur = 0.346
@@ -469,20 +549,15 @@ directional_shadow_pancake_size = 0.0
 sky_mode = 1
 
 [node name="Player Spawner" parent="." instance=ExtResource("12_0qpk4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3375, 1, -39.0777)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3375, 1, -30.0777)
 
 [node name="Player Spawner2" parent="." instance=ExtResource("12_0qpk4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3905, 1, -39.0777)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3905, 1, -30.0777)
 
 [node name="Player Spawner3" parent="." instance=ExtResource("12_0qpk4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.21023, 1, -39.0777)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.21023, 1, -30.0777)
 
 [node name="Widgets" type="Node3D" parent="."]
-
-[node name="test4" parent="Widgets" instance=ExtResource("12_jk35b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 20, -44)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Widgets/test4"]
 
 [node name="Crate" parent="Widgets" instance=ExtResource("9_8c8ae")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -50)
@@ -491,7 +566,6 @@ health = null
 decay_time = null
 interact_size = null
 remove_on_decay = null
-Visible_Once_Revealed = null
 always_visible_in_fog = null
 
 [node name="Crate4" parent="Widgets" instance=ExtResource("9_8c8ae")]
@@ -501,7 +575,6 @@ health = null
 decay_time = null
 interact_size = null
 remove_on_decay = null
-Visible_Once_Revealed = null
 always_visible_in_fog = null
 
 [node name="Crate5" parent="Widgets" instance=ExtResource("9_8c8ae")]
@@ -511,7 +584,6 @@ health = null
 decay_time = null
 interact_size = null
 remove_on_decay = null
-Visible_Once_Revealed = null
 always_visible_in_fog = null
 
 [node name="Crate2" parent="Widgets" instance=ExtResource("9_8c8ae")]
@@ -521,7 +593,6 @@ health = null
 decay_time = null
 interact_size = null
 remove_on_decay = null
-Visible_Once_Revealed = null
 always_visible_in_fog = null
 
 [node name="Crate3" parent="Widgets" instance=ExtResource("9_8c8ae")]
@@ -531,7 +602,6 @@ health = null
 decay_time = null
 interact_size = null
 remove_on_decay = null
-Visible_Once_Revealed = null
 always_visible_in_fog = null
 
 [node name="Barrel" parent="Widgets" instance=ExtResource("10_4ghog")]
@@ -541,7 +611,6 @@ health = null
 decay_time = null
 interact_size = null
 remove_on_decay = null
-Visible_Once_Revealed = null
 always_visible_in_fog = null
 
 [node name="Barrel2" parent="Widgets" instance=ExtResource("10_4ghog")]
@@ -551,14 +620,13 @@ health = null
 decay_time = null
 interact_size = null
 remove_on_decay = null
-Visible_Once_Revealed = null
 always_visible_in_fog = null
 
 [node name="Hatch" parent="Widgets" instance=ExtResource("20_vs4ky")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, -32)
 
 [node name="First Aid Kit" parent="Widgets" instance=ExtResource("13_x1j02")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -50)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7, 0, -50)
 max_health = null
 health = null
 death_time = null
@@ -588,6 +656,35 @@ transform = Transform3D(4.17272e-08, 0, 1, 0, 1, 0, -1, 0, 4.17272e-08, 2.5, 1, 
 [node name="Long Crate2" parent="Widgets" instance=ExtResource("25_jgxhn")]
 transform = Transform3D(4.17272e-08, 0, 1, 0, 1, 0, -1, 0, 4.17272e-08, 2.5, 0, -42)
 
+[node name="Long Crate4" parent="Widgets" instance=ExtResource("25_jgxhn")]
+transform = Transform3D(-1, 0, -1.98419e-09, 0, 1, 0, 1.98419e-09, 0, -1, 5, 0, -28.5)
+
+[node name="Long Crate5" parent="Widgets" instance=ExtResource("25_jgxhn")]
+transform = Transform3D(-1, 0, -1.98419e-09, 0, 1, 0, 1.98419e-09, 0, -1, 4, 1, -28.5)
+
+[node name="Long Crate6" parent="Widgets" instance=ExtResource("25_jgxhn")]
+transform = Transform3D(-1, 0, -1.98419e-09, 0, 1, 0, 1.98419e-09, 0, -1, 3, 0, -28.5)
+
+[node name="Wall Light" parent="Widgets" instance=ExtResource("28_c1bsu")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 3, -50.5)
+color = Color(0.780392, 1, 1, 1)
+
+[node name="Wall Light5" parent="Widgets" instance=ExtResource("28_c1bsu")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 3, -28.5)
+color = Color(0.780392, 1, 1, 1)
+
+[node name="Wall Light2" parent="Widgets" instance=ExtResource("28_c1bsu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 3, -25)
+color = Color(0.780392, 1, 1, 1)
+
+[node name="Wall Light3" parent="Widgets" instance=ExtResource("28_c1bsu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 3, -13)
+color = Color(0.780392, 1, 1, 1)
+
+[node name="Wall Light4" parent="Widgets" instance=ExtResource("28_c1bsu")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 6.5, 3, -13)
+color = Color(0.780392, 1, 1, 1)
+
 [node name="HTerrain" type="Node3D" parent="."]
 script = ExtResource("7_8x5y8")
 centered = true
@@ -614,100 +711,118 @@ shader_params/u_tile_reduction = null
 [node name="Cliff_Corner" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -9, 0, -47)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_oye0x")
+surface_material_override/0 = SubResource("StandardMaterial3D_ffggw")
 
 [node name="Cliff_Corner2" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, -1, 0, -47)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_oa161")
+surface_material_override/0 = SubResource("StandardMaterial3D_o5jgf")
+
+[node name="VisionBlocker" parent="StaticObjects/Cliff_Corner2" index="0"]
+Occlusion_Points = [Vector2i(-3, -3), Vector2i(-3, -2), Vector2i(-2, -3), Vector2i(-2, -2), Vector2i(-1, -3), Vector2i(-1, -2), Vector2i(0, -3), Vector2i(0, -2), Vector2i(1, -3), Vector2i(1, -2), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1), Vector2i(1, 2), Vector2i(2, -3), Vector2i(2, -2), Vector2i(2, -1), Vector2i(2, 0), Vector2i(2, 1), Vector2i(2, 2)]
+
+[node name="PathingBlocker" parent="StaticObjects/Cliff_Corner2" index="1"]
+Block_Points = [Vector2(-3, -3), Vector2(-3, -2), Vector2(-2, -3), Vector2(-2, -2), Vector2(-1, -3), Vector2(-1, -2), Vector2(0, -3), Vector2(0, -2), Vector2(1, -3), Vector2(1, -2), Vector2(1, -1), Vector2(1, 0), Vector2(1, 1), Vector2(1, 2), Vector2(2, -3), Vector2(2, -2), Vector2(2, -1), Vector2(2, 0), Vector2(2, 1), Vector2(2, 2)]
 
 [node name="Cliff_Corner3" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, 3, 0, -13)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_uwu5i")
+surface_material_override/0 = SubResource("StandardMaterial3D_pg0oq")
 
 [node name="Cliff_Corner6" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -21, 0, -21)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_1kxxt")
+surface_material_override/0 = SubResource("StandardMaterial3D_algo7")
 
 [node name="Cliff_Corner4" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(5.24537e-07, 0, 4, 0, 4, 0, -4, 0, 5.24537e-07, 3, 0, -13)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_vcxvm")
+surface_material_override/0 = SubResource("StandardMaterial3D_qh4n1")
 
 [node name="Cliff_Corner5" parent="StaticObjects" instance=ExtResource("14_av43x")]
 transform = Transform3D(4, 0, -6.99382e-07, 0, 4, 0, 6.99382e-07, 0, 4, -21, 0, -13)
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_f4bay")
+surface_material_override/0 = SubResource("StandardMaterial3D_2df24")
 
 [node name="Cliff_Straight2" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(5.24537e-07, 0, -4, 0, 4, 0, 4, 0, 5.24537e-07, -5, 0, -47)
-surface_material_override/0 = SubResource("StandardMaterial3D_tgiwj")
+surface_material_override/0 = SubResource("StandardMaterial3D_i1t8e")
+
+[node name="Cliff_Straight7" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(5.24537e-07, 0, -4, 0, 4, 0, 4, 0, 5.24537e-07, 5, 0, -25)
+surface_material_override/0 = SubResource("StandardMaterial3D_aqh6w")
+
+[node name="Cliff_Straight15" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
+transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, 5, 0, -25)
+surface_material_override/0 = SubResource("StandardMaterial3D_x77sc")
 
 [node name="Cliff_Straight9" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -1, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_wlhw2")
+surface_material_override/0 = SubResource("StandardMaterial3D_qhqmf")
 
 [node name="Cliff_Straight10" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -9, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_jfcgn")
+surface_material_override/0 = SubResource("StandardMaterial3D_35kf6")
 
 [node name="Cliff_Straight11" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-8.74228e-07, 0, 4, 0, 4, 0, -4, 0, -8.74228e-07, -17, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_tli8u")
+surface_material_override/0 = SubResource("StandardMaterial3D_cv3nj")
 
 [node name="Cliff_Straight12" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(1.22392e-06, 0, -4, 0, 4, 0, 4, 0, 1.22392e-06, -17, 0, -13)
-surface_material_override/0 = SubResource("StandardMaterial3D_olqcl")
+surface_material_override/0 = SubResource("StandardMaterial3D_i241q")
 
 [node name="Cliff_Straight14" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-4, 0, -1.04907e-06, 0, 4, 0, 1.04907e-06, 0, -4, -25, 0, -21)
-surface_material_override/0 = SubResource("StandardMaterial3D_e62tx")
+surface_material_override/0 = SubResource("StandardMaterial3D_jwiev")
 
 [node name="Cliff_Straight3" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -43)
-surface_material_override/0 = SubResource("StandardMaterial3D_njffd")
+surface_material_override/0 = SubResource("StandardMaterial3D_jsm1y")
 
 [node name="Cliff_Straight8" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -5, 0, -25)
-surface_material_override/0 = SubResource("StandardMaterial3D_ca41b")
+surface_material_override/0 = SubResource("StandardMaterial3D_l8od0")
 
 [node name="Cliff_Straight13" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -21, 0, -17)
-surface_material_override/0 = SubResource("StandardMaterial3D_jff6d")
+surface_material_override/0 = SubResource("StandardMaterial3D_slcex")
 
 [node name="Cliff_Straight5" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -35)
-surface_material_override/0 = SubResource("StandardMaterial3D_j1etk")
+surface_material_override/0 = SubResource("StandardMaterial3D_4n14i")
 
 [node name="Cliff_Straight4" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -1, 0, -43)
-surface_material_override/0 = SubResource("StandardMaterial3D_44bky")
-
-[node name="Cliff_Straight7" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
-transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -5, 0, -25)
-surface_material_override/0 = SubResource("StandardMaterial3D_3yvwa")
+surface_material_override/0 = SubResource("StandardMaterial3D_pu613")
 
 [node name="Cliff_Straight6" parent="StaticObjects" instance=ExtResource("15_bv1i0")]
 transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, -1, 0, -35)
-surface_material_override/0 = SubResource("StandardMaterial3D_2wb2w")
+surface_material_override/0 = SubResource("StandardMaterial3D_vrrm1")
 
 [node name="Cliff_Corner_Outer2" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, -33)
-surface_material_override/0 = SubResource("StandardMaterial3D_1b556")
+surface_material_override/0 = SubResource("StandardMaterial3D_v1g2n")
 
 [node name="Cliff_Corner_Outer4" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, -9, 0, -17)
-surface_material_override/0 = SubResource("StandardMaterial3D_leymq")
+surface_material_override/0 = SubResource("StandardMaterial3D_vcn7m")
+
+[node name="Cliff_Corner_Outer6" parent="StaticObjects" instance=ExtResource("14_jicqe")]
+transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, 13, 0, -29)
+surface_material_override/0 = SubResource("StandardMaterial3D_5abm5")
+
+[node name="Cliff_Corner_Outer7" parent="StaticObjects" instance=ExtResource("14_jicqe")]
+transform = Transform3D(4, 0, -4.40536e-13, 0, 4, 0, 4.40536e-13, 0, 4, 13, 0, -21)
+surface_material_override/0 = SubResource("StandardMaterial3D_54mwi")
 
 [node name="Cliff_Corner_Outer5" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(-4, 0, 3.49691e-07, 0, 4, 0, -3.49691e-07, 0, -4, -1, 0, -17)
-surface_material_override/0 = SubResource("StandardMaterial3D_igegp")
+surface_material_override/0 = SubResource("StandardMaterial3D_75ghc")
 
 [node name="Cliff_Corner_Outer3" parent="StaticObjects" instance=ExtResource("14_jicqe")]
 transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, -1, 0, -33)
-surface_material_override/0 = SubResource("StandardMaterial3D_b2uxx")
+surface_material_override/0 = SubResource("StandardMaterial3D_qubil")
 
 [node name="CliffDarkness2" parent="StaticObjects" instance=ExtResource("16_f5214")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -14, 2, -31)
@@ -739,15 +854,25 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.5,
 [node name="Pipe" parent="StaticObjects" instance=ExtResource("24_7b3gw")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.5, 0, -47.5)
 
+[node name="Model" parent="StaticObjects/Pipe" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nsos5")
+
 [node name="Pipe2" parent="StaticObjects" instance=ExtResource("24_7b3gw")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0, -50.5)
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5, 14, -42)
-light_energy = 10.026
-shadow_enabled = true
-spot_range = 25.0
-spot_angle = 54.5131
+[node name="Model" parent="StaticObjects/Pipe2" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_gfdf0")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fmx5x")
+
+[node name="Cliff_Straight_Open" parent="." instance=ExtResource("26_5htme")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 5, 0, -25)
+surface_material_override/0 = SubResource("StandardMaterial3D_3l5bs")
+
+[node name="test" parent="." instance=ExtResource("27_xu7dh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -41)
+
+[editable path="StaticObjects/Cliff_Corner2"]
+[editable path="StaticObjects/Pipe"]
+[editable path="StaticObjects/Pipe2"]

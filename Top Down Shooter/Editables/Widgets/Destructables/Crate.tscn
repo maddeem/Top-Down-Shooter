@@ -199,6 +199,7 @@ orientation = 2
 death_time = 2.0
 
 [node name="PathingBlocker" parent="." index="0" instance=ExtResource("2_4qvto")]
+Block_Points = [Vector2(-1, -1), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 0)]
 
 [node name="CollisionShape3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -221,9 +222,6 @@ explosiveness = 1.0
 visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
 process_material = SubResource("ParticleProcessMaterial_duwtl")
 draw_pass_1 = SubResource("PlaneMesh_hc80e")
-
-[node name="Selection Circle" parent="." index="6"]
-visible = true
 
 [node name="Model" parent="." index="7"]
 mesh = ExtResource("2_33c2r")

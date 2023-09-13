@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://drfvh6pfd8oxq"]
+
+[ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_fi66r"]
+[ext_resource type="ArrayMesh" uid="uid://deoqjbv8lcea3" path="res://Assets/Models/WallLight1.obj" id="2_lw3b4"]
+[ext_resource type="Script" path="res://Scripts/WallLight.gd" id="2_mqc8g"]
+[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="4_nqg70"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="6_8rxyt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bt1hd"]
+next_pass = ExtResource("6_8rxyt")
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+metallic = 0.5
+emission_energy_multiplier = 2.0
+disable_receive_shadows = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eh71r"]
+size = Vector3(1.39267, 2, 2.01004)
+
+[node name="Wall Light" instance=ExtResource("1_fi66r")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_mqc8g")
+color = Color(1, 1, 1, 1)
+Visible_Once_Revealed = false
+always_visible_in_fog = true
+
+[node name="Health Bar" parent="." index="1"]
+transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 2.166, 0)
+
+[node name="Model" parent="." index="4"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = ExtResource("2_lw3b4")
+surface_material_override/0 = ExtResource("4_nqg70")
+surface_material_override/1 = SubResource("StandardMaterial3D_bt1hd")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Model" index="0"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.146726, 0.884417, 0)
+light_energy = 16.0
+shadow_enabled = true
+distance_fade_enabled = true
+omni_range = 25.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.31615, 1, 0)
+shape = SubResource("BoxShape3D_eh71r")

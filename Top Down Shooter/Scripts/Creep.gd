@@ -36,7 +36,7 @@ func update_point(point : Vector2, add : int):
 var update_viewport = 0
 func _physics_process(_delta):
 	update_viewport += 1
-	if update_viewport > 3:
+	if update_viewport > 1:
 		update_viewport = 0
 		RenderingServer.global_shader_parameter_set("CreepData",ImageTexture.create_from_image(vp.get_texture().get_image()))
 		if _update_required:

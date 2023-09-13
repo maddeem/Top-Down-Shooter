@@ -14,6 +14,7 @@ const FOLDER_PATH = "res://Assets/PathingTextures/"
 			return
 		add_to_group("UpdateBlockers")
 		var img : Image = load(Blocker_Texture).get_image()
+		img = img.duplicate()
 		img.decompress()
 		match Last_Rotation:
 			1:
@@ -36,12 +37,12 @@ const FOLDER_PATH = "res://Assets/PathingTextures/"
 		#Is done at run time, but I can look into making the cache be part of the loading
 		#phase
 		Block_Points = []
-		var size = Vector2i(img.get_width(),img.get_height())
+		var size = Vector2(img.get_width(),img.get_height())
 		var half = size/2
 		for x in size.x:
 			for y in size.y:
 				if img.get_pixel(x,y).a != 0:
-					Block_Points.append(Vector2i(x,y)-half)
+					Block_Points.append(Vector2(x,y)-half)
 		Cache.write_to("blockers",Blocker_Texture+str(Last_Rotation),Block_Points)
 
 ## Automatically generated from the Occluder texture. Do not modify unless you know what you are doing.
@@ -56,7 +57,7 @@ func _ready():
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		var cur_pos = Vector2i(Vector2(global_position.x,global_position.z).floor())
+		var cur_pos = Vector2(global_position.x,global_position.z)
 		var cur_angle = wrapi(round(global_rotation_degrees.y/90)+1,0,4)
 		if Last_Rotation != cur_angle:
 			Last_Rotation = cur_angle
