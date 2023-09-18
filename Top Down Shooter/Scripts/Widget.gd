@@ -10,6 +10,7 @@ class_name Widget extends CharacterBody3D
 @onready var _health_bar = $"Health Bar"
 @onready var _selection_circle = $"Selection Circle"
 @export var interact_size : float = 1.0
+@export var attack_priority : float = 1.0
 var facing_angle : float
 var revealed_once = false
 @export var remove_on_decay := true
@@ -17,6 +18,8 @@ var dead := false
 var current_animation
 var current_animation_play_start
 var instance_id : int
+@export var player_owner := 30: set = set_player_owner
+var _player_owner : Player
 var object_id : int:
 	get:
 		return Cache.read_from("WidgetID",scene_file_path)
@@ -41,10 +44,14 @@ var _visible = false
 var _health_bar_displaying = false
 @onready var _prev_trans = [global_position,rotation.y]
 @onready var _target_trans = [global_position,rotation.y]
-
 var buffer = []
 var buffer_last_sent = 0
 @onready var update_last = [global_position,rotation.y]
+
+func set_player_owner(value):
+	player_owner = value
+	if get_parent():
+		_player_owner = PlayerLib.PlayerByIndex[value]
 
 func _update_visibility():
 	if Visible_Once_Revealed or always_visible_in_fog:
@@ -68,7 +75,11 @@ func _play_anim(anim_name : StringName, queued : bool = false, custom_blend: flo
 				Animation_Player.advance(100)
 			Animation_Player.play(anim_name,custom_blend)
 
+func visible_to_player(p:Player) -> bool:
+	return Globals.FogOfWar.IsPointVisibleToBitId(p._player_visibility, global_position)
+
 func _ready():
+	player_owner = player_owner
 	instance_id = WidgetFactory.get_new_id(self)
 	tree_exiting.connect(func():
 		WidgetFactory.recycle_id(self)

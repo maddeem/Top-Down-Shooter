@@ -29,7 +29,7 @@ func create_widget_at(id : int, pos : Vector3) -> Widget:
 @rpc("authority","call_local","reliable")
 func create_unit_at(id : int,pos : Vector3,player_owner : int):
 	var new = create_widget_at(id,pos)
-	new.player_owner = PlayerLib.PlayerById[player_owner]
+	new.player_owner = player_owner
 	return new
 
 func Instance2Widget(inst :int) -> Widget:

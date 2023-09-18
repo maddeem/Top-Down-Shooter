@@ -2,30 +2,54 @@ extends Node
 var PlayerSpawnPoints : Array = []
 var PlayerByIndex = {}
 var PlayerById = {}
-var AllPlayers : Array = []
+var HumanPlayers : Array[Player] = []
+var AllPlayers : Array[Player] = []
 var PlayerCount : int = 0
+var PLAYER_NEUTRAL := create_player(30,30,COMPUTER)
+var PLAYER_HOSTILE := create_player(29,29,COMPUTER)
+var PLAYER_THRUL := create_player(28,28,COMPUTER)
+var PLAYER_SHIP := create_player(27,27,COMPUTER)
+enum {
+	HUMAN,
+	COMPUTER
+}
 
+func create_player(id : int, index : int, controller : int) -> Player:
+	var new = Player.new()
+	new.id = id
+	new.index = index
+	new.bit_id = Utility.get_bit(index)
+	new.controller = controller
+	PlayerById[id] = new
+	PlayerByIndex[index] = new
+	AllPlayers.append(new)
+	add_child(new)
+	return new
 
 func create_players():
 	var i = 0
-	PlayerByIndex = {}
-	PlayerById = {}
 	for player in Network.Players:
-		var new = Player.new()
-		new.id = player
-		new.index = i
-		PlayerById[player] = new
-		PlayerByIndex[i] = new
-		new.bit_id = Utility.get_bit(i)
+		var new = create_player(player,i,HUMAN)
 		i += 1
-		AllPlayers.append(new)
-	Globals.LocalPlayerBit = PlayerById[multiplayer.get_unique_id()].bit_id
+		HumanPlayers.append(new)
 	if multiplayer.is_server():
-		for player in AllPlayers:
+		for player in HumanPlayers:
 			var j = randi_range(0,PlayerSpawnPoints.size()-1)
 			WidgetFactory.create_unit_at.rpc(
 				WidgetFactory.swap_id_path("res://Scenes/Widgets/PlayerUnit.tscn"),
 				PlayerSpawnPoints.pop_at(j),
-				player.id
+				player.index
 			)
+	for player1 in HumanPlayers:
+		player1.set_alliance_both(PLAYER_SHIP,true,false)
+		for player2 in HumanPlayers:
+			if player1 != player2:
+				player1.set_player_ally(player2,true)
+				player1.set_player_visible(player2,false)
+	for player1 in AllPlayers:
+		if player1 != PLAYER_NEUTRAL:
+			player1.set_alliance_both(PLAYER_NEUTRAL,true,false)
+		if player1 != PLAYER_HOSTILE:
+			player1.set_alliance_both(PLAYER_HOSTILE,false,false)
+	PLAYER_THRUL.set_alliance_both(PLAYER_SHIP,false,false)
 	PlayerCount = Network.Players.size()

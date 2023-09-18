@@ -551,6 +551,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_t0yqy")
 surface_material_override/0 = SubResource("StandardMaterial3D_oj6tm")
 
 [node name="MeshL" parent="Model/cliff_hatch" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660465, 0, 0)
 surface_material_override/0 = ExtResource("3_sgmlr")
 
 [node name="Keypad_002" parent="Model/cliff_hatch/MeshL" index="0"]

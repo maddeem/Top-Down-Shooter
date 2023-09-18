@@ -11,10 +11,8 @@ var NavigationRegion
 var WidgetParent
 var CreepHandler
 var TicksPerSecond = ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
-var LocalPlayerBit : int:
-	set(value):
-		LocalPlayerBit = value
-		RenderingServer.global_shader_parameter_set("FogPlayerBit", LocalPlayerBit)
+var LocalPlayerBit : int
+var LocalVisionBit : int
 
 func _process(delta):
 	TimeElapsed += delta

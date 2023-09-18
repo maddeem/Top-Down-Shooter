@@ -26,21 +26,25 @@ func get_bit(val : int) -> int:
 func convert_bit_to_color(value : int):
 	if Cache.exists("bit_color",value):
 		return Cache.read_from("bit_color",value)
-	var new = Vector3(0,0,0);
-	new.x = ( (value >> 16) & 0xFF) / 255.0;
-	new.y = ( (value >> 8) & 0xFF) / 255.0;
-	new.z = (value & 0xFF) / 255.0;
+	var new = Vector4(
+		((value >> 24) & 0xFF) / 255.0,
+		((value >> 16) & 0xFF) / 255.0,
+		((value >> 8) & 0xFF) / 255.0,
+		(value & 0xFF) / 255.0,
+	)
 	Cache.write_to("bit_color",value,new)
 	return new;
 
 func convert_color_to_bit(color):
 	if Cache.exists("bit_color",color):
 		return Cache.read_from("bit_color",color)
-	var new = Vector3i(0,0,0)
-	new.x = round(color[0] * 255)
-	new.y = round(color[1] * 255)
-	new.z= round(color[2] * 255)
-	var val = (new.x << 16) | (new.y << 8) | new.z
+	var new = Vector4i(
+		round(color[0] * 255),
+		round(color[1] * 255),
+		round(color[2] * 255),
+		round(color[3] * 255)
+	)
+	var val = (new.x << 24) | (new.y << 16) | (new.z << 8) | new.w
 	Cache.write_to("bit_color",color,val)
 	return val
 

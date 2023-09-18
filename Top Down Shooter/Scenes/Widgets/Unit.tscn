@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cjv8bwnhul5nc"]
+[gd_scene load_steps=10 format=3 uid="uid://cjv8bwnhul5nc"]
 
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_gi0i5"]
 [ext_resource type="Script" path="res://Scripts/Unit.gd" id="2_l6c0k"]
+[ext_resource type="PackedScene" uid="uid://csjakg7hsjx1n" path="res://Scenes/aggro_system.tscn" id="3_82slv"]
 [ext_resource type="Script" path="res://Scripts/VisibilityModifier.gd" id="3_e4uys"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_dl5od"]
@@ -28,17 +29,19 @@ Turn_Speed = 3.0
 Movement_Angle = 0.785398
 player_owner = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+[node name="AggroSystem" parent="." index="0" instance=ExtResource("3_82slv")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
 shape = SubResource("CylinderShape3D_dl5od")
 
-[node name="VisibilityModifier" type="Node3D" parent="." index="2"]
+[node name="VisibilityModifier" type="Node3D" parent="." index="3"]
 script = ExtResource("3_e4uys")
 Radius = 32
 
-[node name="Health Bar" parent="." index="3"]
+[node name="Health Bar" parent="." index="4"]
 transform = Transform3D(0.455, 0, 0, 0, 0.455, 0, 0, 0, 0.455, 0, 1.21182, 0)
 
-[node name="Area3D" type="Area3D" parent="." index="6"]
+[node name="Area3D" type="Area3D" parent="." index="7"]
 collision_layer = 0
 collision_mask = 6
 monitorable = false
@@ -46,12 +49,12 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
 shape = SubResource("SphereShape3D_u72f3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="7"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="8"]
 top_level = true
 mesh = SubResource("PlaneMesh_et03p")
 surface_material_override/0 = SubResource("StandardMaterial3D_04lhe")
 
-[node name="Model" parent="." index="8"]
+[node name="Model" parent="." index="9"]
 mesh = SubResource("CapsuleMesh_u7su0")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

@@ -16,7 +16,7 @@ emission_energy_multiplier = 2.0
 disable_receive_shadows = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eh71r"]
-size = Vector3(1.39267, 2, 2.01004)
+size = Vector3(0.703704, 1, 1.002)
 
 [node name="Wall Light" instance=ExtResource("1_fi66r")]
 collision_layer = 2
@@ -43,5 +43,5 @@ distance_fade_enabled = true
 omni_range = 25.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.31615, 1, 0)
+transform = Transform3D(0.998538, 0.0540614, 0, -0.0540614, 0.998538, 0, 0, 0, 1, -0.179318, 0.482348, 0)
 shape = SubResource("BoxShape3D_eh71r")

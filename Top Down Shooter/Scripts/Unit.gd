@@ -2,12 +2,6 @@ class_name Unit extends Widget
 @export var Speed := 5.0
 @export var Turn_Speed := 3.0
 @export var Movement_Angle = PI*.25
-@export var player_owner := 0:
-	set(value):
-		player_owner = value
-		if vision_modifier:
-			_bit_owner = Utility.get_bit(value)
-			vision_modifier.Owner = player_owner
 @onready var vision_modifier = $VisibilityModifier
 var _bit_owner
 var _path
@@ -15,6 +9,12 @@ var _path_ind : int
 var push := Vector3.ZERO
 var push_list := []
 var push_strength = 4
+
+func set_player_owner(value):
+	super(value)
+	if get_parent():
+		_bit_owner = Utility.get_bit(value)
+		vision_modifier.Owner = player_owner
 
 func set_path(p : PackedVector2Array):
 	_path_ind = 0

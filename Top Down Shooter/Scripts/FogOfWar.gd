@@ -24,7 +24,7 @@ extends Node
 			return
 		_double_size = value * 2
 		occluder_image_map = Image.create(_double_size.x,_double_size.y,false,Image.FORMAT_RGBA8)
-		occluder_image_map.fill(Color.BLACK)
+		occluder_image_map.fill(Color(0,0,0,0))
 		_previous_iteration.size = Dimensions + Vector2i(1,1)
 		_local_previous.size = _previous_iteration.size
 		_viewport.size = Dimensions + Vector2i(1,1)
@@ -54,7 +54,7 @@ extends Node
 					which_color = Fog_Revealed_Color
 			RenderingServer.global_shader_parameter_set("FogUnexploredColor", which_color)
 			_initial_image = Image.create(1,1,false,Image.FORMAT_RGBA8)
-			_initial_image.fill(which_color)
+			_initial_image.fill(Color(0,0,0,0))
 			_initial_image = ImageTexture.create_from_image(_initial_image)
 			_reset_fog()
 
@@ -138,19 +138,19 @@ func _ready() -> void:
 func Position_To_Pixel(pos : Vector3) -> Vector2i:
 	return Vector2i(Vector2(pos.x,pos.z).floor()) + Dimensions
 
-func IsPointVisibleToBitId(BitId : int, pos : Vector2) -> bool:
+func IsPointVisibleToBitId(BitId : int, pos : Vector3) -> bool:
 	if not _last_fog_image:
 		return false
-	var adjust_pos = Position_To_Pixel(Vector3(pos.x,0,pos.y))/2
+	var adjust_pos = Position_To_Pixel(pos)/2
 	var color = _last_fog_image.get_pixelv(adjust_pos)
-	return BitId & Utility.convert_color_to_bit(color) == BitId
+	return Utility.convert_color_to_bit(color) & BitId != 0
 
 func _check_observers():
 	for point in _observer_data:
 		var color = Utility.convert_color_to_bit(_last_fog_image.get_pixelv(point))
 		for observer in _observer_data[point]:
 			if is_instance_valid(observer):
-				observer.is_visible = Globals.LocalPlayerBit & color == Globals.LocalPlayerBit
+				observer.is_visible = color & Globals.LocalVisionBit != 0
 			else:
 				_observer_data[point].erase(observer)
 				if _observer_data[point].size() == 0:

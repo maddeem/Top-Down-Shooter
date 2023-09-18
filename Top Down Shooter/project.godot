@@ -27,10 +27,6 @@ Network="*res://Scripts/Network.gd"
 PlayerLib="*res://Scripts/PlayerLib.gd"
 WidgetFactory="*res://Scripts/WidgetFactory.gd"
 
-[display]
-
-window/size/resizable=false
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/jm_pp_outlines/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg")
@@ -147,10 +143,6 @@ FogDataLocal={
 "type": "sampler2D",
 "value": "res://Materials/DO NOT DELETE.tres"
 }
-FogPlayerBit={
-"type": "int",
-"value": 1
-}
 CreepData={
 "type": "sampler2D",
 "value": "res://Materials/DO NOT DELETE.tres"
@@ -162,4 +154,8 @@ CreepTexture={
 CreepDataIn={
 "type": "sampler2D",
 "value": "res://Materials/DO NOT DELETE.tres"
+}
+FogPlayerBit={
+"type": "int",
+"value": 0
 }

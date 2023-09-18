@@ -7,14 +7,15 @@ class_name PlayerUnit extends Widget
 @export var friction := 25
 @export var acceleration_smoothing := 10
 @export var turn_speed = 1.0
-var player_owner : Player:
-	set(value):
-		player_owner = value
-		is_owner = player_owner.id == multiplayer.get_unique_id()
-		camera._camera.current = is_owner
 var is_owner = false
 var _camera_offset = Vector3(0,2,0.7)
 
+func set_player_owner(value):
+	super(value)
+	if get_parent():
+		is_owner = PlayerLib.PlayerByIndex[value].id == multiplayer.get_unique_id()
+		camera._camera.current = is_owner
+		$VisibilityModifier.Owner = value
 func _ready():
 	super._ready()
 
@@ -26,7 +27,7 @@ func _input(_event):
 		velocity.y = JUMP_VELOCITY
 
 func set_next_transform(_sender : int, pos : Vector3, rot : float):
-	if player_owner.id != multiplayer.get_unique_id():
+	if not is_owner:
 		global_position = pos
 		rotation.y = rot
 		new_buffer(pos,rot)

@@ -17,12 +17,13 @@ int when_le(int x, int y) {return 1 - when_gt(x, y);}
 float fwhen_lt(float x, float y) {return max(sign(y - x), 0.0);}
 float fwhen_gt(float x, float y) {return max(sign(x - y), 0.0);}
 
-vec3 bit_to_color(int value){
-	return vec3(
-		float( (value >> 16) & 0xFF) / 255.0,
-		float( (value >> 8) & 0xFF) / 255.0,
-		float(value & 0xFF) / 255.0
-	);
+vec4 bit_to_color(int value) {
+    return vec4(
+        float((value >> 24) & 0xFF) / 255.0,
+        float((value >> 16) & 0xFF) / 255.0,
+        float((value >> 8) & 0xFF) / 255.0,
+        float(value & 0xFF) / 255.0
+    );
 }
 
 bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
@@ -58,7 +59,7 @@ bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
 }
 
 vec4 get_color(vec2 uv, vec2 scaler){
-	vec3 color = vec3(0);
+	vec4 color = vec4(0);
 	ivec2 iuv = ivec2(uv);
 	int bit_color = 0;
 	for (int i = 0; i < count; i++){
@@ -77,7 +78,7 @@ vec4 get_color(vec2 uv, vec2 scaler){
 			}
 		}
 	}
-	return vec4(color,1.0);
+	return color;
 }
 
 void fragment(){

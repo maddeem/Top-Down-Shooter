@@ -9,14 +9,14 @@ global uniform vec4 FogExploredColor;
 global uniform vec4 FogUnexploredColor;
 global uniform int FogPlayerBit;
 
-int color_to_bit(vec3 color){
-	ivec3 new = ivec3(round(color * 255.0));
-	return (new.x << 16) | (new.y << 8) | new.z;
+int color_to_bit(vec4 color){
+    ivec4 new_color = ivec4(round(color * 255.0));
+    return (new_color.r << 24) | (new_color.g << 16) | (new_color.b << 8) | new_color.a;
 }
 
 void fragment(){
 	vec4 sample = texture(FogData,UV);
-	if ((FogPlayerBit & color_to_bit(sample.rgb)) == FogPlayerBit){ //Is revealed
+	if ((color_to_bit(sample) & FogPlayerBit) != 0){ //Is revealed
 		COLOR = FogRevealColor;
 	}else{
 		if (texture(FogDataLocal,UV).a > 0.99){

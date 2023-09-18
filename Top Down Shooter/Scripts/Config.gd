@@ -1,2 +1,2 @@
 extends Node
-const MAX_PLAYERS = 24
+const MAX_PLAYERS = 31
