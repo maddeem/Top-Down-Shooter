@@ -3,6 +3,7 @@ render_mode diffuse_burley;
 #include "res://addons/zylann.hterrain/shaders/include/heightmap.gdshaderinc"
 #include "res://Materials/Shaders/SimplexNoise3D.gdshaderinc"
 #include "res://Materials/Shaders/Blur.gdshaderinc"
+#include "res://Materials/Shaders/Gross.gdshaderinc"
 
 uniform sampler2D u_terrain_heightmap;
 uniform sampler2D u_terrain_normalmap;
@@ -15,6 +16,7 @@ uniform sampler2D u_terrain_globalmap : source_color;
 uniform mat4 u_terrain_inverse_transform;
 uniform mat3 u_terrain_normal_basis;
 global uniform vec2 InverseFogDimensions;
+global uniform vec2 FogDimensions;
 global uniform sampler2D FogDataLocal : filter_linear_mipmap_anisotropic;
 global uniform sampler2D CreepData : filter_linear_mipmap_anisotropic;
 global uniform sampler2D CreepTexture : filter_linear_mipmap_anisotropic;
@@ -274,8 +276,14 @@ void fragment() {
 			ROUGHNESS = mix(ROUGHNESS, 1.0, globalmap_factor);
 		}
 		vec4 sample = texture(CreepData,uv);
-		float alpha = min(sample.a,blur(uv,2.0,InverseFogDimensions,CreepData).a * (snoise(vec3(uv2 * 0.1,TIME*0.1)) + 1.0) * 0.5);
-		ALBEDO = mix(ALBEDO,texture(CreepTexture,uv2 * 0.1).rgb,alpha * sample.g);
+//		float noise = (snoise(vec3(uv2 * 0.1,TIME*0.1)) + 1.0) * 0.5;
+		if (sample.a > 0.0){
+			vec3 slime = get_slime(UV,1.55*FogDimensions.x ).rgb;
+			float cut = 0.65 - (slime.x + slime.y + slime.z)/3.0;
+			float alpha = min(sample.a + cut,blur(uv,2.0,InverseFogDimensions,CreepData).a);
+			float result = clamp(alpha * sample.g - 0.4,0.0,1.0);
+			ALBEDO = mix(ALBEDO,slime + vec3( result * 0.3,0.0,result * 0.15),result);
+		}
 		NORMAL = (VIEW_MATRIX * (vec4(terrain_normal_world, 0.0))).xyz;
 		ALBEDO = mix(ALBEDO,color.rgb,color.a);
 		SPECULAR = clamp(1.0-color.a,0.0,0.5);

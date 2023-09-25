@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0v1qg12ksu2k"]
+[gd_scene load_steps=4 format=3 uid="uid://c0v1qg12ksu2k"]
 
 [ext_resource type="Script" path="res://Scripts/CameraController.gd" id="1_lcwdl"]
-[ext_resource type="Script" path="res://addons/jm_pp_outlines/jm_pp_outlines_camera.gd" id="2_3d42m"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_tyynb"]
 noise_type = 4
@@ -23,5 +22,4 @@ NoiseInstance = SubResource("FastNoiseLite_tyynb")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_75kr4")
 
-[node name="Outline_Camera" type="Camera3D" parent="."]
-script = ExtResource("2_3d42m")
+[node name="Camera3D" type="Camera3D" parent="."]

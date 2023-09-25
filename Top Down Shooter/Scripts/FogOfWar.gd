@@ -54,7 +54,7 @@ extends Node
 					which_color = Fog_Revealed_Color
 			RenderingServer.global_shader_parameter_set("FogUnexploredColor", which_color)
 			_initial_image = Image.create(1,1,false,Image.FORMAT_RGBA8)
-			_initial_image.fill(Color(0,0,0,0))
+			_initial_image.fill(which_color)
 			_initial_image = ImageTexture.create_from_image(_initial_image)
 			_reset_fog()
 
@@ -238,7 +238,9 @@ func _update_fog() -> void:
 
 func _reset_fog() -> void:
 	_resetting = true
-	RenderingServer.global_shader_parameter_set("FogData", _initial_image)
+	var img = Image.create(1,1,false,Image.FORMAT_RGBA8)
+	img.fill(Color(0,0,0,0))
+	RenderingServer.global_shader_parameter_set("FogData", ImageTexture.create_from_image(img))
 	RenderingServer.global_shader_parameter_set("FogDataLocal", _initial_image)
 	_previous_iteration.material = _material
 	_frame_delay = 2

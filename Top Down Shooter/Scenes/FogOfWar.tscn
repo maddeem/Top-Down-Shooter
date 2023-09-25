@@ -29,6 +29,8 @@ render_target_clear_mode = 1
 render_target_update_mode = 0
 
 [node name="PreviousIteration" type="TextureRect" parent="SubViewport"]
+texture_filter = 1
+texture_repeat = 1
 material = ExtResource("3_6jf8f")
 offset_right = 512.0
 offset_bottom = 512.0
@@ -49,6 +51,8 @@ render_target_clear_mode = 1
 render_target_update_mode = 0
 
 [node name="LocalPreviousIteration" type="TextureRect" parent="LocalFog"]
+texture_filter = 1
+texture_repeat = 1
 material = SubResource("ShaderMaterial_fbwk1")
 offset_right = 512.0
 offset_bottom = 512.0

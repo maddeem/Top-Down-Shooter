@@ -3,7 +3,6 @@ render_mode unshaded, blend_disabled, skip_vertex_transform;
 uniform int count = 0;
 global uniform sampler2D FogDataLocal : filter_nearest;
 global uniform sampler2D FogData : filter_nearest;
-global uniform vec2 InverseFogDimensions;
 global uniform vec4 FogRevealColor;
 global uniform vec4 FogExploredColor;
 global uniform vec4 FogUnexploredColor;
@@ -16,13 +15,16 @@ int color_to_bit(vec4 color){
 
 void fragment(){
 	vec4 sample = texture(FogData,UV);
+	vec4 col;
+	vec4 this_pass = texture(FogDataLocal,UV);
 	if ((color_to_bit(sample) & FogPlayerBit) != 0){ //Is revealed
-		COLOR = FogRevealColor;
+		col = FogRevealColor;
 	}else{
-		if (texture(FogDataLocal,UV).a > 0.99){
-			COLOR = FogUnexploredColor;
+		if (this_pass.a > 0.99){
+			col = FogUnexploredColor;
 		}else{
-			COLOR = FogExploredColor;
+			col = FogExploredColor;
 		}
 	}
+	COLOR = mix(col,this_pass,0.65);
 }

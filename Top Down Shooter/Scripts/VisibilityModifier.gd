@@ -19,30 +19,6 @@ var Adjusted_Vision_Height
 var _last_Y
 var Owner_Bit_Value
 
-func IsPointVisible(pos : Vector3):
-	var Fog = Globals.FogOfWar
-	var Map : Image = Fog.occluder_image_map
-	var p0 : Vector2i = Fog.Position_To_Pixel(global_position)
-	var p1 : Vector2i = Fog.Position_To_Pixel(pos)
-	var dx = abs(p1.x - p0.x)
-	var dy = -abs(p1.y - p0.y)
-	var err = dx + dy
-	var e2 = 2 * err
-	var sx = 1 if p0[0] < p1[0] else -1
-	var sy = 1 if p0[1] < p1[1] else -1
-	while true:
-		if Adjusted_Vision_Height < Map.get_pixelv(p0).r:
-			return false
-		elif p0 == p1:
-			return true
-		e2 = 2 * err
-		if e2 >= dy:
-			err += dy
-			p0[0] += sx
-		if e2 <= dx:
-			err += dx
-			p0[1] += sy
-
 func _update_adjuste_height():
 	Adjusted_Vision_Height = (global_position.y + Vision_Height) / 63.75
 

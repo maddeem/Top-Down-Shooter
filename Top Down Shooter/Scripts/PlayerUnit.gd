@@ -30,7 +30,6 @@ func set_next_transform(_sender : int, pos : Vector3, rot : float):
 	if not is_owner:
 		global_position = pos
 		rotation.y = rot
-		new_buffer(pos,rot)
 		if multiplayer.is_server():
 			WidgetFactory.queue_movement(self)
 
@@ -43,9 +42,11 @@ func _notification(what: int) -> void:
 		if pos != update_last[0] or rot != update_last[1]:
 			update_last[0] = pos
 			update_last[1] = rot
-			buffer_last_sent = Globals.BUFFER_SIZE
+			send_movement = true
 
 func _physics_process(delta):
+	prev = next
+	next = [global_position,rotation.y]
 	if not is_on_floor():
 		velocity.y -= Globals.Gravity * delta
 	var vel = Vector2(velocity.x,velocity.z)
@@ -55,9 +56,8 @@ func _physics_process(delta):
 	if velocity.is_equal_approx(Vector3.ZERO):
 		return
 	move_and_slide()
-	if is_owner and buffer_last_sent > 0:
-		buffer_last_sent -= 1
-		new_buffer(global_position,rotation.y)
+	if is_owner and send_movement:
+		send_movement = false
 		WidgetFactory.queue_movement(self)
 
 func _process(delta):

@@ -42,10 +42,6 @@ var can_animate = true:
 			_update_visibility()
 var _visible = false
 var _health_bar_displaying = false
-@onready var _prev_trans = [global_position,rotation.y]
-@onready var _target_trans = [global_position,rotation.y]
-var buffer = []
-var buffer_last_sent = 0
 @onready var update_last = [global_position,rotation.y]
 
 func set_player_owner(value):
@@ -59,7 +55,6 @@ func _update_visibility():
 	else:
 		_model.visible = _visible
 	if _visible:
-		buffer = []
 		UpdateModel([global_position,rotation.y])
 	_health_bar.visible = _health_bar_displaying and _model.visible
 	#_selection_circle.visible = _model.visible
@@ -140,6 +135,8 @@ func UpdateModel(trans : Array, forced := false):
 func _on_visiblity_observer_visibility_update(state):
 	_visible = state
 	can_animate = _visible
+	if self is PlayerUnit:
+		print(state)
 	if _visible:
 		revealed_once = true
 		reset_current_animation()
@@ -149,7 +146,6 @@ func set_next_transform(sender : int, pos : Vector3, rot : float):
 	if multiplayer.get_unique_id() != sender:
 		global_position = pos
 		rotation.y = rot
-		new_buffer(pos,rot)
 
 func _apply_update_scale(value : Variant):
 	var snap = Globals.NETWORK_UPDATE_SCALE
@@ -157,6 +153,7 @@ func _apply_update_scale(value : Variant):
 		snap = Vector3(snap,snap,snap)
 	return snapped(value,snap)
 
+var send_movement = false
 func _notification(what: int) -> void:
 	if multiplayer and not multiplayer.is_server():
 		return
@@ -166,47 +163,28 @@ func _notification(what: int) -> void:
 		if pos != update_last[0] or rot != update_last[1]:
 			update_last[0] = pos
 			update_last[1] = rot
-			buffer_last_sent = Globals.BUFFER_SIZE
+			send_movement = true
 
 func move_instantly(pos : Vector3):
 	global_position = pos
-	_prev_trans = [pos,rotation.y]
-	_target_trans = _prev_trans
-	_move_fract = 0.0
-	UpdateModel(_target_trans,true)
-	buffer = []
-	new_buffer(pos,rotation.y)
+	prev = [pos,rotation.y]
+	next = prev
+	UpdateModel(prev,true)
 
-func new_buffer(pos : Vector3, rot : float):
-	buffer.append({
-		next_pos = pos,
-		next_rot = rot,
-	})
-	
-
-func pop_buffer():
-	var next = buffer.pop_front()
-	if buffer.size() > Globals.BUFFER_SIZE + 4:
-		next = buffer.pop_front()
-	_prev_trans = [_model.global_position,_model.rotation.y]
-	_target_trans = [next.next_pos,next.next_rot]
-	_move_fract = 0.0
-
+@onready var prev = [global_position,rotation.y]
+@onready var next = prev
 func _physics_process(_delta):
-	if buffer_last_sent > 0 and multiplayer.is_server():
-		buffer_last_sent -= 1
-		new_buffer(global_position,rotation.y)
+	prev = next
+	next = [global_position,rotation.y]
+	if send_movement and multiplayer.is_server():
+		send_movement = false
 		WidgetFactory.queue_movement(self)
 
-var _move_fract := 0.0
+
 func _process(_delta):
-	if _move_fract == 1.0:
-		if buffer.size() >= Globals.BUFFER_SIZE:
-			pop_buffer()
-		else:
-			return
-	_move_fract = min(_move_fract + Globals.TicksPerSecond * _delta,1.0)
+
+	var d = min(1.0,Engine.get_physics_interpolation_fraction())
 	UpdateModel([
-		_prev_trans[0].lerp(_target_trans[0],_move_fract),
-		lerp_angle(_prev_trans[1],_target_trans[1],_move_fract),
+		prev[0].lerp(next[0],d),
+		lerp_angle(prev[1],next[1],d),
 	])

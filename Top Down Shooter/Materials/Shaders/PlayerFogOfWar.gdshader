@@ -6,7 +6,6 @@ uniform int count = 0;
 global uniform sampler2D FogData : filter_nearest;
 global uniform sampler2D OcclusionMap : filter_nearest ;
 global uniform vec2 FogDimensions;
-global uniform vec2 InverseFogDimensions;
 
 int iabs(int i){return (i ^ (i >> 31)) - (i >> 31);}
 int isign(int i){return iabs( (i | -i) >>31 ) | (i >> 31);}
@@ -26,26 +25,24 @@ vec4 bit_to_color(int value) {
     );
 }
 
-bool bresenham(ivec2 p0, ivec2 p1,vec2 scaler, float height){
+bool bresenham(ivec2 p0, ivec2 p1, float height){
 	int dx = iabs(p1.x - p0.x);
 	int dy = -iabs(p1.y - p0.y);
 	int err = dx + dy;
 	int sx = 2 * when_lt(p0.x,p1.x) -1;
 	int sy = 2 * when_lt(p0.y,p1.y) -1;
 	float walls_hit = 0.0;
-	float last = 0.0;
 	while (true){
-		last = walls_hit;
-		vec4 sample = texture(OcclusionMap,vec2(p0)*scaler);
+		float last = walls_hit;
+		vec4 sample = texture(OcclusionMap,vec2(p0)/FogDimensions);
 		float result = sample.r + sample.g + sample.b - sample.a;
-		walls_hit += min(1.0,fwhen_gt(result,height));
-		if (walls_hit != 0.0 && last == walls_hit || walls_hit == 4.0){
-			return false;	
-		}
+		walls_hit += fwhen_gt(result,height);
 		if (p0==p1){
 			return true;
 		}
-
+		if (walls_hit != 0.0 && last == walls_hit || walls_hit > 4.0){
+			return false;	
+		}
         if (err * 2 - dy > dx - err * 2) {
             // horizontal step
             err += dy;
@@ -72,7 +69,7 @@ vec4 get_color(vec2 uv, vec2 scaler){
 		d *= d;
 		float dist = d.x + d.y;
 		if ((bit_color & int(circleData.y)) == 0 && dist < circlePos.z * circlePos.z && a <= circleData.a) {
-			if (bresenham(ivec2(circlePos.xy),iuv,scaler,circleData.x)){
+			if (bresenham(ivec2(circlePos.xy),iuv,circleData.x)){
 				bit_color = bit_color | int(circleData.y);
 				color = bit_to_color(bit_color);
 			}
@@ -83,5 +80,5 @@ vec4 get_color(vec2 uv, vec2 scaler){
 
 void fragment(){
 	vec2 uv = UV * FogDimensions;
-	COLOR = get_color(uv,InverseFogDimensions);
+	COLOR = get_color(uv,FogDimensions);
 }

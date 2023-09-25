@@ -8,7 +8,7 @@ extends Area3D
 		Shake_Input_Radius = value
 		_collision_shape.radius = Shake_Input_Radius
 @export var Max_Rotate := Vector3(0.174533,0.174533,0.0872665)
-@onready var _camera = $Outline_Camera
+@onready var _camera = $Camera3D
 @onready var current_rotation := _camera.rotation_degrees as Vector3
 @onready var _collision_shape : SphereShape3D = $CollisionShape3D.shape
 var _shake := 0.0
