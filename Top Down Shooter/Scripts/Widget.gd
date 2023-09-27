@@ -135,8 +135,6 @@ func UpdateModel(trans : Array, forced := false):
 func _on_visiblity_observer_visibility_update(state):
 	_visible = state
 	can_animate = _visible
-	if self is PlayerUnit:
-		print(state)
 	if _visible:
 		revealed_once = true
 		reset_current_animation()

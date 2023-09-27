@@ -27,9 +27,7 @@ func get_target() -> Widget:
 func _on_body_entered(body):
 	if body != get_parent() and body is Widget:
 		inside.append(body)
-		print(get_target())
 
 
 func _on_body_exited(body):
 	inside.erase(body)
-	print(get_target())
