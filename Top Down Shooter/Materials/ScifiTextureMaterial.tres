@@ -3,18 +3,18 @@
 [ext_resource type="Texture2D" uid="uid://dhhrx81q5vei" path="res://Assets/Textures/ScifiTexturePack.png" id="1_ph486"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="2_my324"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ck1n"]
-resource_local_to_scene = true
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1fvk7"]
 render_priority = 0
 shader = ExtResource("2_my324")
-shader_parameter/color_override = Color(0, 0, 0, 0)
 
 [resource]
 resource_local_to_scene = true
-next_pass = SubResource("ShaderMaterial_0ck1n")
+next_pass = SubResource("ShaderMaterial_1fvk7")
 shading_mode = 2
+diffuse_mode = 2
 albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("1_ph486")
 metallic = 0.39
 emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.48
 rim_enabled = true

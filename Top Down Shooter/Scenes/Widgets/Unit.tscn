@@ -52,10 +52,12 @@ shape = SubResource("SphereShape3D_u72f3")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="8"]
 top_level = true
 mesh = SubResource("PlaneMesh_et03p")
+skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_04lhe")
 
 [node name="Model" parent="." index="9"]
 mesh = SubResource("CapsuleMesh_u7su0")
+skeleton = NodePath("")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

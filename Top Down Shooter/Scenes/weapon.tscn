@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://6xpv0gn8jvm1"]
+
+[ext_resource type="Script" path="res://Scripts/Weapon.gd" id="1_oriet"]
+
+[node name="Weapon" type="Node3D"]
+script = ExtResource("1_oriet")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

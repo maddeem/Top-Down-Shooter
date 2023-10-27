@@ -17,9 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Cache="*res://Scripts/Cache.gd"
 Lobby="*res://Scripts/Lobby.gd"
 Config="*res://Scripts/Config.gd"
-Cache="*res://Scripts/Cache.gd"
 Globals="*res://Scripts/Globals.gd"
 Utility="*res://Scripts/Utility.gd"
 EventHandler="*res://Scripts/EventHandler.gd"
@@ -27,9 +27,17 @@ Network="*res://Scripts/Network.gd"
 PlayerLib="*res://Scripts/PlayerLib.gd"
 WidgetFactory="*res://Scripts/WidgetFactory.gd"
 
+[display]
+
+window/vsync/vsync_mode=0
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/jm_pp_outlines/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg")
+enabled=PackedStringArray("res://addons/jm_pp_outlines/plugin.cfg", "res://addons/proton_trail-master/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
 
 [importer_defaults]
 

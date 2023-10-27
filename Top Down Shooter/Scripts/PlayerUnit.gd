@@ -16,6 +16,7 @@ var angle_to_mouse := 0.0
 var is_owner = false
 var _camera_offset = Vector3(0,2,0.7)
 var move_dir := 0.0
+var current_weapon : Weapon
 const DI = PI/2
 
 func set_player_owner(value):
@@ -26,7 +27,7 @@ func set_player_owner(value):
 		$VisibilityModifier.Owner = value
 func _ready():
 	super._ready()
-
+	add_weapon("GaussRifle")
 func _input(event):
 	if not is_owner:
 		return
@@ -43,7 +44,6 @@ func set_next_transform(_sender : int, pos : Vector3, rot : float):
 	if not is_owner:
 		global_position = pos
 		rotation.y = rot
-		print("nice")
 		if multiplayer.is_server():
 			WidgetFactory.queue_movement(self)
 
@@ -58,22 +58,43 @@ func _notification(what: int) -> void:
 			update_last[1] = rot
 			send_movement = true
 
+func resolve_animations(moving : bool):
+	var anim : String
+	var blend : float
+	if moving:
+		if is_on_floor():
+			anim = "walk"
+			blend = 0.15
+		else:
+			anim = "stand"
+			blend = 1.0
+	else:
+		anim = "stand"
+		blend = 0.15
+	if $LegAnimator.current_animation != anim:
+		$LegAnimator.play(anim,blend)
+	if is_instance_valid(current_weapon):
+		match anim:
+			"stand":
+				if $ChestAnimator.current_animation != current_weapon.Stand_Animation:
+					$ChestAnimator.play(current_weapon.Stand_Animation,blend)
+			"walk":
+				if $ChestAnimator.current_animation != current_weapon.Walk_Animation:
+					$ChestAnimator.play(current_weapon.Walk_Animation,blend)
+	else:
+		if $ChestAnimator.current_animation != anim:
+			$ChestAnimator.play(anim,blend)
+
 func _physics_process(delta):
+	var moving = prev[0].distance_to(next[0]) >= SPEED * delta * 0.5
 	if is_owner and send_movement:
 		send_movement = false
 		WidgetFactory.queue_movement(self)
-	if prev[0].distance_to(next[0]) >= SPEED * delta * 0.5:
+	if moving:
 		move_dir = atan2(prev[0].x-next[0].x,prev[0].z-next[0].z)
-		if is_on_floor():
-			if $LegAnimator.current_animation != "walk":
-				$LegAnimator.play("walk",0.15)
-		else:
-			if $LegAnimator.current_animation != "stand":
-				$LegAnimator.play("stand",1.0)
 	else:
-		if $LegAnimator.current_animation != "stand":
-			$LegAnimator.play("stand",0.15)
 		move_dir = rotation.y + PI
+	resolve_animations(moving)
 	prev = next
 	next = [global_position,rotation.y]
 	var vel = Vector2(velocity.x,velocity.z)
@@ -101,4 +122,13 @@ func _process(delta):
 	skeleton.set_bone_pose_rotation(bone_chest,Quaternion(Vector3.UP,rotation.y))
 	_model.global_rotation.y = 0
 	if is_owner:
-		camera.global_position = lerp(camera.global_position,_model.global_position,0.1)+_camera_offset
+		camera.global_position = lerp(camera.global_position,next[0],0.1)+_camera_offset
+
+func add_weapon(which : String):
+	assert(Weapon.Types.has(which),"Weapon invalid!")
+	if is_instance_valid(current_weapon):
+		current_weapon.queue_free()
+	current_weapon = Weapon.create(Weapon.Types[which])
+	match current_weapon.Attachment:
+		"hand right":
+			$Model/spacemarine/Armature/Skeleton3D/Hand_Right/Offset.add_child(current_weapon)

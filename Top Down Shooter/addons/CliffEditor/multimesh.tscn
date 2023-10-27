@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6gc85d0lijft"]
-
-[ext_resource type="MultiMesh" uid="uid://dp7wt5e0xhr3d" path="res://addons/CliffEditor/multimesh.tres" id="1_kjswf"]
-
-[node name="MultiMeshInstance3D" type="MultiMeshInstance3D"]
-multimesh = ExtResource("1_kjswf")

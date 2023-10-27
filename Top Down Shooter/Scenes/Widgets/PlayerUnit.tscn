@@ -1,12 +1,65 @@
-[gd_scene load_steps=20 format=3 uid="uid://vjnq8ekwhp"]
+[gd_scene load_steps=34 format=3 uid="uid://vjnq8ekwhp"]
 
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_nmj08"]
 [ext_resource type="PackedScene" uid="uid://c0v1qg12ksu2k" path="res://Scenes/CameraController.tscn" id="2_cmtqs"]
 [ext_resource type="Script" path="res://Scripts/PlayerUnit.gd" id="2_xc6u4"]
-[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="3_7hl8b"]
 [ext_resource type="PackedScene" uid="uid://gjkmrmycqwtv" path="res://Scenes/VisibilityModifier.tscn" id="3_oy0ij"]
-[ext_resource type="PackedScene" path="res://Assets/Models/Space Marine/spacemarine.glb" id="5_dwopv"]
-[ext_resource type="Texture2D" uid="uid://dyjvmnfvsndyy" path="res://Assets/Textures/spacemarine_clipdrop-enhance.png" id="6_bt8xk"]
+[ext_resource type="PackedScene" uid="uid://dot2kfbxgx2a8" path="res://Assets/Models/Space Marine/spacemarine.glb" id="5_dwopv"]
+[ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="7_aufa3"]
+[ext_resource type="Texture2D" uid="uid://cchdeya2c80d4" path="res://Assets/Models/Space Marine/spacemarine_spacemarine_clipdrop-enhance.png" id="7_en7ri"]
+
+[sub_resource type="Animation" id="Animation_yn3od"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D/Geoset_Bone0_001:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_h4w62"]
+resource_name = "damaged"
+length = 0.35
+step = 0.01
+
+[sub_resource type="Animation" id="Animation_cwuvv"]
+resource_name = "death"
+length = 3.0
+
+[sub_resource type="Animation" id="Animation_bmfpd"]
+resource_name = "decay"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_v1adl"]
+resource_name = "stand"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1xy6k"]
+_data = {
+"RESET": SubResource("Animation_yn3od"),
+"damaged": SubResource("Animation_h4w62"),
+"death": SubResource("Animation_cwuvv"),
+"decay": SubResource("Animation_bmfpd"),
+"stand": SubResource("Animation_v1adl")
+}
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ys2lx"]
 radius = 0.45
@@ -30,11 +83,16 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_766br"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("7_aufa3")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu8wk"]
 resource_name = "Material"
-next_pass = ExtResource("3_7hl8b")
+next_pass = SubResource("ShaderMaterial_766br")
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("6_bt8xk")
+albedo_texture = ExtResource("7_en7ri")
 roughness = 0.5
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_8b25h"]
@@ -54,7 +112,12 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k167v"]
+render_priority = 0
+shader = ExtResource("7_aufa3")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dtjix"]
+next_pass = SubResource("ShaderMaterial_k167v")
 albedo_color = Color(1, 1, 0.643137, 1)
 metallic = 0.56
 roughness = 0.0
@@ -82,6 +145,37 @@ tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Foot_L")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 0.019475, 0.000474975, 0.259475, 0.965475)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Foot_R")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.0189712, 6.07602e-08, -0.259136, 0.965654)
+
+[sub_resource type="Animation" id="Animation_fity8"]
+resource_name = "stand"
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Thigh_L")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.023475, 0.031475, -0.342525, 0.938475)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Foot_L")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.019475, 0.000474975, 0.259475, 0.965475)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Thigh_R")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.022475, -0.031525, 0.342475, 0.938475)
 tracks/3/type = "rotation_3d"
 tracks/3/imported = false
 tracks/3/enabled = true
@@ -123,43 +217,29 @@ tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = PackedFloat32Array(0, 1, -0.358701, 0.10956, 0.326092, 0.867752, 0.2, 1, 0.111859, -0.064043, 0.337991, 0.932281, 0.4, 1, 0.485161, -0.197305, 0.281798, 0.803915, 0.6, 1, -0.160445, 0.035667, 0.342151, 0.925158)
 
-[sub_resource type="Animation" id="Animation_fity8"]
-resource_name = "stand"
-tracks/0/type = "rotation_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Thigh_L")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.023475, 0.031475, -0.342525, 0.938475)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Foot_L")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0.019475, 0.000474975, 0.259475, 0.965475)
-tracks/2/type = "rotation_3d"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Thigh_R")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 0.022475, -0.031525, 0.342475, 0.938475)
-tracks/3/type = "rotation_3d"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Foot_R")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = PackedFloat32Array(0, 1, 0.0189712, 6.07602e-08, -0.259136, 0.965654)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rpo2s"]
 _data = {
 "RESET": SubResource("Animation_lvi4k"),
 "stand": SubResource("Animation_fity8"),
 "walk": SubResource("Animation_uwjlb")
 }
+
+[sub_resource type="Animation" id="Animation_pny6y"]
+length = 0.001
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Chest")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1.00048, 1.00048, 1.00048)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Pelvis")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0.177644, 0)
 
 [sub_resource type="Animation" id="Animation_jsssc"]
 resource_name = "stand"
@@ -180,27 +260,234 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, 0.177644, 0, 1, 1, 0, 0.165, 0, 2, 1, 0, 0.177644, 0)
 
-[sub_resource type="Animation" id="Animation_pny6y"]
-length = 0.001
-tracks/0/type = "scale_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Chest")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1.00048, 1.00048, 1.00048)
-tracks/1/type = "position_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Pelvis")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0.177644, 0)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_he3t0"]
 _data = {
 "RESET": SubResource("Animation_pny6y"),
 "stand": SubResource("Animation_jsssc")
+}
+
+[sub_resource type="Animation" id="Animation_any41"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_R")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.254088, -0.27108, -0.00427625, 0.928405)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_L")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.129289, -0.0389395, 0.0370025, 0.990151)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_L")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, -0.18301, -0.213204, -0.245511, 0.92778)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_R")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -0.213091, 0.0900091, 0.207755, 0.950436)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_R")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -0.165716, 0.0681061, 0.0394844, 0.983026)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_L")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.0228344, 0.431835, -0.0124243, 0.901578)
+
+[sub_resource type="Animation" id="Animation_vtoo2"]
+resource_name = "stand"
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_R")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.32231, -0.241273, 0.188348, 0.895784)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_L")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.0535779, 0.182157, -0.14845, 0.970521)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_L")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, -0.227843, -0.039964, -0.415472, 0.879701)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_R")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -0.226492, 0.047016, 0.38797, 0.892172)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_R")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0.0618588, -0.379233, 0.0458118, 0.922094)
+
+[sub_resource type="Animation" id="Animation_tp36f"]
+resource_name = "stand weapon"
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_R")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.808032, -0.527414, 0.042759, 0.259018)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_R")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.0438807, 0.415116, 0.447095, 0.791112)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_R")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.238267, -0.291792, 0.0846808, 0.922451)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_L")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.18581, -0.0258027, -0.405314, 0.894723)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_L")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0.0346446, 0.0767727, 0.0911907, 0.992265)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_L")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.395953, -0.180852, -0.0460352, 0.899108)
+
+[sub_resource type="Animation" id="Animation_mokyy"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_R")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.332342, -0.22249, 0.302272, 0.865262, 0.5, 1, -0.0934021, 0.324425, 0.439426, 0.832424, 1, 1, -0.332342, -0.22249, 0.302272, 0.865262)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_L")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.063547, -0.353031, -0.469565, 0.806746, 0.5, 1, -0.311115, 0.148341, -0.357403, 0.868024, 1, 1, -0.063547, -0.353031, -0.469565, 0.806746)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_R")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, -0.0405683, -0.407648, 0.135974, 0.902047, 0.5, 1, 0.376756, -0.238394, -0.244907, 0.860955, 1, 1, 0.0618588, -0.379233, 0.0458118, 0.922094)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_L")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.242823, 0.0764707, -0.203245, 0.945453, 0.5, 1, -0.116862, 0.268345, -0.09346, 0.95163, 1, 1, 0.242823, 0.0764707, -0.203245, 0.945453)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_L")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0.369351, -0.0669428, -0.1833, 0.90857, 0.5, 1, 0.0824914, -0.0191286, -0.171822, 0.981482, 1, 1, 0.369351, -0.0669428, -0.1833, 0.90857)
+
+[sub_resource type="Animation" id="Animation_dbpr6"]
+resource_name = "walk weapon"
+length = 0.75
+loop_mode = 1
+step = 0.05
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_R")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.805958, -0.325377, 0.205878, 0.44964)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_R")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.112181, 0.288389, 0.435011, 0.845584, 0.35, 1, -0.144174, 0.224803, 0.42548, 0.864664, 0.75, 1, -0.112181, 0.288389, 0.435011, 0.845584)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_R")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.238267, -0.291792, 0.0846808, 0.922451)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Shoulder_L")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.18581, -0.0258027, -0.405314, 0.894723, 0.35, 1, 0.148758, 0.0544434, -0.420329, 0.893438, 0.75, 1, 0.18581, -0.0258027, -0.405314, 0.894723)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Bicep_L")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0.147735, -0.0386622, 0.157308, 0.975671, 0.35, 1, 0.101979, 0.00846107, 0.130822, 0.986111)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Model/spacemarine/Armature/Skeleton3D:Arm_L")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.361906, -0.0521989, -0.200493, 0.908902, 0.35, 1, 0.40947, -0.154316, -0.0782977, 0.895762, 0.75, 1, 0.361906, -0.0521989, -0.200493, 0.908902)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ua3r"]
+_data = {
+"RESET": SubResource("Animation_any41"),
+"stand": SubResource("Animation_vtoo2"),
+"stand weapon": SubResource("Animation_tp36f"),
+"walk": SubResource("Animation_mokyy"),
+"walk weapon": SubResource("Animation_dbpr6")
 }
 
 [node name="PlayerUnit" instance=ExtResource("1_nmj08")]
@@ -220,7 +507,12 @@ Visible_Once_Revealed = false
 Radius = 16
 
 [node name="Health Bar" parent="." index="2"]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.21022, 0)
+transform = Transform3D(0.275, 0, 0, 0, 0.275, 0, 0, 0, 0.275, 0, 1.87405, 0)
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_1xy6k")
+}
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
@@ -233,6 +525,23 @@ transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 
 
 [node name="Skeleton3D" parent="Model/spacemarine/Armature" index="0"]
 bones/0/scale = Vector3(1.00048, 1.00048, 1.00048)
+bones/3/rotation = Quaternion(-0.18301, -0.213204, -0.245511, 0.92778)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/position = Vector3(7.62805e-08, 0.271892, 3.84536e-08)
+bones/4/rotation = Quaternion(0.129289, -0.0389395, 0.0370025, 0.990151)
+bones/4/scale = Vector3(0.999999, 1, 1)
+bones/5/position = Vector3(-6.25407e-08, 0.184606, 7.43052e-09)
+bones/5/rotation = Quaternion(0.0228344, 0.431835, -0.0124243, 0.901578)
+bones/5/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(-0.213091, 0.0900091, 0.207755, 0.950436)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/position = Vector3(-7.2001e-08, 0.271892, -1.75225e-08)
+bones/8/rotation = Quaternion(0.254088, -0.27108, -0.00427625, 0.928405)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/position = Vector3(-1.63482e-08, 0.184607, -8.53009e-08)
+bones/9/rotation = Quaternion(-0.165716, 0.0681061, 0.0394844, 0.983026)
+bones/9/scale = Vector3(1, 0.999998, 1)
+bones/10/position = Vector3(0, 0.177644, 0)
 bones/11/position = Vector3(0, 0.11406, 0)
 bones/11/rotation = Quaternion(0.023475, 0.031475, -0.342525, 0.938475)
 bones/11/scale = Vector3(1, 1, 1)
@@ -243,6 +552,7 @@ bones/13/position = Vector3(0, 0.089614, 0)
 bones/13/rotation = Quaternion(0.022475, -0.031525, 0.342475, 0.938475)
 bones/13/scale = Vector3(1, 1, 1)
 bones/14/position = Vector3(0.00193195, 0.342499, 0.000470825)
+bones/14/rotation = Quaternion(0.0189712, 6.07602e-08, -0.259136, 0.965654)
 bones/14/scale = Vector3(1, 1, 1)
 
 [node name="Geoset_Bone0_001" parent="Model/spacemarine/Armature/Skeleton3D" index="0"]
@@ -253,6 +563,14 @@ surface_material_override/0 = SubResource("StandardMaterial3D_wu8wk")
 mesh = SubResource("ArrayMesh_8b25h")
 surface_material_override/0 = SubResource("StandardMaterial3D_dtjix")
 
+[node name="Hand_Right" type="BoneAttachment3D" parent="Model/spacemarine/Armature/Skeleton3D" index="2"]
+transform = Transform3D(-0.48585, -0.867629, -0.110121, 0.86264, -0.454641, -0.223861, 0.144094, -0.203659, 0.968876, -0.612016, 0.385561, -0.0747258)
+bone_name = "Arm_R"
+bone_idx = 9
+
+[node name="Offset" type="Node3D" parent="Model/spacemarine/Armature/Skeleton3D/Hand_Right" index="0"]
+transform = Transform3D(0.0866488, 0.995405, -0.040708, -0.11404, -0.030682, -0.993001, -0.989688, 0.0906848, 0.110858, -0.0310102, 0.308063, -0.0245598)
+
 [node name="LegAnimator" type="AnimationPlayer" parent="." index="8"]
 libraries = {
 "": SubResource("AnimationLibrary_rpo2s")
@@ -262,6 +580,12 @@ libraries = {
 autoplay = "stand"
 libraries = {
 "": SubResource("AnimationLibrary_he3t0")
+}
+
+[node name="ChestAnimator" type="AnimationPlayer" parent="." index="10"]
+autoplay = "stand weapon"
+libraries = {
+"": SubResource("AnimationLibrary_7ua3r")
 }
 
 [editable path="Model/spacemarine"]

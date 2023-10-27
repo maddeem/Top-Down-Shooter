@@ -1,3 +1,4 @@
+@tool
 extends Node
 @export var _cache = {}
 

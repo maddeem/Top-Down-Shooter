@@ -24,6 +24,7 @@ Block_Points = [Vector2(-0.5, -0.5)]
 
 [node name="Model" parent="." index="1"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -1)
+instance_shader_parameters/color_override = Color(0, 0, 0, 0)
 mesh = ExtResource("2_2f1hy")
 surface_material_override/0 = ExtResource("3_q51e8")
 

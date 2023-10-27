@@ -36,15 +36,17 @@ surface_material_override/0 = ExtResource("4_nqg70")
 surface_material_override/1 = SubResource("StandardMaterial3D_bt1hd")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Model" index="0"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.0352328, 0.884417, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0352328, 0.884417, 0)
 light_energy = 12.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_bias = 0.2
 distance_fade_enabled = true
 distance_fade_begin = 30.0
-distance_fade_shadow = 30.0
+distance_fade_shadow = 20.0
+distance_fade_length = 20.0
 omni_range = 20.0
+omni_shadow_mode = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
 transform = Transform3D(0.998538, 0.0540614, 0, -0.0540614, 0.998538, 0, 0, 0, 1, -0.179318, 0.482348, 0)
