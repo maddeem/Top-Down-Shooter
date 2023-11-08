@@ -10,9 +10,11 @@ var TimeElapsed = 0.0
 var NavigationRegion
 var WidgetParent
 var CreepHandler
+var Reticle = null;
 var TicksPerSecond = ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
 var LocalPlayerBit : int
 var LocalVisionBit : int
+var LocalPlayer : Player = null
 
 func _process(delta):
 	TimeElapsed += delta

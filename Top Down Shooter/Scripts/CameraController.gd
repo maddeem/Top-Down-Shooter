@@ -1,6 +1,6 @@
 extends Area3D
 @export var follow_target : Node3D
-@export var Shake_Reduction_Rate := 0.8
+@export var Shake_Reduction_Rate := 3.0
 @export var NoiseInstance : FastNoiseLite
 @export var Noise_Speed := 50.0
 @export var Shake_Input_Radius := 10.0:
@@ -17,8 +17,11 @@ var _time := 0.0
 func _ready():
 	top_level = true
 
-func add_shake(shake_amount : float) -> void:
-	_shake = clamp(_shake + shake_amount,0.0,1.0)
+func add_shake(shake_amount : float, adds : bool) -> void:
+	if adds:
+		_shake = clamp(_shake + shake_amount,0.0,1.0)
+	else:
+		_shake = max(shake_amount, _shake)
 
 func _get_shake_intensity() -> float:
 	return _shake * _shake
@@ -32,7 +35,7 @@ func _process(delta):
 		global_position = lerp(global_position,targetPos,delta * 5.0)
 
 func get_noise_from_seed(_seed : Vector3i) -> Vector3:
-	var new = Vector3i.ZERO
+	var new = Vector3.ZERO
 	var speed = _time * Noise_Speed
 	NoiseInstance.seed = _seed.x
 	new.x = NoiseInstance.get_noise_1d(speed)

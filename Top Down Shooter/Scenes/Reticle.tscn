@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=3 uid="uid://dekradi7ehmv3"]
+
+[ext_resource type="Script" path="res://Scripts/Reticle.gd" id="1_laury"]
+
+[sub_resource type="Shader" id="Shader_onclm"]
+code = "shader_type canvas_item;
+uniform float reticle_radius = 0.5;
+uniform float reticle_width = 0.04;
+uniform float reticle_offset = 0.6;
+uniform float optic_radius = 0.05;
+uniform vec2 optic_position = vec2(0.0);
+uniform vec3 reticle_color : source_color;
+uniform vec3 optic_color : source_color;
+uniform float scale = 1.0;
+
+void fragment() {
+	vec2 uv = (UV - 0.5) * PI * 0.5;
+	float r = reticle_radius * scale;
+	float d1 = length(uv);
+	float c;
+	if (d1<r){
+		c = 1.0 - smoothstep(r, r - 0.01 - reticle_width,d1);
+	}else{
+		c = 1.0 - smoothstep(r , r + 0.01,d1);
+	}
+	COLOR.rgb = reticle_color * c;
+	COLOR.a = c;
+	float dist = optic_position.y * r * reticle_offset;
+	vec2 offset = vec2(cos(optic_position.x)*dist,sin(optic_position.x)*dist);
+	uv = (UV - offset - 0.5);
+	float d2 = length(uv);
+	c = 0.0;
+	if (d2<optic_radius && d1 <r){
+		c = smoothstep(optic_radius , optic_radius  - 0.1,d2);
+	}
+	COLOR.rgb += optic_color * c;
+	COLOR.a += c;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h1id8"]
+shader = SubResource("Shader_onclm")
+shader_parameter/reticle_radius = 0.77
+shader_parameter/reticle_width = 0.04
+shader_parameter/reticle_offset = 0.6
+shader_parameter/optic_radius = 0.12
+shader_parameter/optic_position = Vector2(0, 0)
+shader_parameter/reticle_color = Color(1, 1, 1, 1)
+shader_parameter/optic_color = Color(0.968627, 0, 0, 1)
+shader_parameter/scale = 1.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6qbyw"]
+
+[node name="Reticle" type="TextureRect"]
+material = SubResource("ShaderMaterial_h1id8")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.5
+offset_top = -50.5
+offset_right = 49.5
+offset_bottom = 49.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("PlaceholderTexture2D_6qbyw")
+script = ExtResource("1_laury")

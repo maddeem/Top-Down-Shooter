@@ -24,6 +24,8 @@ func create_player(id : int, index : int, controller : int) -> Player:
 	PlayerByIndex[index] = new
 	AllPlayers.append(new)
 	add_child(new)
+	if multiplayer and id == multiplayer.get_unique_id():
+		Globals.LocalPlayer = new
 	return new
 
 func create_players():

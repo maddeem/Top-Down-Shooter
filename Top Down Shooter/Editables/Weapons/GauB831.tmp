@@ -1,12 +1,12 @@
 [gd_scene load_steps=14 format=3 uid="uid://cjcl3k3gux2fv"]
 
+[ext_resource type="PackedScene" uid="uid://6xpv0gn8jvm1" path="res://Scenes/weapon.tscn" id="1_62lfi"]
+[ext_resource type="Script" path="res://Editables/Weapons/GaussRifle.gd" id="2_7yka3"]
 [ext_resource type="ArrayMesh" uid="uid://730doxl328eb" path="res://Assets/Models/gauss_rifle.obj" id="2_a6vsa"]
-[ext_resource type="Script" path="res://Scripts/Weapons/GaussRifle.gd" id="2_d0hj0"]
 [ext_resource type="Texture2D" uid="uid://co7w8osin13ei" path="res://Assets/Textures/scifi_tiles.jpg" id="3_gc50d"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="4_xgipl"]
 [ext_resource type="Texture2D" uid="uid://dhaps3xoedw7f" path="res://Assets/Textures/muzzle_blast.png" id="5_a86ov"]
 [ext_resource type="AudioStream" uid="uid://cuy4pch7evx4a" path="res://Assets/Sounds/gauss_fire1.mp3" id="6_kpp14"]
-[ext_resource type="PackedScene" uid="uid://iby2sh5kbf4b" path="res://Scenes/ScreenShaker.tscn" id="6_yd5ue"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_23w7t"]
 resource_local_to_scene = true
@@ -133,60 +133,46 @@ _data = {
 "fire": SubResource("Animation_pi2ap")
 }
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_dd26e"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_16ui4"]
 resource_local_to_scene = true
 
-[node name="Gauss Rifle" type="Node3D"]
-script = ExtResource("2_d0hj0")
-Aim_FOV = 2.356
-Reticle_Move_Penalty = 1.0
-Reticle_Aim_Bonus = 1.0
-Reticle_Size = 3.0
-Damage = 0.5
-Attack_Range = 20.0
-Attack_Speed = 0.05
-fire_sounds = Array[String](["res://Assets/Sounds/gauss_fire1.mp3", "res://Assets/Sounds/gauss_fire2.mp3", "res://Assets/Sounds/gauss_fire3.mp3", "res://Assets/Sounds/gauss_fire4.mp3"])
-Targets = 47
-weapon_tip_path = NodePath("WeaponTip")
-Attachment = "hand right"
-Walk_Animation = "walk weapon"
-Stand_Animation = "stand weapon"
+[node name="Gauss Rifle" instance=ExtResource("1_62lfi")]
+script = ExtResource("2_7yka3")
+test = 0
 
-[node name="GaussRifle" type="MeshInstance3D" parent="."]
+[node name="GaussRifle" type="MeshInstance3D" parent="." index="0"]
 transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, -0.292696, -0.189017)
 mesh = ExtResource("2_a6vsa")
 surface_material_override/0 = SubResource("StandardMaterial3D_pfli3")
 
-[node name="WeaponTip" type="Node3D" parent="."]
+[node name="WeaponTip" type="Node3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.126759, -1.05088)
 
-[node name="Sprite3D" type="Sprite3D" parent="WeaponTip"]
+[node name="Sprite3D" type="Sprite3D" parent="WeaponTip" index="0"]
 transform = Transform3D(1.31134e-07, -1, 4.37114e-08, -3.82137e-15, 4.37114e-08, 1, -1, -1.31134e-07, 1.91069e-15, 0, 0.0658141, -0.479389)
 texture = ExtResource("5_a86ov")
 hframes = 5
 vframes = 7
 frame = 1
 
-[node name="OmniLight3D" type="OmniLight3D" parent="WeaponTip"]
+[node name="OmniLight3D" type="OmniLight3D" parent="WeaponTip" index="1"]
 light_color = Color(1, 1, 0.45098, 1)
 light_energy = 0.0
 light_bake_mode = 0
 omni_range = 0.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_q0wsv")
 }
 
-[node name="ScreenShakeCauser" parent="." instance=ExtResource("6_yd5ue")]
-shape = SubResource("SphereShape3D_dd26e")
+[node name="ScreenShakeCauser" parent="." index="3"]
+shape = SubResource("SphereShape3D_16ui4")
 radius = 50.0
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" parent="." index="4"]
 stream = ExtResource("6_kpp14")
 pitch_scale = 0.8
 max_distance = 50.0
-max_polyphony = 10
-attenuation_filter_cutoff_hz = 20500.0
 
 [editable path="ScreenShakeCauser"]

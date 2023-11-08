@@ -118,11 +118,21 @@ func server_call(inst : int, func_name : String, args : Variant = null, local :=
 			else:
 				scru.rpc(inst,method2int(inst,func_name),args)
 
-func peer_call(inst : int, func_name : String, args : Variant = null, reliable := true):
+func peer_call(inst : int, func_name : String, args : Variant = null, reliable := true, peer_to_peer = false):
 	if reliable:
 		scrr.rpc_id(1,inst,method2int(inst,func_name),args)
 	else:
 		scru.rpc_id(1,inst,method2int(inst,func_name),args)
+
+@rpc("any_peer","reliable","call_local")
+func anyone_server_recieve(inst : int, func_name : String, args : Variant = null):
+	server_call(inst,func_name,args,true)
+
+func anyone_call(inst : int, func_name : String, args : Variant = null):
+	if multiplayer.is_server():
+		server_call(inst,func_name,args,true)
+	else:
+		anyone_server_recieve.rpc_id(1,inst,func_name,args)
 
 func queue_movement(source : Widget):
 	var buf = PackedByteArray()

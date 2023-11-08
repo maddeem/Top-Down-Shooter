@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba707eikdk3u0"]
+
+[ext_resource type="Material" uid="uid://bke5h44efj7w" path="res://Materials/Tracer.tres" id="1_kruj3"]
+[ext_resource type="Script" path="res://Scripts/Line3D.gd" id="2_6rf8g"]
+
+[sub_resource type="Curve3D" id="Curve3D_5p7hv"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10.765, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="CSGPolygon3D" type="CSGPolygon3D"]
+transform = Transform3D(1, 0, 0, 0, -0.0209075, -0.999781, 0, 0.999781, -0.0209075, 0, 0, 0)
+instance_shader_parameters/color = Color(1, 1, 1, 1)
+instance_shader_parameters/time = 0.0
+polygon = PackedVector2Array(0, 0.15, 0.0881678, 0.121353, 0.142658, 0.0463526, 0.142658, -0.0463526, 0.0881678, -0.121353, 1.83691e-17, -0.15, -0.0881678, -0.121353, -0.142658, -0.0463526, -0.142658, 0.0463526, -0.0881678, 0.121353)
+mode = 2
+path_node = NodePath("Path3D")
+path_interval_type = 1
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+smooth_faces = true
+material = ExtResource("1_kruj3")
+script = ExtResource("2_6rf8g")
+line_radius = 0.15
+line_resolution = 10
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_5p7hv")

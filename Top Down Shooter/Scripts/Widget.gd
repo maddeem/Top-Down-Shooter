@@ -27,19 +27,22 @@ var can_animate = true:
 	set(value):
 		can_animate = value
 		if Animation_Player:
-			if not can_animate:
-				Animation_Player.clear_queue()
-				Animation_Player.stop(true)
+			if can_animate:
+				Animation_Player.speed_scale = 1.0
+			else:
+				Animation_Player.speed_scale = 0.0
 @export var Visible_Once_Revealed = true:
 	set(value):
 		Visible_Once_Revealed = value
-		if _health_bar:
-			_update_visibility()
+		_update_visibility()
 @export var always_visible_in_fog := false:
 	set(value):
 		always_visible_in_fog = value
-		if _health_bar:
-			_update_visibility()
+		_update_visibility()
+@export var always_visible_to_owner := false:
+	set(value):
+		always_visible_to_owner = value
+		_update_visibility()
 var _visible = false
 var _health_bar_displaying = false
 @onready var update_last = [global_position,rotation.y]
@@ -50,10 +53,10 @@ func set_player_owner(value):
 		_player_owner = PlayerLib.PlayerByIndex[value]
 
 func _update_visibility():
-	if Visible_Once_Revealed or always_visible_in_fog:
-		_model.visible = revealed_once or always_visible_in_fog
-	else:
-		_model.visible = _visible
+	if get_parent() == null:
+		return
+	_visible = _visible or (Visible_Once_Revealed and revealed_once) or always_visible_in_fog or (always_visible_to_owner and _player_owner != null and _player_owner == Globals.LocalPlayer)
+	_model.visible = _visible
 	if _visible:
 		UpdateModel([global_position,rotation.y])
 	_health_bar.visible = _health_bar_displaying and _model.visible
@@ -178,9 +181,7 @@ func _physics_process(_delta):
 		send_movement = false
 		WidgetFactory.queue_movement(self)
 
-
 func _process(_delta):
-
 	var d = min(1.0,Engine.get_physics_interpolation_fraction())
 	UpdateModel([
 		prev[0].lerp(next[0],d),

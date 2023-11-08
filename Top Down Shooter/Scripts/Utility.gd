@@ -94,11 +94,15 @@ func GetTerrainNormal(terrain, pos : Vector2):
 	pos = pos + get_terrain_offset(terrain,data)
 	return get_interpolated_normal(pos.x,pos.y,data)
 
-func raycast_from_mouse(source : Node3D, ray_length: float, collision_mask : int):
+func raycast_from_mouse(source : Node3D, ray_length: float, collision_mask : int, screen_pos = null):
 	var viewport  = get_viewport()
 	var camera = viewport.get_camera_3d()
 	var space_state = source.get_world_3d().direct_space_state
-	var pos = viewport.get_mouse_position()
+	var pos 
+	if screen_pos is Vector2:
+		pos = screen_pos
+	else:
+		pos = viewport.get_mouse_position()
 	var ray_start = camera.project_ray_origin(pos)
 	var ray_end = ray_start + camera.project_ray_normal(pos) * ray_length
 	var param := PhysicsRayQueryParameters3D.create(ray_start, ray_end, collision_mask)

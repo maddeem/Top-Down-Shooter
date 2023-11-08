@@ -1,14 +1,14 @@
 extends Node3D
 class_name VisibilityModifier
+@export_range(0,999) var Inner_Radius : int = 1
 ## Controls the radius in which the visibility modifier will have effect.
-@export_range(0,999) var Radius : int = 10:
-	set(value):
-		Radius = value
+@export_range(0,999) var Radius : int = 10
 @export_range(0,255) var Vision_Height : float = 0:
 	set(value):
 		Vision_Height = value
 		if _last_Y:
 			_update_adjuste_height()
+##Field of view in radians
 @export_range(0,PI) var FOV : float = PI
 ## Automatically converted to the bit value of the player so the shader knows who to render this for
 @export_range(0,Config.MAX_PLAYERS-1) var Owner = 0:

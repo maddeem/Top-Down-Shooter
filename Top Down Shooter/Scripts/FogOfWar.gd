@@ -213,11 +213,11 @@ func _update_fog() -> void:
 	
 	#VISIBLITY MODIFIER LOGIC
 	#Capture modifier location and radius data and pack it into an array
-	var mods : PackedVector3Array = []
+	var mods = []
 	var mods2 = []
 	for modifier in get_tree().get_nodes_in_group("VisibilityModifiers"):
 		var pos = Position_To_Pixel(modifier.global_position)
-		mods.append(Vector3i(pos.x,pos.y,modifier.Radius))
+		mods.append(Vector4(pos.x,pos.y,modifier.Radius,modifier.Inner_Radius))
 		mods2.append(Vector4(modifier.Adjusted_Vision_Height,modifier.Owner_Bit_Value,modifier.global_rotation.y,modifier.FOV))
 	#Update our shaders with the packed data
 	_material.set_shader_parameter("visibility_modifiers",mods)
