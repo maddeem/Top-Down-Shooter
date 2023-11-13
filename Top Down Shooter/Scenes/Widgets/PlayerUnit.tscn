@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://vjnq8ekwhp"]
+[gd_scene load_steps=41 format=3 uid="uid://vjnq8ekwhp"]
 
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_nmj08"]
 [ext_resource type="PackedScene" uid="uid://c0v1qg12ksu2k" path="res://Scenes/CameraController.tscn" id="2_cmtqs"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://dot2kfbxgx2a8" path="res://Assets/Models/Space Marine/spacemarine.glb" id="5_dwopv"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="7_aufa3"]
 [ext_resource type="Texture2D" uid="uid://cchdeya2c80d4" path="res://Assets/Models/Space Marine/spacemarine_spacemarine_clipdrop-enhance.png" id="7_en7ri"]
-[ext_resource type="PackedScene" uid="uid://cjcl3k3gux2fv" path="res://Editables/Weapons/GaussRifle.tscn" id="8_gidhw"]
 [ext_resource type="AudioStream" uid="uid://bppbrets2fw3s" path="res://Assets/Sounds/CrewMemberFootstep.mp3" id="9_ponxo"]
 
 [sub_resource type="Animation" id="Animation_yn3od"]
@@ -708,7 +707,7 @@ direction = Vector2(0, 0)
 jumping = false
 friction = 25
 acceleration_smoothing = 20
-turn_speed = 2.0
+turn_speed = 4.0
 Visible_Once_Revealed = false
 always_visible_to_owner = true
 
@@ -784,8 +783,6 @@ bone_idx = 9
 [node name="Offset" type="Node3D" parent="Model/spacemarine/Armature/Skeleton3D/Hand_Right" index="0"]
 transform = Transform3D(0.0866488, 0.995405, -0.040708, -0.11404, -0.030682, -0.993001, -0.989688, 0.0906848, 0.110858, -0.0310102, 0.308063, -0.0245598)
 
-[node name="Gauss Rifle" parent="Model/spacemarine/Armature/Skeleton3D/Hand_Right/Offset" index="0" instance=ExtResource("8_gidhw")]
-
 [node name="LegAnimator" type="AnimationPlayer" parent="." index="8"]
 libraries = {
 "": SubResource("AnimationLibrary_rpo2s")
@@ -805,6 +802,9 @@ libraries = {
 
 [node name="Footstep" type="AudioStreamPlayer3D" parent="." index="11"]
 stream = ExtResource("9_ponxo")
+max_polyphony = 4
+bus = &"Effects"
+attenuation_filter_cutoff_hz = 20500.0
 attenuation_filter_db = -12.0
 
 [node name="Recoil" type="AnimationPlayer" parent="." index="12"]

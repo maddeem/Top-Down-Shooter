@@ -1,4 +1,4 @@
-extends Widget
+extends Destructable
 @export var locked := false:
 	set(value):
 		locked = value
@@ -20,7 +20,9 @@ var bodys_in_doorway_count = 0
 func toggle_doorway(state : bool):
 	$PathingBlocker.disabled = not locked
 	var next_state = state and not locked
-	if is_open == next_state or dead:
+	if dead:
+		next_state = true
+	if is_open == next_state:
 		return
 	is_open = next_state
 	$VisionBlocker.disabled = is_open
@@ -29,12 +31,19 @@ func toggle_doorway(state : bool):
 	var cur = $AnimationPlayer.current_animation
 	if is_open:
 		anim = "death"
-	var offset 
+	var offset = 0.0
 	if cur:
 		offset = $AnimationPlayer.current_animation_length - $AnimationPlayer.current_animation_position
 	_play_anim(anim)
 	if cur == "birth" or cur == "death":
 		$AnimationPlayer.advance(offset)
+	match anim:
+		"death":
+			$AudioStreamPlayer3D.stream = load("res://Assets/Sounds/HatchOpen.mp3")
+			$AudioStreamPlayer3D.play(offset)
+		"birth":
+			$AudioStreamPlayer3D.stream = load("res://Assets/Sounds/HatchClose.mp3")
+			$AudioStreamPlayer3D.play(offset)
 
 func _death():
 	toggle_doorway(false)

@@ -11,7 +11,7 @@
 [ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="8_8t33e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dvyb0"]
-size = Vector3(1.2, 13.9993, 8)
+size = Vector3(1.2, 4, 8)
 
 [sub_resource type="Animation" id="Animation_q3ega"]
 length = 0.001
@@ -514,6 +514,7 @@ size = Vector3(4, 4, 8)
 [node name="Hatch" instance=ExtResource("1_y4rx8")]
 script = ExtResource("2_qfby8")
 locked = false
+health = 1000.0
 remove_on_decay = false
 
 [node name="VisionBlocker" parent="." index="0" instance=ExtResource("2_g0exo")]
@@ -526,7 +527,7 @@ Blocker_Texture = "res://Assets/PathingTextures/hatch.tga"
 Block_Points = [Vector2(-1, -4), Vector2(-1, -3), Vector2(-1, -2), Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(-1, 2), Vector2(-1, 3), Vector2(0, -4), Vector2(0, -3), Vector2(0, -2), Vector2(0, -1), Vector2(0, 0), Vector2(0, 1), Vector2(0, 2), Vector2(0, 3)]
 
 [node name="CollisionShape3D" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.105, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("BoxShape3D_dvyb0")
 
 [node name="Health Bar" parent="." index="4"]
@@ -574,6 +575,10 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="OpenArea" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("BoxShape3D_5vwag")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="9"]
+bus = &"Effects"
+attenuation_filter_cutoff_hz = 20500.0
 
 [connection signal="body_entered" from="OpenArea" to="." method="_on_open_area_body_entered"]
 [connection signal="body_exited" from="OpenArea" to="." method="_on_open_area_body_exited"]

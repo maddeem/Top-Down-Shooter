@@ -118,7 +118,7 @@ func server_call(inst : int, func_name : String, args : Variant = null, local :=
 			else:
 				scru.rpc(inst,method2int(inst,func_name),args)
 
-func peer_call(inst : int, func_name : String, args : Variant = null, reliable := true, peer_to_peer = false):
+func peer_call(inst : int, func_name : String, args : Variant = null, reliable := true):
 	if reliable:
 		scrr.rpc_id(1,inst,method2int(inst,func_name),args)
 	else:

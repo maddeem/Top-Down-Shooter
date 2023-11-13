@@ -12,7 +12,8 @@ cap_bottom = false
 
 [node name="MeshInstance3D" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-instance_shader_parameters/color = Color(1, 1, 0, 1)
+instance_shader_parameters/color = null
+instance_shader_parameters/size = 0.125
 instance_shader_parameters/time = 0.0
 mesh = SubResource("CylinderMesh_idwh6")
 surface_material_override/0 = ExtResource("1_qc12y")

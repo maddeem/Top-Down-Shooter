@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://b4mggscmibqgp"]
+[gd_scene load_steps=21 format=3 uid="uid://b4mggscmibqgp"]
 
 [ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_hosch"]
 [ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="2_h33c1"]
 [ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="3_6qjg4"]
 [ext_resource type="ArrayMesh" uid="uid://dsuqdpmrh4eiq" path="res://Assets/Models/long_crate.obj" id="4_rt0cm"]
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="5_bkoa5"]
+[ext_resource type="AudioStream" uid="uid://rl2vdqqogtiq" path="res://Assets/Sounds/CrateDeath.mp3" id="6_e1ala"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_202kk"]
 size = Vector3(2, 1, 1)
@@ -104,6 +105,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer3D:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_l6yvo"]
 resource_name = "decay"
@@ -197,12 +210,14 @@ orientation = 2
 
 [node name="Long Crate" instance=ExtResource("1_hosch")]
 transform = Transform3D(-1, 0, -1.98418e-09, 0, 1, 0, 1.98418e-09, 0, -1, 0, 0, 0)
+max_health = 5
+health = 5.0
 death_time = 2.0
 
 [node name="PathingBlocker" parent="." index="0" instance=ExtResource("2_h33c1")]
 transform = Transform3D(1, 0, 4.37114e-08, 0, 1, 0, -4.37114e-08, 0, 1, 0, 0, 0.5)
 Blocker_Texture = "res://Assets/PathingTextures/2x1.tga"
-Block_Points = [Vector2(-1, -1), Vector2(0, -1)]
+Block_Points = [Vector2(-1, 0), Vector2(0, 0)]
 
 [node name="CollisionShape3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -230,3 +245,9 @@ draw_pass_1 = SubResource("PlaneMesh_hc80e")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = ExtResource("4_rt0cm")
 surface_material_override/0 = ExtResource("5_bkoa5")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="8"]
+stream = ExtResource("6_e1ala")
+max_distance = 40.0
+bus = &"Effects"
+attenuation_filter_cutoff_hz = 20500.0

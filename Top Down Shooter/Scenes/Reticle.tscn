@@ -8,6 +8,7 @@ uniform float reticle_radius = 0.5;
 uniform float reticle_width = 0.04;
 uniform float reticle_offset = 0.6;
 uniform float optic_radius = 0.05;
+uniform float inner_reticle_size = 0.05;
 uniform vec2 optic_position = vec2(0.0);
 uniform vec3 reticle_color : source_color;
 uniform vec3 optic_color : source_color;
@@ -35,6 +36,11 @@ void fragment() {
 	}
 	COLOR.rgb += optic_color * c;
 	COLOR.a += c;
+	if (d1<inner_reticle_size){
+		c = smoothstep(inner_reticle_size,inner_reticle_size - 0.01,d1) * 1.0;
+		COLOR.rgb = mix(COLOR.rgb,reticle_color,c);
+		COLOR.a += c;
+	}
 }
 "
 
@@ -43,7 +49,8 @@ shader = SubResource("Shader_onclm")
 shader_parameter/reticle_radius = 0.77
 shader_parameter/reticle_width = 0.04
 shader_parameter/reticle_offset = 0.6
-shader_parameter/optic_radius = 0.12
+shader_parameter/optic_radius = 0.08
+shader_parameter/inner_reticle_size = 0.05
 shader_parameter/optic_position = Vector2(0, 0)
 shader_parameter/reticle_color = Color(1, 1, 1, 1)
 shader_parameter/optic_color = Color(0.968627, 0, 0, 1)

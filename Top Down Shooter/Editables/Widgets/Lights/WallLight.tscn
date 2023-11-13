@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://drfvh6pfd8oxq"]
+[gd_scene load_steps=14 format=3 uid="uid://drfvh6pfd8oxq"]
 
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_fi66r"]
 [ext_resource type="ArrayMesh" uid="uid://deoqjbv8lcea3" path="res://Assets/Models/WallLight1.obj" id="2_lw3b4"]
@@ -6,8 +6,58 @@
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="4_nqg70"]
 [ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="6_8rxyt"]
 
+[sub_resource type="Animation" id="Animation_wo4dg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/OmniLight3D:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [12.0]
+}
+
+[sub_resource type="Animation" id="Animation_u345s"]
+resource_name = "damaged"
+
+[sub_resource type="Animation" id="Animation_bya4a"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/OmniLight3D:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [12.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ctqvo"]
+resource_name = "decay"
+
+[sub_resource type="Animation" id="Animation_qrq5c"]
+resource_name = "stand"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rjrhh"]
+_data = {
+"RESET": SubResource("Animation_wo4dg"),
+"damaged": SubResource("Animation_u345s"),
+"death": SubResource("Animation_bya4a"),
+"decay": SubResource("Animation_ctqvo"),
+"stand": SubResource("Animation_qrq5c")
+}
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bt1hd"]
 next_pass = ExtResource("6_8rxyt")
+shading_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 disable_ambient_light = true
@@ -23,11 +73,17 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("2_mqc8g")
 color = Color(1, 1, 1, 1)
+remove_on_decay = false
 Visible_Once_Revealed = false
 always_visible_in_fog = true
 
 [node name="Health Bar" parent="." index="1"]
 transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 2.166, 0)
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_rjrhh")
+}
 
 [node name="Model" parent="." index="4"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -36,7 +92,7 @@ surface_material_override/0 = ExtResource("4_nqg70")
 surface_material_override/1 = SubResource("StandardMaterial3D_bt1hd")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Model" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0352328, 0.884417, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.964609, 0.884417, 0)
 light_energy = 12.0
 light_bake_mode = 0
 shadow_enabled = true
@@ -46,7 +102,6 @@ distance_fade_begin = 30.0
 distance_fade_shadow = 20.0
 distance_fade_length = 20.0
 omni_range = 20.0
-omni_shadow_mode = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
 transform = Transform3D(0.998538, 0.0540614, 0, -0.0540614, 0.998538, 0, 0, 0, 1, -0.179318, 0.482348, 0)

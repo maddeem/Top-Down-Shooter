@@ -5,7 +5,7 @@ const NOISE_SPEED := 10.0
 var new_scale := 1.0
 var cur_scale := 1.0
 var cur_pos := Vector2(0.5,0.5)
-var total_size := Vector2(100,100):
+var total_size := Vector2(200,200):
 	set(value):
 		total_size = value
 		if get_parent():
@@ -33,10 +33,10 @@ func _input(event):
 
 func _physics_process(delta):
 	_time += delta
-	cur_scale = lerp(cur_scale,new_scale * 0.25,0.1)
+	cur_scale = lerp(cur_scale,new_scale * 0.125,0.1)
 	cur_pos = get_noise_from_seed(Vector2i(1,2))
 	cur_pos.x *= PI * 0.5
-	cur_pos.y = lerp(cur_pos.y,0.0,1.0 - cur_scale)
+	cur_pos.y = lerp(cur_pos.y,0.0,max(0.0,0.75 - cur_scale))
 	mat.set_shader_parameter("scale",cur_scale)
 	mat.set_shader_parameter("optic_position",cur_pos)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cjcl3k3gux2fv"]
+[gd_scene load_steps=15 format=3 uid="uid://cjcl3k3gux2fv"]
 
 [ext_resource type="ArrayMesh" uid="uid://730doxl328eb" path="res://Assets/Models/gauss_rifle.obj" id="2_a6vsa"]
 [ext_resource type="Script" path="res://Scripts/Weapons/GaussRifle.gd" id="2_d0hj0"]
@@ -22,6 +22,11 @@ metallic = 0.39
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.48
 rim_enabled = true
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_t6k85"]
+resource_local_to_scene = true
+height = 8.0
+radius = 0.01
 
 [sub_resource type="Animation" id="Animation_7is7t"]
 length = 0.001
@@ -133,7 +138,7 @@ _data = {
 "fire": SubResource("Animation_pi2ap")
 }
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_dd26e"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_64cq1"]
 resource_local_to_scene = true
 
 [node name="Gauss Rifle" type="Node3D"]
@@ -143,11 +148,10 @@ Reticle_Move_Penalty = 1.0
 Reticle_Aim_Bonus = 1.0
 Reticle_Size = 3.0
 Damage = 0.5
-Attack_Range = 20.0
+Attack_Range = 40.0
 Attack_Speed = 0.05
-fire_sounds = Array[String](["res://Assets/Sounds/gauss_fire1.mp3", "res://Assets/Sounds/gauss_fire2.mp3", "res://Assets/Sounds/gauss_fire3.mp3", "res://Assets/Sounds/gauss_fire4.mp3"])
-Targets = 47
-weapon_tip_path = NodePath("WeaponTip")
+Fire_Sounds = Array[String](["res://Assets/Sounds/gauss_fire1.mp3", "res://Assets/Sounds/gauss_fire2.mp3", "res://Assets/Sounds/gauss_fire3.mp3", "res://Assets/Sounds/gauss_fire4.mp3"])
+Targets = 46
 Attachment = "hand right"
 Walk_Animation = "walk weapon"
 Stand_Animation = "stand weapon"
@@ -173,19 +177,23 @@ light_energy = 0.0
 light_bake_mode = 0
 omni_range = 0.0
 
+[node name="ShapeCast3D" type="ShapeCast3D" parent="WeaponTip"]
+shape = SubResource("CylinderShape3D_t6k85")
+target_position = Vector3(0, 0, 0)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_q0wsv")
 }
 
 [node name="ScreenShakeCauser" parent="." instance=ExtResource("6_yd5ue")]
-shape = SubResource("SphereShape3D_dd26e")
+shape = SubResource("SphereShape3D_64cq1")
+target_position = Vector3(0, 0, 0)
 radius = 50.0
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("6_kpp14")
-pitch_scale = 0.8
-max_distance = 50.0
+max_distance = 60.0
 max_polyphony = 10
 attenuation_filter_cutoff_hz = 20500.0
 

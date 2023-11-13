@@ -11,7 +11,6 @@ class_name PlayerUnit extends Widget
 @onready var bone_chest : int = skeleton.find_bone("Chest")
 @onready var bone_legs : int = skeleton.find_bone("Pelvis")
 var rotation_speed = 5.0
-var mouse_position := Vector3.ZERO
 var angle_to_mouse := 0.0
 var is_owner = false
 var _camera_offset = Vector3(0,2,0.7)
@@ -60,18 +59,10 @@ func _input(event):
 		velocity.y = JUMP_VELOCITY
 	var r_click = event.is_action_pressed("Mouse_Right")
 	if event.is_action("Mouse_Right") and r_click != aiming:
-		#aiming = r_click
 		WidgetFactory.anyone_call(instance_id, "set", ["aiming",r_click])
-		#rpc_id(1,"set_prop","aiming",r_click)
-	if event is InputEventMouseMotion:
-		var cast = Utility.raycast_from_mouse(self,1000,1)
-		if cast.has("position"):
-			mouse_position = cast.position
-			angle_to_mouse = atan2(global_position.x-mouse_position.x, global_position.z-mouse_position.z)
 	var firing = event.is_action_pressed("Mouse_Left")
 	if firing != fire_pressed and event.is_action("Mouse_Left"):
 		WidgetFactory.anyone_call(instance_id, "set", ["fire_pressed",firing])
-		#rpc_id(1,"set_prop","fire_pressed",firing)
 
 func set_next_transform(_sender : int, pos : Vector3, rot : float):
 	if not is_owner:
@@ -136,10 +127,12 @@ func resolve_reticle():
 
 func resolve_attack():
 	if is_instance_valid(current_weapon) and current_weapon.cooldown == 0.0 and current_weapon.fire_pressed:
-		var cast = Utility.raycast_from_mouse(self,1000,1,Globals.Reticle.resolve_position())
-		if cast.has("position"):
-			var angle = atan2(current_weapon.weapon_tip.global_position.x - cast.position.x, current_weapon.weapon_tip.global_position.z - cast.position.z)
-			current_weapon.rpc_id(1,"fire",angle + PI)
+		var ray2 = Utility.raycast_from_mouse(self,2000,15,Globals.Reticle.resolve_position()).position
+		var angle2 = atan2(global_position.x - ray2.x, global_position.z - ray2.z ) + PI
+		var diff = abs(Utility.angle_difference(rotation.y,angle2))
+		if diff > 0.1:
+			angle2 = rotation.y
+		current_weapon.rpc_id(1,"fire",angle2)
 
 func _physics_process(delta):
 	var adj_speed = SPEED
@@ -182,7 +175,7 @@ func _physics_process(delta):
 	velocity.x = vel.x
 	velocity.z = vel.y
 	if is_owner:
-		rotation.y = Utility.change_angle_bounded(rotation.y,angle_to_mouse + PI,rotation_speed * delta)
+		rotation.y = Utility.change_angle_bounded(rotation.y,angle_to_mouse,rotation_speed * delta)
 	if velocity.is_equal_approx(Vector3.ZERO):
 		return
 	move_and_slide()
@@ -196,14 +189,19 @@ func _process(delta):
 		a.y = Utility.change_angle_bounded(a.y,move_dir,rotation_speed * delta)
 	skeleton.set_bone_pose_rotation(bone_legs,Quaternion.from_euler(a))
 	var q
+	a = rotation.y
+	if is_instance_valid(current_weapon):
+		a += current_weapon.recoil_angle
 	if aiming:
-		q = Quaternion.from_euler(Vector3(PI*0.125,rotation.y,0))
+		q = Quaternion.from_euler(Vector3(PI*0.125,a,0))
 	else:
-		q = Quaternion.from_euler(Vector3(0,rotation.y,0))
+		q = Quaternion.from_euler(Vector3(0,a,0))
 	skeleton.set_bone_pose_rotation(bone_chest,q)
 	_model.global_rotation.y = 0
 	if is_owner:
 		camera.global_position = lerp(camera.global_position,next[0],0.1)+_camera_offset
+		var mouse_pos = Utility.raycast_from_mouse(self,2000,15).position
+		angle_to_mouse = atan2(global_position.x-mouse_pos.x, global_position.z-mouse_pos.z) + PI
 
 func weapon_fired():
 	$Recoil.play("recoil")
@@ -221,4 +219,5 @@ func add_weapon(which : String):
 
 func play_walk_sound():
 	if is_on_floor():
+		$Footstep.pitch_scale = randf_range(0.9,1.1)
 		$Footstep.play()

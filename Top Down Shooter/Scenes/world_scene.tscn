@@ -1,0 +1,121 @@
+[gd_scene load_steps=22 format=3 uid="uid://dr7vqyv2tdptm"]
+
+[ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_g7gqx"]
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_skxjl"]
+[ext_resource type="Resource" path="res://Assets/TerrainArt/data.hterrain" id="2_kk65r"]
+[ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain.gdshader" id="3_aq6jm"]
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="4_tkuqg"]
+[ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="5_jntib"]
+[ext_resource type="PackedScene" uid="uid://cbcxx5xri533q" path="res://Scenes/Editor/player_spawner.tscn" id="6_fajj8"]
+[ext_resource type="PackedScene" uid="uid://b3hioqnac8l7x" path="res://Editables/Cliffs/CliffStraight.tscn" id="7_2i2b7"]
+[ext_resource type="PackedScene" uid="uid://drfvh6pfd8oxq" path="res://Editables/Widgets/Lights/WallLight.tscn" id="8_kt8ws"]
+[ext_resource type="PackedScene" uid="uid://dekradi7ehmv3" path="res://Scenes/Reticle.tscn" id="10_20sy1"]
+[ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="11_jbk74"]
+[ext_resource type="PackedScene" uid="uid://djov7wgd3gdcm" path="res://Scenes/navigation_region.tscn" id="12_8ln2d"]
+[ext_resource type="PackedScene" uid="uid://5gwoa7l23ihj" path="res://Editables/Doodads/locker.tscn" id="12_jxt2l"]
+[ext_resource type="PackedScene" uid="uid://bdx7sn0fuds8d" path="res://Scenes/CreepHandler.tscn" id="13_5o5qb"]
+[ext_resource type="PackedScene" uid="uid://c77nuu1ervc31" path="res://Editables/Cliffs/CliffInnerCorner.tscn" id="14_a3c2r"]
+[ext_resource type="PackedScene" uid="uid://dsljqxgw4q0ow" path="res://Editables/Cliffs/CliffOuterCorner.tscn" id="15_4comb"]
+[ext_resource type="PackedScene" uid="uid://c70aoc3ec32w8" path="res://Editables/Cliffs/CliffStraightOpen.tscn" id="16_yo12h"]
+[ext_resource type="PackedScene" uid="uid://dfqf5kct0ro4y" path="res://Editables/Widgets/Destructables/Door.tscn" id="17_ruoly"]
+[ext_resource type="PackedScene" uid="uid://cfpa5g1giuu56" path="res://Editables/Widgets/Destructables/Hatch.tscn" id="19_ph13a"]
+
+[sub_resource type="Resource" id="Resource_71mcm"]
+script = ExtResource("4_tkuqg")
+mode = 1
+textures = [[ExtResource("5_jntib")], [null]]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dq1c0"]
+
+[node name="World Scene" type="Node3D"]
+script = ExtResource("1_g7gqx")
+
+[node name="HTerrain" type="Node3D" parent="."]
+script = ExtResource("1_skxjl")
+centered = true
+_terrain_data = ExtResource("2_kk65r")
+chunk_size = 32
+collision_enabled = false
+collision_layer = 1
+collision_mask = 1
+shader_type = "Custom"
+custom_shader = ExtResource("3_aq6jm")
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_71mcm")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_globalmap_blend_start = null
+shader_params/u_globalmap_blend_distance = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_dq1c0")
+
+[node name="Player Spawner" parent="." instance=ExtResource("6_fajj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -1)
+
+[node name="Player Spawner2" parent="." instance=ExtResource("6_fajj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Doodads" type="Node3D" parent="."]
+
+[node name="Cliff_Straight" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -16)
+
+[node name="CliffInnerCorner" parent="Doodads" instance=ExtResource("14_a3c2r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -17)
+
+[node name="CliffOuterCorner" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 6)
+
+[node name="CliffStraightOpen" parent="Doodads" instance=ExtResource("16_yo12h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 8)
+
+[node name="CliffOuterCorner2" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -10)
+
+[node name="CliffOuterCorner3" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11, 0, -2)
+
+[node name="CliffOuterCorner4" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -13, 0, 6)
+
+[node name="Locker" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, -17.5)
+
+[node name="Locker2" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, -17.5)
+
+[node name="Locker3" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, -17.5)
+
+[node name="Reticle" parent="." instance=ExtResource("10_20sy1")]
+
+[node name="FogOfWar" parent="." instance=ExtResource("11_jbk74")]
+Update_Period = 0.1
+Dimensions = Vector2i(1024, 1024)
+Fog_Explored_Color = Color(0, 0, 0, 0.713726)
+
+[node name="NavigationRegion" parent="." instance=ExtResource("12_8ln2d")]
+size = Vector2(1024, 1024)
+
+[node name="Creep" parent="." instance=ExtResource("13_5o5qb")]
+
+[node name="Widgets" type="Node3D" parent="."]
+
+[node name="Door" parent="Widgets" instance=ExtResource("17_ruoly")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 5)
+health = 100.0
+
+[node name="Hatch" parent="Widgets" instance=ExtResource("19_ph13a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -6)
+max_health = 1000
+
+[node name="Wall Light" parent="Widgets" instance=ExtResource("8_kt8ws")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 3, -17.5)
+
+[node name="Wall Light2" parent="Widgets" instance=ExtResource("8_kt8ws")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 3, 3.5)

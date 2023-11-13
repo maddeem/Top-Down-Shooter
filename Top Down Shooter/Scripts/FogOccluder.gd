@@ -18,12 +18,15 @@ const FOLDER_PATH = "res://Assets/PathingTextures/"
 		Occluder_Texture = value
 		if Last_Rotation == null:
 			return
-		var img : Image = load(Occluder_Texture).get_image()
+		var img= load(Occluder_Texture)
+		if img == null:
+			return
+		img = img.get_image()
 		img = img.duplicate()
 		img.decompress()
 		if debug:
 			debug.get_surface_override_material(0).albedo_texture = load(Occluder_Texture)
-			debug.scale = Vector3(img.get_width(),1,img.get_height())*0.25
+			debug.scale = Vector3(img.get_width(),1,img.get_height()) / global_transform.basis.get_scale()
 		if _last_Y != null:
 			add_to_group("UpdateOccluders")
 		if value == FOLDER_PATH or value == null:

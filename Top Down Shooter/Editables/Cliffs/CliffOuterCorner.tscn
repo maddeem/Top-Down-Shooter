@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://dsljqxgw4q0ow"]
+
+[ext_resource type="PackedScene" uid="uid://bqo6ytcy8t33p" path="res://Scenes/cliff.tscn" id="1_d04os"]
+[ext_resource type="ArrayMesh" uid="uid://bxeyr0cj5yhoi" path="res://Assets/Models/Cliffs/OuterCorner1.obj" id="2_05ux6"]
+[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_kwh3a"]
+[ext_resource type="Material" uid="uid://bcmbjpws2kjvi" path="res://Materials/SolidUnshaded.tres" id="4_ufa2j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s5645"]
+size = Vector3(4, 4, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i5c0n"]
+size = Vector3(2, 4, 2)
+
+[node name="CliffOuterCorner" instance=ExtResource("1_d04os")]
+
+[node name="VisionBlocker" parent="." index="0"]
+transform = Transform3D(-1.74845e-07, 0, 4, 0, 4, 0, -4, 0, -1.74845e-07, -2, 0.4, -2)
+Occluder_Texture = "res://Assets/PathingTextures/CliffOuterCorner.tga"
+Occlusion_Points = [Vector2i(-2, 0), Vector2i(-2, 1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -2), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]
+
+[node name="PathingBlocker" parent="." index="1"]
+transform = Transform3D(-1.74845e-07, 0, 4, 0, 4, 0, -4, 0, -1.74845e-07, -2, 0, -2)
+Blocker_Texture = "res://Assets/PathingTextures/CliffOuterCorner.tga"
+Block_Points = [Vector2(-2, 0), Vector2(-2, 1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -2), Vector2(0, -1), Vector2(0, 0), Vector2(0, 1), Vector2(1, -2), Vector2(1, -1), Vector2(1, 0), Vector2(1, 1)]
+
+[node name="Cliff" parent="." index="2"]
+mesh = ExtResource("2_05ux6")
+surface_material_override/0 = ExtResource("4_ufa2j")
+surface_material_override/1 = ExtResource("3_kwh3a")
+
+[node name="CollisionShape3D" parent="." index="3"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 2, -2)
+shape = SubResource("BoxShape3D_s5645")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, -1)
+shape = SubResource("BoxShape3D_i5c0n")

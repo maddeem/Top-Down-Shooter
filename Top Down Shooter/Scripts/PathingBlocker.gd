@@ -10,10 +10,13 @@ const FOLDER_PATH = "res://Assets/PathingTextures/"
 @export_file("*.tga") var Blocker_Texture = FOLDER_PATH:
 	set(value):
 		Blocker_Texture = value
-		if Last_Rotation == null or not Cache.has_method("exists"):
+		if Last_Rotation == null or not Cache.has_method("exists") or Blocker_Texture == null:
 			return
 		add_to_group("UpdateBlockers")
-		var img : Image = load(Blocker_Texture).get_image()
+		var img = load(Blocker_Texture)
+		if img == null:
+			return
+		img = img.get_image()
 		img = img.duplicate()
 		img.decompress()
 		match Last_Rotation:

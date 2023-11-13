@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bgs22rj0swrw1"
+path="res://.godot/imported/cliff_door.obj-a81f153f37186187b9385b3bf328cb1d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/cliff_door.obj-a81f153f37186187b9385b3bf328cb1d.mesh"]
+
+source_file="res://Assets/Models/Cliffs/cliff_door.obj"
+dest_files=["res://.godot/imported/cliff_door.obj-a81f153f37186187b9385b3bf328cb1d.mesh", "res://.godot/imported/cliff_door.obj-a81f153f37186187b9385b3bf328cb1d.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

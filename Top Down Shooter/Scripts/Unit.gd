@@ -102,3 +102,8 @@ func _on_area_3d_body_exited(body):
 func _on_visiblity_observer_visibility_update(state):
 	super._on_visiblity_observer_visibility_update(state)
 	_visible = _visible or Globals.LocalPlayerBit == _bit_owner
+
+func _death():
+	$CollisionShape3D.disabled = true
+	$Model.cast_shadow = false
+	super()

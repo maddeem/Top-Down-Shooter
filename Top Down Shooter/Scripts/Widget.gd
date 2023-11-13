@@ -43,6 +43,7 @@ var can_animate = true:
 	set(value):
 		always_visible_to_owner = value
 		_update_visibility()
+@export_enum("Metal", "Flesh", "Wood", "Rock", "Glass") var Armor_Type : int
 var _visible = false
 var _health_bar_displaying = false
 @onready var update_last = [global_position,rotation.y]
