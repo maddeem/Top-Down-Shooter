@@ -13,6 +13,7 @@ signal peer_left_lobby
 signal disconnected
 signal game_loading
 signal game_starting
+signal peer_name_updated
 
 func close_server():
 	if Peer != null:
@@ -45,7 +46,21 @@ func start_game():
 	Lobby.Peer = null
 	emit_signal("game_loading")
 
+@rpc("any_peer","reliable")
+func send_name(which : String):
+	var id = multiplayer.get_remote_sender_id()
+	var ip = Peer.get_peer(id).get_remote_address()
+	Lobby.rpc_id(1,"send_lobby_player_data",id,which,ip)
+	emit_signal("peer_name_updated",id,which)
+
 func _ready():
+	Lobby.connect("account_validation",func(target_id: int, is_valid : bool):
+		if is_valid:
+			print("user valid")
+		else:
+			var p : ENetPacketPeer = Peer.get_peer(target_id)
+			p.peer_disconnect()
+		)
 	Lobby.connect("port_open",func():
 		Port = Lobby.Port_UDP
 		Peer = ENetMultiplayerPeer.new()

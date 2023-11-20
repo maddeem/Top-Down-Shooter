@@ -47,6 +47,7 @@ func set_player_owner(value):
 		is_owner = PlayerLib.PlayerByIndex[value].id == multiplayer.get_unique_id()
 		camera._camera.current = is_owner
 		$VisibilityModifier.Owner = value
+		$Model/Nametag.text = _player_owner.name
 func _ready():
 	super._ready()
 	add_weapon("GaussRifle")
@@ -57,12 +58,10 @@ func _input(event):
 	direction = Input.get_vector("Move_Left","Move_Right","Move_Up","Move_Down")
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-	var r_click = event.is_action_pressed("Mouse_Right")
-	if event.is_action("Mouse_Right") and r_click != aiming:
-		WidgetFactory.anyone_call(instance_id, "set", ["aiming",r_click])
-	var firing = event.is_action_pressed("Mouse_Left")
-	if firing != fire_pressed and event.is_action("Mouse_Left"):
-		WidgetFactory.anyone_call(instance_id, "set", ["fire_pressed",firing])
+	if event.is_action("Mouse_Right"):
+		WidgetFactory.anyone_call(instance_id, "set", ["aiming",event.is_action_pressed("Mouse_Right")])
+	if event.is_action("Mouse_Left"):
+		WidgetFactory.anyone_call(instance_id, "set", ["fire_pressed",event.is_action_pressed("Mouse_Left")])
 
 func set_next_transform(_sender : int, pos : Vector3, rot : float):
 	if not is_owner:
@@ -132,10 +131,13 @@ func resolve_attack():
 		var diff = abs(Utility.angle_difference(rotation.y,angle2))
 		if diff > 0.1:
 			angle2 = rotation.y
+		if not multiplayer.is_server():
+			current_weapon.cooldown = current_weapon.Attack_Speed
 		current_weapon.rpc_id(1,"fire",angle2)
 
 func _physics_process(delta):
 	var adj_speed = SPEED
+	falling = not is_on_floor()
 	if is_instance_valid(current_weapon):
 		if aiming or fire_pressed:
 			weapon_prepping += delta
@@ -165,19 +167,15 @@ func _physics_process(delta):
 	prev = next
 	next = [global_position,rotation.y]
 	var vel = Vector2(velocity.x,velocity.z)
-	if is_on_floor():
-		vel = vel.lerp(direction * adj_speed, 1 - exp(-delta * acceleration_smoothing))
-		falling = false
-	else:
-		vel = vel.lerp(direction * adj_speed, 1 - exp(-delta * acceleration_smoothing * 0.25))
+	if falling:
 		velocity.y -= Globals.Gravity * delta
-		falling = true
+		vel = vel.lerp(direction * adj_speed, 1 - exp(-delta * acceleration_smoothing * 0.25))
+	else:
+		vel = vel.lerp(direction * adj_speed, 1 - exp(-delta * acceleration_smoothing))
 	velocity.x = vel.x
 	velocity.z = vel.y
 	if is_owner:
 		rotation.y = Utility.change_angle_bounded(rotation.y,angle_to_mouse,rotation_speed * delta)
-	if velocity.is_equal_approx(Vector3.ZERO):
-		return
 	move_and_slide()
 
 func _process(delta):
@@ -189,13 +187,12 @@ func _process(delta):
 		a.y = Utility.change_angle_bounded(a.y,move_dir,rotation_speed * delta)
 	skeleton.set_bone_pose_rotation(bone_legs,Quaternion.from_euler(a))
 	var q
-	a = rotation.y
+	a = Vector3(0,rotation.y,0)
 	if is_instance_valid(current_weapon):
 		a += current_weapon.recoil_angle
 	if aiming:
-		q = Quaternion.from_euler(Vector3(PI*0.125,a,0))
-	else:
-		q = Quaternion.from_euler(Vector3(0,a,0))
+		a.x += PI*0.125
+	q = Quaternion.from_euler(a)
 	skeleton.set_bone_pose_rotation(bone_chest,q)
 	_model.global_rotation.y = 0
 	if is_owner:

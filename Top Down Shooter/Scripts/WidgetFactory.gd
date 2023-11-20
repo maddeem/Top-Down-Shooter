@@ -8,10 +8,12 @@ var packed_movement_data := PackedByteArray()
 func _ready():
 	var count = 1
 	for path in Utility.dir_contents("res://Editables/Widgets"):
+		path = path.replace(".remap","")
 		Cache.write_to("WidgetID",path,count)
 		Cache.write_to("WidgetID",count,path)
 		count += 1
 	for path in Utility.dir_contents("res://Scenes/Widgets"):
+		path = path.replace(".remap","")
 		Cache.write_to("WidgetID",count,path)
 		Cache.write_to("WidgetID",path,count)
 		count += 1

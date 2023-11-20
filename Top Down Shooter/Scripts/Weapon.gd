@@ -33,7 +33,7 @@ var fire_pressed = false
 var sound_players = []
 var base_fire_pitch := 0.0
 @onready var base_rotation_y = rotation.y
-var recoil_angle := 0.0
+var recoil_angle := Vector3.ZERO
 signal fired
 
 func _ready():
@@ -63,9 +63,9 @@ func project_ray(source : Vector3, target : Vector3):
 @rpc("authority","call_local","reliable")
 func confirm_fire(source : Vector3, angle : float):
 	var sound :AudioStreamPlayer3D = sound_players[randi_range(0,sound_players.size()-1)]
+	var tip_pos : Vector3 = weapon_tip.global_position
 	sound.pitch_scale = base_fire_pitch + randf_range(-Pitch_Variance,Pitch_Variance)
 	sound.play()
-	cooldown = Attack_Speed
 	$AnimationPlayer.play("fire")
 	$ScreenShakeCauser.cause_shake(0.5,true, false)
 	var target = source + Vector3(Attack_Range * sin(angle),0,Attack_Range * cos(angle))
@@ -73,28 +73,40 @@ func confirm_fire(source : Vector3, angle : float):
 	$WeaponTip/ShapeCast3D.target_position = $WeaponTip/ShapeCast3D.to_local(target)
 	$WeaponTip/ShapeCast3D.enabled = true
 	$WeaponTip/ShapeCast3D.force_shapecast_update()
-	recoil_angle = angle - player_source.rotation.y
+	var tar
+	var max_y := INF
+	var base_y : float
 	if $WeaponTip/ShapeCast3D.is_colliding():
+		tar = $WeaponTip/ShapeCast3D.get_collider(0)
 		target = $WeaponTip/ShapeCast3D.get_collision_point(0)
-		target.y = $WeaponTip.global_position.y
-	var dist = $WeaponTip.global_position.distance_to(target)
+		base_y = tar.global_position.y
+		max_y = tar.collision_y_range
+	else:
+		base_y = tip_pos.y
+	var dist = tip_pos.distance_to(target)
+	target.y = base_y + randf_range(0,min(log(dist),max_y))
+	recoil_angle += Vector3(-atan((target.y - tip_pos.y)/dist),Utility.angle_difference(angle,player_source.rotation.y),0)
 	if Uses_Tracer:
 		if dist > 3.0:
-			var tracer : MeshInstance3D = TRACER_PATH.instantiate()
+			var base = TRACER_PATH.instantiate()
+			Globals.World.add_child(base)
+			var tracer : MeshInstance3D = base.mesh
 			tracer.set("instance_shader_parameters/color",Vector4(1,1,0,0.4))
-			tracer.set("instance_shader_parameters/time",0.0)
+			tracer.set("instance_shader_parameters/time",randf_range(-0.3,0.0))
 			var tween : Tween = get_tree().create_tween()
-			Globals.World.add_child(tracer)
 			var ratio = dist/Attack_Range
-			tracer.set("instance_shader_parameters/size",0.125 / ratio)
+			tracer.set("instance_shader_parameters/size",0.0625 / ratio)
 			tween.tween_property(tracer,"instance_shader_parameters/time",1.1,0.2 * ratio)
-			tween.tween_callback(tracer.queue_free)
+			tween.tween_callback(base.queue_free)
+			base.global_position = tip_pos
+			tracer.position.z = dist * 0.5
+			base.rotation.y = angle
+			base.rotation.x = recoil_angle.x
 			tracer.mesh.height = dist
-			tracer.global_position = $WeaponTip.global_position + Vector3(dist * sin(angle) * 0.5,0,dist * cos(angle) * 0.5)
-			tracer.rotation.y = angle + PI
+
 	if $WeaponTip/ShapeCast3D.is_colliding():
 		for i in $WeaponTip/ShapeCast3D.get_collision_count():
-			var tar = $WeaponTip/ShapeCast3D.get_collider(i)
+			tar = $WeaponTip/ShapeCast3D.get_collider(i)
 			if tar.get("Armor_Type") != null:
 				ArmoredObject.resolve_impact(Impact_Type,tar.Armor_Type,target,Vector3(0,angle+PI,0))
 			if tar is Widget:
@@ -105,10 +117,11 @@ func confirm_fire(source : Vector3, angle : float):
 
 @rpc("reliable","call_local","any_peer")
 func fire(angle : float):
-	rpc("confirm_fire",player_source.global_position,angle)
+	var pos = player_source.global_position
+	await get_tree().create_timer(cooldown).timeout
+	cooldown = Attack_Speed
+	rpc("confirm_fire",pos,angle)
 
 func _physics_process(delta):
 	cooldown = max(cooldown - delta,0.0)
-
-func _process(delta):
-	recoil_angle = max(0.0,recoil_angle - delta * 0.1)
+	recoil_angle *= exp(-20.0 * delta)

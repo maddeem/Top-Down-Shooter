@@ -1,0 +1,110 @@
+[gd_scene load_steps=10 format=3 uid="uid://c1x2lcp4g336m"]
+
+[ext_resource type="Texture2D" uid="uid://c4l1syrx7yxpl" path="res://Assets/Textures/ShatteredGlassSprite.png" id="1_rvkgw"]
+
+[sub_resource type="Gradient" id="Gradient_2b6ta"]
+offsets = PackedFloat32Array(0, 0.753086, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nm40c"]
+gradient = SubResource("Gradient_2b6ta")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h16og"]
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+damping_min = 5.0
+damping_max = 5.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.01
+scale_max = 0.1
+color_ramp = SubResource("GradientTexture1D_nm40c")
+anim_offset_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa58r"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+shading_mode = 2
+diffuse_mode = 3
+specular_mode = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.305882)
+albedo_texture = ExtResource("1_rvkgw")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 2
+particles_anim_loop = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d24xs"]
+material = SubResource("StandardMaterial3D_wa58r")
+orientation = 2
+
+[sub_resource type="Animation" id="Animation_hl1tf"]
+resource_name = "stand"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_p87s6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3468i"]
+_data = {
+"RESET": SubResource("Animation_p87s6"),
+"stand": SubResource("Animation_hl1tf")
+}
+
+[node name="Glass" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 0, 0, 0)
+amount = 30
+one_shot = true
+explosiveness = 0.9
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_h16og")
+draw_pass_1 = SubResource("PlaneMesh_d24xs")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GPUParticles3D"]
+libraries = {
+"": SubResource("AnimationLibrary_3468i")
+}

@@ -5,6 +5,8 @@ const FOLDER_PATH = "res://Assets/PathingTextures/"
 @export var disabled := false:
 	set(value):
 		disabled = value
+		if debug:
+			debug.visible = not disabled
 		add_to_group("UpdateBlockers")
 ## Accepts only TGA files, transparent pixels do not occlude. The occlusion texture is centered on the node.
 @export_file("*.tga") var Blocker_Texture = FOLDER_PATH:

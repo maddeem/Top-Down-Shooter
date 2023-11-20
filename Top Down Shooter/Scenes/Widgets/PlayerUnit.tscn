@@ -1,12 +1,14 @@
-[gd_scene load_steps=41 format=3 uid="uid://vjnq8ekwhp"]
+[gd_scene load_steps=42 format=3 uid="uid://vjnq8ekwhp"]
 
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_nmj08"]
 [ext_resource type="PackedScene" uid="uid://c0v1qg12ksu2k" path="res://Scenes/CameraController.tscn" id="2_cmtqs"]
 [ext_resource type="Script" path="res://Scripts/PlayerUnit.gd" id="2_xc6u4"]
 [ext_resource type="PackedScene" uid="uid://gjkmrmycqwtv" path="res://Scenes/VisibilityModifier.tscn" id="3_oy0ij"]
 [ext_resource type="PackedScene" uid="uid://dot2kfbxgx2a8" path="res://Assets/Models/Space Marine/spacemarine.glb" id="5_dwopv"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="6_byudi"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="7_aufa3"]
 [ext_resource type="Texture2D" uid="uid://cchdeya2c80d4" path="res://Assets/Models/Space Marine/spacemarine_spacemarine_clipdrop-enhance.png" id="7_en7ri"]
+[ext_resource type="Shader" uid="uid://c14pcxr08jfy6" path="res://Materials/Shaders/PlayerColor.tres" id="7_ql75n"]
 [ext_resource type="AudioStream" uid="uid://bppbrets2fw3s" path="res://Assets/Sounds/CrewMemberFootstep.mp3" id="9_ponxo"]
 
 [sub_resource type="Animation" id="Animation_yn3od"]
@@ -84,17 +86,23 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_766br"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m704t"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("7_aufa3")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu8wk"]
-resource_name = "Material"
-next_pass = SubResource("ShaderMaterial_766br")
-vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("7_en7ri")
-roughness = 0.5
+next_pass = ExtResource("6_byudi")
+shader = ExtResource("7_ql75n")
+shader_parameter/mesh_player_owner = null
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = null
+shader_parameter/uv2_offset = null
+shader_parameter/texture_albedo = ExtResource("7_en7ri")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_8b25h"]
 resource_name = "spacemarine_Sphere"
@@ -710,6 +718,7 @@ acceleration_smoothing = 20
 turn_speed = 4.0
 Visible_Once_Revealed = false
 always_visible_to_owner = true
+collision_y_range = 2.0
 
 [node name="VisibilityModifier" parent="." index="0" instance=ExtResource("3_oy0ij")]
 Inner_Radius = 3
@@ -728,9 +737,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("CapsuleShape3D_ys2lx")
 
 [node name="Shakable Camera" parent="." index="6" instance=ExtResource("2_cmtqs")]
-transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, -1.25, 0)
 
-[node name="spacemarine" parent="Model" index="0" instance=ExtResource("5_dwopv")]
+[node name="Nametag" type="Label3D" parent="Model" index="0"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 3, 0)
+billboard = 1
+no_depth_test = true
+fixed_size = true
+texture_filter = 0
+text = "hi"
+font_size = 48
+
+[node name="spacemarine" parent="Model" index="1" instance=ExtResource("5_dwopv")]
 
 [node name="Skeleton3D" parent="Model/spacemarine/Armature" index="0"]
 bones/0/rotation = Quaternion(0.000474975, 0.000474975, 0.000474975, 1.00048)
@@ -769,7 +787,7 @@ bones/14/scale = Vector3(1, 1, 1)
 
 [node name="Geoset_Bone0_001" parent="Model/spacemarine/Armature/Skeleton3D" index="0"]
 mesh = SubResource("ArrayMesh_d3dyq")
-surface_material_override/0 = SubResource("StandardMaterial3D_wu8wk")
+surface_material_override/0 = SubResource("ShaderMaterial_m704t")
 
 [node name="Sphere" parent="Model/spacemarine/Armature/Skeleton3D" index="1"]
 mesh = SubResource("ArrayMesh_8b25h")

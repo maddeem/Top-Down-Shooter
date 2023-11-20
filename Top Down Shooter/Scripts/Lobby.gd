@@ -11,11 +11,25 @@ var _target_port
 var _ping_timer = Timer.new()
 var server_api = MultiplayerAPI.create_default_interface()
 var ping_thread := Thread.new()
+var username : String
+var password : String
+var logged_in := false
+var target_lobby_owner
+var slot_names = {}
 enum LOBBY_STATE{
 	NEW,
 	DELETE,
 	UPDATE,
 	GET_ALL_DATA
+}
+
+enum ACCOUNT_STATE{
+	USERNAME_TAKEN,
+	CREATION_SUCCESS,
+	MAX_ACCOUNTS,
+	LOGIN_SUCCESS,
+	LOGIN_FAILED,
+	ALREADY_LOGGED_IN
 }
 signal port_open
 signal sever_setup
@@ -25,6 +39,7 @@ signal lobby_updated
 signal lobby_closed
 signal connected_to_lobby_server
 signal lobby_ping_updated
+signal disconnect_from_lobby_server
 
 func _ports_ready(err,_tcp,udp):
 	if err != OK:
@@ -78,6 +93,7 @@ func _ready():
 	multiplayer.server_disconnected.connect(func():
 		Peer = null
 		multiplayer.multiplayer_peer = null
+		emit_signal("disconnect_from_lobby_server")
 		print("Lobby Server Disconnected")
 		_connect()
 	)
@@ -86,7 +102,7 @@ func _ready():
 		emit_signal("connected_to_lobby_server")
 		rpc_id(1,"send_desired_port",Port_UDP)
 	)
-	multiplayer.connection_failed.connect(func(_id):
+	multiplayer.connection_failed.connect(func():
 		print("failed connection to server")
 		_connect()
 	)
@@ -138,4 +154,44 @@ func _connect(source : Node = self):
 func join_lobby(lobby):
 	_target_ip = lobby.ip
 	_target_port = int(lobby.port)
+	target_lobby_owner = lobby.owner
 	_connect(Network)
+
+signal account_state_username_taken
+signal account_state_creation_success
+signal account_state_login_success
+signal account_state_login_failed
+signal account_state_max_accounts
+signal account_state_already_logged_in
+signal account_validation(id : int, is_valid : bool)
+@rpc("any_peer","reliable")
+func get_response(state : int):
+	match state:
+		ACCOUNT_STATE.USERNAME_TAKEN:
+			emit_signal("account_state_username_taken")
+		ACCOUNT_STATE.CREATION_SUCCESS:
+			emit_signal("account_state_creation_success")
+		ACCOUNT_STATE.LOGIN_SUCCESS:
+			emit_signal("account_state_login_success")
+		ACCOUNT_STATE.LOGIN_FAILED:
+			emit_signal("account_state_login_failed")
+		ACCOUNT_STATE.MAX_ACCOUNTS:
+			emit_signal("account_state_max_accounts")
+		ACCOUNT_STATE.ALREADY_LOGGED_IN:
+			emit_signal("account_state_already_logged_in")
+
+@rpc("any_peer","reliable")
+func create_account(_username : String, _password : String):
+	pass
+
+@rpc("any_peer","reliable")
+func login_account(_username : String, _password : String):
+	pass
+
+@rpc("any_peer","reliable")
+func is_valid_username(target_id: int,is_valid : bool):
+	emit_signal("account_validation",target_id,is_valid)
+
+@rpc("any_peer","reliable")
+func send_lobby_player_data(_target_id: int,_user : String, _ip : String):
+	pass

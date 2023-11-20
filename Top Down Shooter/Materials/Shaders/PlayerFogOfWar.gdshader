@@ -33,25 +33,15 @@ bool bresenham(ivec2 p0, ivec2 p1, float height){
 	int sy = 2 * when_lt(p0.y,p1.y) -1;
 	float walls_hit = 0.0;
 	while (true){
-		float last = walls_hit;
 		vec4 sample = texture(OcclusionMap,vec2(p0)/FogDimensions);
-		float result = sample.r + sample.g + sample.b - sample.a;
-		walls_hit += fwhen_gt(result,height);
-		if (p0==p1){
-			return true;
+		walls_hit += fwhen_gt(sample.r + sample.g + sample.b - sample.a,height);
+		if (p0==p1 || walls_hit > 1.0){
+			return p0==p1 || walls_hit <= 1.0;
 		}
-		if (walls_hit != 0.0 && last == walls_hit || walls_hit > 4.0){
-			return false;	
-		}
-        if (err * 2 - dy > dx - err * 2) {
-            // horizontal step
-            err += dy;
-            p0.x += sx;
-        } else {
-            // vertical step
-            err += dx;
-            p0.y += sy;
-        }
+		int c = when_gt(err * 2 - dy, dx - err * 2);
+		err += c * dy + (1 - c) * dx;
+		p0.x += c * sx;
+		p0.y += (1 - c) * sy;
 	}
 }
 
@@ -63,16 +53,13 @@ vec4 get_color(vec2 uv, vec2 scaler){
 		vec4 circlePos = visibility_modifiers[i];
 		vec4 circleData = visiblity_data[i];
 		vec2 d = circlePos.xy - uv;
-		vec2 n = normalize(d);
 		vec2 cn = normalize(-vec2(sin(circleData.z),cos(circleData.z)));
-		float a = acos(dot(n,cn));
+		float a = acos(dot(normalize(d),cn));
 		d *= d;
 		float dist = d.x + d.y;
-		if ((bit_color & int(circleData.y)) == 0 && dist < circlePos.z * circlePos.z && (a <= circleData.a || dist < circlePos.a * circlePos.a)) {
-			if (bresenham(ivec2(circlePos.xy),iuv,circleData.x)){
-				bit_color = bit_color | int(circleData.y);
-				color = bit_to_color(bit_color);
-			}
+		if ((bit_color & int(circleData.y)) == 0 && dist < circlePos.z * circlePos.z && (a <= circleData.a || dist < circlePos.a * circlePos.a) && bresenham(ivec2(circlePos.xy),iuv,circleData.x)) {
+			bit_color = bit_color | int(circleData.y);
+			color = bit_to_color(bit_color);
 		}
 	}
 	return color;

@@ -1,4 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7qmfe83d2mip"]
+[gd_scene load_steps=5 format=3 uid="uid://b7qmfe83d2mip"]
+
+[ext_resource type="Script" path="res://Scripts/Preload.gd" id="1_8sm2n"]
+[ext_resource type="Material" uid="uid://do0uv2yh1v178" path="res://Materials/PlayerColorMaterial.tres" id="2_n2kdx"]
+[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_eg4e5"]
 
 [sub_resource type="GDScript" id="GDScript_yyld3"]
 script/source = "extends Control
@@ -7,14 +11,15 @@ var lobby_slot = preload(\"res://Scenes/Lobby/lobby_button.tscn\")
 var lobby_slots = {}
 var player_slots = {}
 const MAX_PLAYERS = 12
-enum LOBBY_SLOT_STATE{NEW,DELETE}
+enum LOBBY_SLOT_STATE{NEW,DELETE,NAME_UPDATE}
 enum PLAYER_BUTTON{KICK}
+
 func _join_lobby_pressed(data):
 	Lobby.join_lobby(data)
 
 func _exit_lobby(host : bool):
 	$Lobby.visible = false
-	$LobbyList.visible = true
+	$LobbiesOption.visible = true
 	if not host:
 		print(\"restart connection\")
 		Lobby.start_lobby_server_connection()
@@ -23,11 +28,59 @@ func _exit_lobby(host : bool):
 	player_slots = {}
 	Network.Players = []
 
+func default():
+	$Login.visible = true
+	toggle_login(false)
+	$LobbiesOption.visible = false
+	$LobbyList.visible = false
+	$Lobby.visible = false
+
+func toggle_login(enabled : bool):
+	$Login/Label.visible = not enabled
+	$Login/LoginControl/LoginAccount.disabled = not enabled
+	$Login/LoginControl/CreateAccount.disabled = not enabled
+	$Login/LoginControl/Username/LineEdit.editable = enabled
+	$Login/LoginControl/Password/LineEdit.editable = enabled
+	$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(1,0,0,0))
+
 func _ready():
+	default()
+	Lobby.account_state_creation_success.connect(func():
+		$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(0,1,0))
+		$Login/LoginControl/Password/Error.text = \"Creation Success!\"
+		)
+	Lobby.account_state_login_failed.connect(func():
+		$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(1,0,0))
+		$Login/LoginControl/Password/Error.text = \"Username/Password invalid!\"
+		)
+	Lobby.account_state_already_logged_in.connect(func():
+		$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(1,0,0))
+		$Login/LoginControl/Password/Error.text = \"This account is in use!\"
+		)
+	Lobby.account_state_login_success.connect(func():
+		print(\"login success\")
+		default()
+		$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(0,1,0))
+		$Login/LoginControl/Password/Error.text = \"Login Success!\"
+		$Login.visible = false
+		$LobbiesOption.visible = true
+		Lobby.logged_in = true
+		)
+	Lobby.account_state_max_accounts.connect(func():
+		$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(1,0,0))
+		$Login/LoginControl/Password/Error.text = \"Maximum accounts reached!\"
+		)
+	Lobby.account_state_username_taken.connect(func():
+		$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(1,0,0))
+		$Login/LoginControl/Password/Error.text = \"This username is taken!\"
+		)
 	Lobby.connect(\"connected_to_lobby_server\",func():
-		$LobbiesOption/Create.disabled = false
-		$LobbiesOption/Join.disabled = false
-		$LobbiesOption/Label.visible = false
+		toggle_login(true)
+		if Lobby.logged_in:
+			Lobby.login_account.rpc_id(1,Lobby.username,Lobby.password)
+		)
+	Lobby.connect(\"disconnect_from_lobby_server\",func():
+		default()
 		)
 	Lobby.connect(\"lobby_creation_success\",func():
 		$LobbiesOption.visible = false
@@ -37,7 +90,8 @@ func _ready():
 			slot.queue_free()
 		player_slots = {}
 		Network.Players = []
-		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,1)
+		Lobby.slot_names[1] = Lobby.username
+		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,1,Lobby.username)
 		)
 	Lobby.connect(\"new_lobby_discovered\",_create_lobby_slot)
 	Lobby.connect(\"lobby_updated\",func(data,id):
@@ -61,15 +115,22 @@ func _ready():
 			lobby_slots[lobby].queue_free()
 		Lobby.lobbies_open = {}
 		lobby_slots = {}
+		Network.send_name.rpc_id(1,Lobby.username)
 		)
 	Network.connect(\"peer_joined_lobby\",func(id):
 		for this_id in Network.Players:
-			rpc_id(id,\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,this_id)
+			var which_name = null
+			if Lobby.slot_names.has(this_id):
+				which_name = Lobby.slot_names[this_id]
+			rpc_id(id,\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,this_id,which_name)
 		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.NEW,id)
 		)
 	Network.connect(\"peer_left_lobby\",func(id):
 		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.DELETE,id)
 		)
+	Network.connect(\"peer_name_updated\",func(id, new_name):
+		rpc(\"update_lobby_slot\",LOBBY_SLOT_STATE.NAME_UPDATE,id,new_name)
+	)
 	Network.connect(\"disconnected\",func(in_lobby):
 		if in_lobby:
 			_exit_lobby(false)
@@ -102,7 +163,7 @@ func _create_lobby_slot(data,id):
 	$LobbyList/ScrollContainer/VBoxContainer.add_child(new)
 	lobby_slots[id] = new
 	new.connect(\"pressed\",_join_lobby_pressed.bind(data))
-	new.button_text = str(id) + \": \" + str(data.player_count)+\"/\"+str(MAX_PLAYERS)
+	new.button_text = data.owner + \": \" + str(data.player_count)+\"/\"+str(MAX_PLAYERS)
 		
 func _create_player_slot(which_name : String, _id : int):
 	var new = player_slot.instantiate()
@@ -114,10 +175,6 @@ func _create_player_slot(which_name : String, _id : int):
 		if _id != 1:
 			new.kickable = true
 
-func _on_button_lobbies_pressed():
-	$Button_Lobbies.visible = false
-	$LobbiesOption.visible = true
-
 func _on_create_pressed():
 	Lobby.rpc(\"create_lobby\")
 
@@ -126,16 +183,25 @@ func _on_join_pressed():
 	$LobbiesOption.visible = false
 
 @rpc(\"call_local\",\"reliable\",\"authority\")
-func update_lobby_slot(state : int, id : int):
+func update_lobby_slot(state : int, id : int, data : Variant = null):
 	match state:
 		LOBBY_SLOT_STATE.NEW:
 			Network.Players.append(id)
-			_create_player_slot(str(id),id)
+			if id == 1 and not multiplayer.is_server():
+				data = Lobby.target_lobby_owner
+				Lobby.slot_names[id] = data
+			if data != null:
+				_create_player_slot(data,id)
+			else:
+				_create_player_slot(str(id),id)
 		LOBBY_SLOT_STATE.DELETE:
 			if player_slots.has(id):
 				player_slots[id].queue_free()
 				player_slots.erase(id)
 				Network.Players.erase(id)
+		LOBBY_SLOT_STATE.NAME_UPDATE:
+			Lobby.slot_names[id] = data
+			player_slots[id].player_name = data
 
 
 func _on_lobby_back_button_pressed():
@@ -156,6 +222,19 @@ func _on_lobby_list_back_button_pressed():
 
 func _on_lobby_start_button_pressed():
 	Network.rpc(\"start_game\")
+
+func _on_create_account_pressed():
+	Lobby.create_account.rpc_id(1,$Login/LoginControl/Username/LineEdit.text,$Login/LoginControl/Password/LineEdit.text)
+
+
+func _on_login_account_pressed():
+	Lobby.username = $Login/LoginControl/Username/LineEdit.text
+	Lobby.password = $Login/LoginControl/Password/LineEdit.text
+	Lobby.login_account.rpc_id(1,Lobby.username,Lobby.password)
+
+
+func _on_login_line_edit_text_submitted(_new_text):
+	_on_login_account_pressed()
 "
 
 [node name="MainMenu" type="Control"]
@@ -167,17 +246,120 @@ grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_yyld3")
 
-[node name="Button_Lobbies" type="Button" parent="."]
+[node name="Login" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -232.5
-offset_top = 134.0
-offset_right = 232.5
-offset_bottom = 182.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-text = "Lobbies"
+grow_vertical = 2
+
+[node name="LoginControl" type="Control" parent="Login"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoginAccount" type="Button" parent="Login/LoginControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = 76.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Login"
+
+[node name="CreateAccount" type="Button" parent="Login/LoginControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 76.0
+offset_right = 104.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Create"
+
+[node name="Username" type="Label" parent="Login/LoginControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -140.0
+offset_right = 104.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Username"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="Login/LoginControl/Username"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 208.0
+offset_bottom = 111.0
+max_length = 16
+
+[node name="Password" type="Label" parent="Login/LoginControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -76.0
+offset_right = 104.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Password"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="Login/LoginControl/Password"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 208.0
+offset_bottom = 111.0
+max_length = 32
+secret = true
+virtual_keyboard_type = 6
+
+[node name="Error" type="Label" parent="Login/LoginControl/Password"]
+layout_mode = 0
+offset_top = 123.0
+offset_right = 208.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "Test"
+
+[node name="Label" type="Label" parent="Login"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 392.0
+offset_top = 144.0
+offset_right = -390.0
+offset_bottom = 261.0
+grow_horizontal = 2
+text = "Connecting to server . . ."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="LobbiesOption" type="Control" parent="."]
 visible = false
@@ -198,7 +380,6 @@ offset_top = 264.0
 offset_right = 184.5
 offset_bottom = 314.0
 grow_horizontal = 2
-disabled = true
 text = "Create"
 
 [node name="Join" type="Button" parent="LobbiesOption"]
@@ -211,22 +392,8 @@ offset_top = 321.0
 offset_right = 184.5
 offset_bottom = 371.0
 grow_horizontal = 2
-disabled = true
 text = "Join
 "
-
-[node name="Label" type="Label" parent="LobbiesOption"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 393.0
-offset_top = 181.0
-offset_right = -389.0
-offset_bottom = 298.0
-grow_horizontal = 2
-text = "Connecting to server . . ."
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="LobbyList" type="Control" parent="."]
 visible = false
@@ -302,7 +469,14 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Start"
 
-[connection signal="pressed" from="Button_Lobbies" to="." method="_on_button_lobbies_pressed"]
+[node name="Preload" type="Node" parent="."]
+script = ExtResource("1_8sm2n")
+materials = Array[Material]([ExtResource("2_n2kdx"), ExtResource("3_eg4e5")])
+
+[connection signal="pressed" from="Login/LoginControl/LoginAccount" to="." method="_on_login_account_pressed"]
+[connection signal="pressed" from="Login/LoginControl/CreateAccount" to="." method="_on_create_account_pressed"]
+[connection signal="text_submitted" from="Login/LoginControl/Username/LineEdit" to="." method="_on_login_line_edit_text_submitted"]
+[connection signal="text_submitted" from="Login/LoginControl/Password/LineEdit" to="." method="_on_login_line_edit_text_submitted"]
 [connection signal="pressed" from="LobbiesOption/Create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="LobbiesOption/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="LobbyList/LobbyListBackButton" to="." method="_on_lobby_list_back_button_pressed"]

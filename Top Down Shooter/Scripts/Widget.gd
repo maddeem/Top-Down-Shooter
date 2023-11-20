@@ -18,7 +18,7 @@ var dead := false
 var current_animation
 var current_animation_play_start
 var instance_id : int
-@export var player_owner := 30: set = set_player_owner
+@export var player_owner : int: set = set_player_owner
 var _player_owner : Player
 var object_id : int:
 	get:
@@ -44,14 +44,22 @@ var can_animate = true:
 		always_visible_to_owner = value
 		_update_visibility()
 @export_enum("Metal", "Flesh", "Wood", "Rock", "Glass") var Armor_Type : int
+@export var collision_y_range := 0.0
 var _visible = false
 var _health_bar_displaying = false
+@onready var model_offset : Vector3 = _model.position
 @onready var update_last = [global_position,rotation.y]
+var _mesh_instances = []
 
 func set_player_owner(value):
 	player_owner = value
-	if get_parent():
+	if get_parent() and PlayerLib.PlayerByIndex.has(value):
 		_player_owner = PlayerLib.PlayerByIndex[value]
+		for mesh in _mesh_instances:
+			for i in mesh.get_surface_override_material_count():
+				var mat = mesh.get_surface_override_material(i)
+				if mat is ShaderMaterial:
+					mat.set_shader_parameter("mesh_player_owner",value)
 
 func _update_visibility():
 	if get_parent() == null:
@@ -78,7 +86,25 @@ func visible_to_player(p:Player) -> bool:
 	return Globals.FogOfWar.IsPointVisibleToBitId(p._player_visibility, global_position)
 
 func _ready():
-	player_owner = player_owner
+	if Cache.exists("mesh_instances",scene_file_path):
+		for path in Cache.read_from("mesh_instances",scene_file_path):
+			var child = get_node(path)
+			_mesh_instances.append(child)
+	else:
+		var cache_list = []
+		var chr = []
+		var n = get_children()
+		while n.size() > 0:
+			chr = n
+			n = []
+			for child in chr:
+				n += child.get_children()
+				if child is MeshInstance3D:
+					child.set_instance_shader_parameter("color_override",Vector4(-1,-1,-1,0))
+					if child.get_instance_shader_parameter("color_override"):
+						cache_list.append(get_path_to(child))
+						_mesh_instances.append(child)
+		Cache.write_to("mesh_instances",scene_file_path,cache_list)
 	instance_id = WidgetFactory.get_new_id(self)
 	tree_exiting.connect(func():
 		WidgetFactory.recycle_id(self)
@@ -103,9 +129,18 @@ func server_call(whichFunc : Callable):
 	if multiplayer.is_server():
 		whichFunc.rpc()
 
+func set_meshes_override(color : Vector4):
+	for mesh in _mesh_instances:
+		mesh.set("instance_shader_parameters/color_override",color)
+
+var dmg_tween : Tween
 func ReceiveDamage(_source : int, amount : float) -> void:
 	if dead:
 		return
+	if dmg_tween:
+		dmg_tween.kill()
+	dmg_tween = create_tween()
+	dmg_tween.tween_method(set_meshes_override,Vector4(1,1,1,1),Vector4.ZERO,0.3).set_trans(Tween.TRANS_CUBIC)
 	health -= amount
 	_update_heath_bar(health/max_health)
 	if health <= 0:
@@ -132,7 +167,7 @@ func SetHealth(amount: float):
 
 func UpdateModel(trans : Array, forced := false):
 	if _visible or forced:
-		_model.global_position = trans[0]
+		_model.global_position = trans[0] + basis * model_offset
 		_selection_circle.global_position = trans[0]
 		_model.rotation.y = trans[1]
 
@@ -188,3 +223,7 @@ func _process(_delta):
 		prev[0].lerp(next[0],d),
 		lerp_angle(prev[1],next[1],d),
 	])
+
+
+func _on_visibility_changed():
+	pass # Replace with function body.

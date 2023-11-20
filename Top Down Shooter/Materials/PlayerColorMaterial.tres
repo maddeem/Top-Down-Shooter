@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://do0uv2yh1v178"]
+
+[ext_resource type="Texture2D" uid="uid://cchdeya2c80d4" path="res://Assets/Models/Space Marine/spacemarine_spacemarine_clipdrop-enhance.png" id="1_q357n"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="1_w58nb"]
+[ext_resource type="Shader" uid="uid://c14pcxr08jfy6" path="res://Materials/Shaders/PlayerColor.tres" id="2_5tk6l"]
+
+[resource]
+render_priority = 0
+next_pass = ExtResource("1_w58nb")
+shader = ExtResource("2_5tk6l")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 0.2
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.5
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = null
+shader_parameter/uv2_offset = null
+shader_parameter/texture_albedo = ExtResource("1_q357n")

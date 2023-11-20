@@ -15,7 +15,7 @@ shader = ExtResource("4_xgipl")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfli3"]
 next_pass = SubResource("ShaderMaterial_23w7t")
-shading_mode = 2
+diffuse_mode = 2
 albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("3_gc50d")
 metallic = 0.39
@@ -138,7 +138,7 @@ _data = {
 "fire": SubResource("Animation_pi2ap")
 }
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_64cq1"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_gnasv"]
 resource_local_to_scene = true
 
 [node name="Gauss Rifle" type="Node3D"]
@@ -187,7 +187,7 @@ libraries = {
 }
 
 [node name="ScreenShakeCauser" parent="." instance=ExtResource("6_yd5ue")]
-shape = SubResource("SphereShape3D_64cq1")
+shape = SubResource("SphereShape3D_gnasv")
 target_position = Vector3(0, 0, 0)
 radius = 50.0
 

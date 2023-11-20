@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dl68ctj8hoat7"]
+[gd_scene load_steps=3 format=3 uid="uid://dl68ctj8hoat7"]
 
+[ext_resource type="Script" path="res://Scripts/ArmoredObject.gd" id="1_fq7hc"]
 [ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="1_ndo7x"]
 
 [node name="Doodad" type="StaticBody3D"]
+collision_layer = 33
 collision_mask = 0
+script = ExtResource("1_fq7hc")
 
 [node name="PathingBlocker" parent="." instance=ExtResource("1_ndo7x")]
 

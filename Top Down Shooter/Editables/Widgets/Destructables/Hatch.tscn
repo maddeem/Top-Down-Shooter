@@ -1,12 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://cfpa5g1giuu56"]
+[gd_scene load_steps=19 format=3 uid="uid://cfpa5g1giuu56"]
 
 [ext_resource type="PackedScene" uid="uid://daskxeubybqfr" path="res://Scenes/Widgets/Destructable.tscn" id="1_y4rx8"]
 [ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/VisionBlocker.tscn" id="2_g0exo"]
 [ext_resource type="Script" path="res://Scripts/Hatch.gd" id="2_qfby8"]
-[ext_resource type="PackedScene" uid="uid://dsk0kkoq71ca5" path="res://Assets/Models/Cliffs/cliff_hatch.glb" id="2_vqm7b"]
-[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="3_r40ef"]
+[ext_resource type="PackedScene" uid="uid://ct6qe7iew0jby" path="res://Assets/Models/Cliffs/cliff_hatch.glb" id="2_vqm7b"]
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_sgmlr"]
-[ext_resource type="Material" uid="uid://bcmbjpws2kjvi" path="res://Materials/SolidUnshaded.tres" id="5_orc6o"]
+[ext_resource type="Material" uid="uid://dify0t4y3r57n" path="res://Materials/Keypad.tres" id="6_t7cel"]
 [ext_resource type="Texture2D" uid="uid://d1soqv8hnq8w0" path="res://Assets/Textures/cliff_hatch_keypad.png" id="7_m5d68"]
 [ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="8_8t33e"]
 
@@ -18,55 +17,55 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/cliff_hatch/MeshL:rotation")
+tracks/0/path = NodePath("Model/cliff_hatch/MeshL/Keypad_002:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 0)]
+"values": [Color(0, 0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model/cliff_hatch/MeshL:position")
+tracks/1/path = NodePath("Model/cliff_hatch/Cube_001:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.660465, 0, 0)]
+"values": [Color(0, 0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Model/cliff_hatch/MeshR:position")
+tracks/2/path = NodePath("Model/cliff_hatch/MeshL/Screen_001:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.660465, 0, 0)]
+"values": [Color(0, 0, 0, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/3/path = NodePath("Model/cliff_hatch/MeshR/Screen:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 0)]
+"values": [Color(0, 0, 0, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Model/cliff_hatch/MeshL:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/4/path = NodePath("Model/cliff_hatch/MeshR/Keypad_001:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -90,7 +89,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Model/cliff_hatch/MeshR/Keypad_001:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/6/path = NodePath("Model/cliff_hatch/MeshL:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -102,50 +101,50 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Model/cliff_hatch/MeshR/Screen:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/7/path = NodePath("Model/cliff_hatch/MeshR:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 0)]
+"values": [Vector3(0, 0, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Model/cliff_hatch/MeshL/Screen_001:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/8/path = NodePath("Model/cliff_hatch/MeshR:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 0)]
+"values": [Vector3(0.660465, 0, 0)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("Model/cliff_hatch/Cube_001:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/9/path = NodePath("Model/cliff_hatch/MeshL:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 0)]
+"values": [Vector3(0.660465, 0, 0)]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("Model/cliff_hatch/MeshL/Keypad_002:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/10/path = NodePath("Model/cliff_hatch/MeshL:rotation")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 0)]
+"values": [Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_x8fq6"]
@@ -154,50 +153,50 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/cliff_hatch/MeshL:position")
+tracks/0/path = NodePath("Model/cliff_hatch/MeshR:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(-4, 1),
-"update": 0,
-"values": [Vector3(0.660465, 0, 1), Vector3(0.660465, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/cliff_hatch/MeshL:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Model/cliff_hatch/MeshR:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/cliff_hatch/MeshR:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(-4, 1),
 "update": 0,
 "values": [Vector3(0.660465, 0, -1.25), Vector3(0.660465, 0, 0)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Model/cliff_hatch/MeshR:rotation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/cliff_hatch/MeshL:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/cliff_hatch/MeshL:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-4, 1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 1), Vector3(0.660465, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_2f16a"]
@@ -207,31 +206,31 @@ step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/cliff_hatch/MeshL:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/0/path = NodePath("Model/cliff_hatch/MeshR:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.35),
-"transitions": PackedFloat32Array(4, 1, 1),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 0.4), Color(0, 0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, -0.10472, 0), Vector3(0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model/cliff_hatch/MeshR:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/1/path = NodePath("Model/cliff_hatch/MeshL:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.35),
-"transitions": PackedFloat32Array(4, 1, 1),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 0.4), Color(0, 0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0.10472, 0), Vector3(0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Model/cliff_hatch/MeshR/Keypad_001:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/2/path = NodePath("Model/cliff_hatch/MeshL/Keypad_002:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -243,7 +242,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Model/cliff_hatch/MeshR/Screen:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/3/path = NodePath("Model/cliff_hatch/Cube_001:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -267,7 +266,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Model/cliff_hatch/Cube_001:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/5/path = NodePath("Model/cliff_hatch/MeshR/Screen:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -279,7 +278,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Model/cliff_hatch/MeshL/Keypad_002:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/6/path = NodePath("Model/cliff_hatch/MeshR/Keypad_001:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -291,26 +290,26 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Model/cliff_hatch/MeshL:rotation")
+tracks/7/path = NodePath("Model/cliff_hatch/MeshR:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.35),
-"transitions": PackedFloat32Array(1, 0.5, 1),
+"transitions": PackedFloat32Array(4, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0.10472, 0), Vector3(0, 0, 0)]
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 0.4), Color(0, 0, 0, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/8/path = NodePath("Model/cliff_hatch/MeshL:surface_material_override/0:next_pass:shader_parameter/color_override")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.35),
-"transitions": PackedFloat32Array(1, 0.5, 1),
+"transitions": PackedFloat32Array(4, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, -0.10472, 0), Vector3(0, 0, 0)]
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 0.4), Color(0, 0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0mskq"]
@@ -319,50 +318,50 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/0/path = NodePath("Model/cliff_hatch/MeshL:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-4, 1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 0), Vector3(0.660465, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/cliff_hatch/MeshL:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/cliff_hatch/MeshR:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/cliff_hatch/MeshR:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(-4, 1),
 "update": 0,
 "values": [Vector3(0.660465, 0, 0), Vector3(0.660465, 0, -1.25)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Model/cliff_hatch/MeshL:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Model/cliff_hatch/MeshL:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(-4, 1),
-"update": 0,
-"values": [Vector3(0.660465, 0, 0), Vector3(0.660465, 0, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_ktmlv"]
@@ -370,78 +369,26 @@ resource_name = "decay"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/0/path = NodePath("Model/cliff_hatch/MeshL:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/cliff_hatch/MeshR:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.660465, 0, -1.25)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Model/cliff_hatch/MeshL:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Model/cliff_hatch/MeshL:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0.660465, 0, 1)]
 }
-
-[sub_resource type="Animation" id="Animation_y3cnk"]
-resource_name = "stand"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model/cliff_hatch/MeshL:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model/cliff_hatch/MeshL:position")
+tracks/1/path = NodePath("Model/cliff_hatch/MeshL:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.660465, 0, 0)]
+"values": [Vector3(0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -453,12 +400,64 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.660465, 0, 0)]
+"values": [Vector3(0.660465, 0, -1.25)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y3cnk"]
+resource_name = "stand"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/cliff_hatch/MeshR:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/cliff_hatch/MeshR:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/cliff_hatch/MeshL:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.660465, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/cliff_hatch/MeshL:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -478,35 +477,11 @@ _data = {
 "stand": SubResource("Animation_y3cnk")
 }
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t0yqy"]
-resource_name = "Material.003"
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8pc5m"]
 next_pass = ExtResource("8_8t33e")
-transparency = 4
-cull_mode = 2
-vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("7_m5d68")
-roughness = 0.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oj6tm"]
-resource_name = "Material.003"
-next_pass = ExtResource("8_8t33e")
-transparency = 4
-cull_mode = 2
-vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("7_m5d68")
-roughness = 0.5
 emission_enabled = true
-emission = Color(0.533333, 0, 0.0509804, 1)
-emission_energy_multiplier = 16.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78xum"]
-resource_name = "Material.003"
-next_pass = ExtResource("8_8t33e")
-transparency = 4
-cull_mode = 2
-vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("7_m5d68")
-roughness = 0.5
+emission = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5vwag"]
 size = Vector3(4, 4, 8)
@@ -516,24 +491,21 @@ script = ExtResource("2_qfby8")
 locked = false
 health = 1000.0
 remove_on_decay = false
+collision_y_range = 4.0
 
 [node name="VisionBlocker" parent="." index="0" instance=ExtResource("2_g0exo")]
 Occlusion_Height = 255.0
 Occluder_Texture = "res://Assets/PathingTextures/hatch.tga"
 Occlusion_Points = [Vector2i(-1, -4), Vector2i(-1, -3), Vector2i(-1, -2), Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(-1, 2), Vector2i(-1, 3), Vector2i(0, -4), Vector2i(0, -3), Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, 2), Vector2i(0, 3)]
 
-[node name="PathingBlocker" parent="." index="1" instance=ExtResource("3_r40ef")]
-Blocker_Texture = "res://Assets/PathingTextures/hatch.tga"
-Block_Points = [Vector2(-1, -4), Vector2(-1, -3), Vector2(-1, -2), Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(-1, 2), Vector2(-1, 3), Vector2(0, -4), Vector2(0, -3), Vector2(0, -2), Vector2(0, -1), Vector2(0, 0), Vector2(0, 1), Vector2(0, 2), Vector2(0, 3)]
-
-[node name="CollisionShape3D" parent="." index="3"]
+[node name="CollisionShape3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("BoxShape3D_dvyb0")
 
-[node name="Health Bar" parent="." index="4"]
+[node name="Health Bar" parent="." index="3"]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 4.21816, 0)
 
-[node name="AnimationPlayer" parent="." index="5"]
+[node name="AnimationPlayer" parent="." index="4"]
 autoplay = ""
 libraries = {
 "": SubResource("AnimationLibrary_viu7e")
@@ -546,28 +518,25 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 surface_material_override/0 = ExtResource("3_sgmlr")
 
 [node name="Keypad_001" parent="Model/cliff_hatch/MeshR" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_t0yqy")
+surface_material_override/0 = ExtResource("6_t7cel")
 
 [node name="Screen" parent="Model/cliff_hatch/MeshR" index="1"]
-surface_material_override/0 = SubResource("StandardMaterial3D_oj6tm")
+surface_material_override/0 = SubResource("StandardMaterial3D_8pc5m")
 
 [node name="MeshL" parent="Model/cliff_hatch" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660465, 0, 0)
 surface_material_override/0 = ExtResource("3_sgmlr")
 
 [node name="Keypad_002" parent="Model/cliff_hatch/MeshL" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_78xum")
+surface_material_override/0 = ExtResource("6_t7cel")
 
 [node name="Screen_001" parent="Model/cliff_hatch/MeshL" index="1"]
-surface_material_override/0 = SubResource("StandardMaterial3D_oj6tm")
+surface_material_override/0 = SubResource("StandardMaterial3D_8pc5m")
 
 [node name="Cube_001" parent="Model/cliff_hatch" index="2"]
 surface_material_override/0 = ExtResource("3_sgmlr")
 
-[node name="Cube_002" parent="Model/cliff_hatch" index="3"]
-surface_material_override/0 = ExtResource("5_orc6o")
-
-[node name="OpenArea" type="Area3D" parent="." index="8"]
+[node name="OpenArea" type="Area3D" parent="." index="7"]
 collision_layer = 0
 collision_mask = 12
 monitorable = false
@@ -576,9 +545,13 @@ monitorable = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("BoxShape3D_5vwag")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="9"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="8"]
 bus = &"Effects"
 attenuation_filter_cutoff_hz = 20500.0
+
+[node name="PathingBlocker" parent="." index="9"]
+Blocker_Texture = "res://Assets/PathingTextures/hatch.tga"
+Block_Points = [Vector2(-1, -4), Vector2(-1, -3), Vector2(-1, -2), Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(-1, 2), Vector2(-1, 3), Vector2(0, -4), Vector2(0, -3), Vector2(0, -2), Vector2(0, -1), Vector2(0, 0), Vector2(0, 1), Vector2(0, 2), Vector2(0, 3)]
 
 [connection signal="body_entered" from="OpenArea" to="." method="_on_open_area_body_entered"]
 [connection signal="body_exited" from="OpenArea" to="." method="_on_open_area_body_exited"]

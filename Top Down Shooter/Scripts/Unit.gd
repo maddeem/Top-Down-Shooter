@@ -4,7 +4,7 @@ class_name Unit extends Widget
 @export var Movement_Angle = PI*.25
 @onready var vision_modifier = $VisibilityModifier
 var _bit_owner
-var _path
+var _path : Array
 var _path_ind : int
 var push := Vector3.ZERO
 var push_list := []
@@ -24,7 +24,7 @@ func set_path(p : PackedVector2Array):
 		_path.pop_front()
 		size -= 1
 	if size == 0:
-		_path = null
+		_path = []
 		return
 	
 func set_path_target(target : Vector2):
@@ -52,14 +52,14 @@ func _is_facing_correctly(delta, dir : Vector2):
 	return angle_diff < Movement_Angle
 
 func _get_path_dir(delta) -> Vector2:
-	if _path != null:
+	if _path.size() > 0:
 		var pos = Vector2(global_position.x,global_position.z)
 		var tar = _path[_path_ind]
 		var dir = pos.direction_to(tar)
 		if tar.distance_squared_to(pos) < delta * Speed:
 			_path_ind += 1
 			if _path_ind == _path.size():
-				_path = null
+				_path = []
 		return dir
 	else:
 		return Vector2.ZERO

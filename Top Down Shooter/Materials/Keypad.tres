@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dify0t4y3r57n"]
+
+[ext_resource type="Texture2D" uid="uid://d1soqv8hnq8w0" path="res://Assets/Textures/cliff_hatch_keypad.png" id="1_mfv2w"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="2_qlecw"]
+
+[resource]
+next_pass = ExtResource("2_qlecw")
+albedo_texture = ExtResource("1_mfv2w")

@@ -55,6 +55,23 @@ tracks/0/keys = {
 "values": [Vector3(0, -0.99, 0), Vector3(0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_m2n8y"]
+resource_name = "damaged"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Submodel:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.0174533, 0.0872665, -0.0174533), Vector3(0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_1tiqp"]
 resource_name = "death"
 length = 0.5
@@ -77,23 +94,6 @@ resource_name = "decay"
 [sub_resource type="Animation" id="Animation_dfmrb"]
 resource_name = "stand"
 
-[sub_resource type="Animation" id="Animation_m2n8y"]
-resource_name = "damaged"
-length = 0.3
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model/Submodel:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.0174533, 0.0872665, -0.0174533), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_d7kof"]
 _data = {
 "RESET": SubResource("Animation_kr7fc"),
@@ -114,20 +114,22 @@ script = ExtResource("2_wm3ho")
 max_health = 100
 remove_on_decay = false
 always_visible_in_fog = true
+collision_y_range = 4.0
 
 [node name="PathingBlocker" parent="." instance=ExtResource("4_wm3mj")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.5, 0, 0)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 Blocker_Texture = "res://Assets/PathingTextures/2x1.tga"
 Block_Points = [Vector2(0, -1), Vector2(0, 0)]
 
 [node name="VisiblityObserver" parent="." instance=ExtResource("3_qkrfk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 0)
 shape = SubResource("BoxShape3D_cd3dn")
 
 [node name="Health Bar" parent="." instance=ExtResource("4_4t50x")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 4.21816, 0)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.5, 4.21816, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -135,16 +137,18 @@ libraries = {
 }
 
 [node name="Selection Circle" parent="." instance=ExtResource("5_nw57r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
 visible = false
 
 [node name="Model" type="MeshInstance3D" parent="."]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.5, 0, 0)
 
 [node name="Submodel" type="MeshInstance3D" parent="Model"]
 mesh = ExtResource("5_xpiw3")
 surface_material_override/0 = ExtResource("6_f7rlq")
 
 [node name="OpenArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
 collision_layer = 0
 collision_mask = 12
 monitorable = false
@@ -158,7 +162,7 @@ bus = &"Effects"
 attenuation_filter_cutoff_hz = 20500.0
 
 [node name="VisionBlocker" parent="." instance=ExtResource("3_1kjm8")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.5, 0, 0)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 Occluder_Texture = "res://Assets/PathingTextures/2x1.tga"
 Occlusion_Points = [Vector2i(0, -1), Vector2i(0, 0)]
 

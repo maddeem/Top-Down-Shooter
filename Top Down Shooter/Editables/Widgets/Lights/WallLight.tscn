@@ -76,6 +76,8 @@ color = Color(1, 1, 1, 1)
 remove_on_decay = false
 Visible_Once_Revealed = false
 always_visible_in_fog = true
+Armor_Type = 4
+collision_y_range = 1.0
 
 [node name="Health Bar" parent="." index="1"]
 transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 2.166, 0)

@@ -3,12 +3,13 @@
 [ext_resource type="Script" path="res://Scripts/Weapon.gd" id="1_oriet"]
 [ext_resource type="PackedScene" uid="uid://iby2sh5kbf4b" path="res://Scenes/ScreenShaker.tscn" id="2_534g3"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_bmuad"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_hqhjk"]
 resource_local_to_scene = true
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0ggkv"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_00845"]
 resource_local_to_scene = true
 height = 8.0
+radius = 0.01
 
 [node name="Weapon" type="Node3D"]
 script = ExtResource("1_oriet")
@@ -16,7 +17,7 @@ script = ExtResource("1_oriet")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="ScreenShakeCauser" parent="." instance=ExtResource("2_534g3")]
-shape = SubResource("SphereShape3D_bmuad")
+shape = SubResource("SphereShape3D_hqhjk")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 max_distance = 25.0
@@ -27,7 +28,7 @@ attenuation_filter_cutoff_hz = 20500.0
 [node name="WeaponTip" type="Node3D" parent="."]
 
 [node name="ShapeCast3D" type="ShapeCast3D" parent="WeaponTip"]
-shape = SubResource("CylinderShape3D_0ggkv")
-target_position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_00845")
+target_position = Vector3(0, 0, 0)
 
 [editable path="ScreenShakeCauser"]

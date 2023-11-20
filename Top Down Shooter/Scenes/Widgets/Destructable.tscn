@@ -1,7 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://daskxeubybqfr"]
+[gd_scene load_steps=10 format=3 uid="uid://daskxeubybqfr"]
 
 [ext_resource type="Script" path="res://Scripts/Destructable.gd" id="1_1ynxp"]
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_q126g"]
+[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="3_hhig2"]
+
+[sub_resource type="Animation" id="Animation_hqbf4"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_dyhh7"]
+resource_name = "damaged"
+
+[sub_resource type="Animation" id="Animation_3l1bs"]
+resource_name = "death"
+
+[sub_resource type="Animation" id="Animation_qsji4"]
+resource_name = "decay"
+
+[sub_resource type="Animation" id="Animation_dwmv4"]
+resource_name = "stand"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fmln3"]
+_data = {
+"RESET": SubResource("Animation_hqbf4"),
+"damaged": SubResource("Animation_dyhh7"),
+"death": SubResource("Animation_3l1bs"),
+"decay": SubResource("Animation_qsji4"),
+"stand": SubResource("Animation_dwmv4")
+}
 
 [node name="Destructable" instance=ExtResource("1_q126g")]
 collision_layer = 2
@@ -9,3 +35,10 @@ collision_mask = 112
 script = ExtResource("1_1ynxp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_fmln3")
+}
+
+[node name="PathingBlocker" parent="." index="6" instance=ExtResource("3_hhig2")]

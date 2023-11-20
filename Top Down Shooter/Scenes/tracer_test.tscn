@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3slha2a0ac7v"]
+[gd_scene load_steps=4 format=3 uid="uid://b3slha2a0ac7v"]
 
 [ext_resource type="Material" uid="uid://bke5h44efj7w" path="res://Materials/Tracer.tres" id="1_qc12y"]
+[ext_resource type="Script" path="res://Scripts/tracer.gd" id="1_xbagw"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_idwh6"]
 resource_local_to_scene = true
@@ -10,10 +11,12 @@ radial_segments = 4
 cap_top = false
 cap_bottom = false
 
-[node name="MeshInstance3D" type="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-instance_shader_parameters/color = null
-instance_shader_parameters/size = 0.125
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_xbagw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+instance_shader_parameters/size = 1.0
 instance_shader_parameters/time = 0.0
 mesh = SubResource("CylinderMesh_idwh6")
 surface_material_override/0 = ExtResource("1_qc12y")

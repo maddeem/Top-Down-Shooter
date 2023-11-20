@@ -3,9 +3,9 @@ extends Node3D
 func _ready():
 	Globals.TimeElapsed = 0
 	Globals.HeightTerrain = $HTerrain
-	Globals.NavigationRegion = $NavigationRegion
 	Globals.World = self
 	Globals.CreepHandler = $Creep
+	Globals.NavigationRegion = $NavigationRegion
 	Network.connect("game_starting",func():
 		PlayerLib.create_players()
 		)

@@ -109,6 +109,7 @@ Mouse_Right={
 3d_physics/layer_3="Units"
 3d_physics/layer_4="Players"
 3d_physics/layer_5="Items"
+3d_physics/layer_9="NavigationUpdater"
 
 [physics]
 
@@ -167,4 +168,12 @@ CreepDataIn={
 FogPlayerBit={
 "type": "int",
 "value": 0
+}
+PlayerColors={
+"type": "sampler2D",
+"value": "res://Materials/DO NOT DELETE.tres"
+}
+MaxPlayers={
+"type": "float",
+"value": 24.0
 }

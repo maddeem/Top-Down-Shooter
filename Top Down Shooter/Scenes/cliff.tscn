@@ -5,9 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="4_4463y"]
 
 [node name="StaticBody3D" type="StaticBody3D"]
-collision_layer = 32
-collision_mask = 0
+collision_layer = 288
+collision_mask = 256
+input_ray_pickable = false
 script = ExtResource("1_vforn")
+collision_y_range = 4.0
 
 [node name="VisionBlocker" parent="." instance=ExtResource("4_5x1hb")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, 0, 0.4, 0)
@@ -15,7 +17,6 @@ Occlusion_Height = 255.0
 
 [node name="PathingBlocker" parent="." instance=ExtResource("4_4463y")]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, 0, 0, 0)
-Blocker_Texture = "res:"
 
 [node name="Cliff" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1.74846e-07, 0, -4, 0, 4, 0, 4, 0, -1.74846e-07, 0, 0, 0)
