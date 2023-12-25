@@ -5,17 +5,34 @@ var PlayerById = {}
 var HumanPlayers : Array[Player] = []
 var AllPlayers : Array[Player] = []
 var PlayerCount : int = 0
-var PLAYER_NEUTRAL := create_player(30,30,COMPUTER,"Neutral")
-var PLAYER_HOSTILE := create_player(29,29,COMPUTER, "Hostile")
-var PLAYER_THRUL := create_player(28,28,COMPUTER, "Thrul")
-var PLAYER_SHIP := create_player(27,27,COMPUTER, "Ship Systems")
+var PLAYER_NEUTRAL : Player
+var PLAYER_HOSTILE : Player
+var PLAYER_THRUL : Player
+var PLAYER_SHIP : Player
 enum {
 	HUMAN,
 	COMPUTER
 }
+signal initialized
+
+func reset():
+	for p in AllPlayers:
+		p.queue_free()
+	PlayerSpawnPoints = []
+	PlayerById = {}
+	PlayerById = {}
+	HumanPlayers = []
+	AllPlayers = []
+	PlayerCount = 0
+	PLAYER_NEUTRAL = create_player(30,30,COMPUTER,"Neutral")
+	PLAYER_HOSTILE = create_player(29,29,COMPUTER, "Hostile")
+	PLAYER_THRUL = create_player(28,28,COMPUTER, "Thrul")
+	PLAYER_SHIP = create_player(27,27,COMPUTER, "Ship Systems")
 
 func create_player(id : int, index : int, controller : int, player_name : String = "") -> Player:
 	var new = Player.new()
+	if player_name == "":
+		player_name = "None"
 	new.name = player_name
 	new.id = id
 	new.index = index
@@ -38,12 +55,11 @@ func create_players():
 	if multiplayer.is_server():
 		for player in HumanPlayers:
 			var j = randi_range(0,PlayerSpawnPoints.size()-1)
-			WidgetFactory.create_unit_at.rpc(
-				WidgetFactory.swap_id_path("res://Scenes/Widgets/PlayerUnit.tscn"),
+			NetworkFactory.create_unit_at.rpc(
+				NetworkFactory.swap_id_path("res://Editables/Widgets/PlayerUnits/SpaceMarine.tscn"),
 				PlayerSpawnPoints.pop_at(j),
 				player.index
 			)
-			print(player.name)
 	for player1 in HumanPlayers:
 		player1.set_alliance_both(PLAYER_SHIP,true,false)
 		for player2 in HumanPlayers:
@@ -57,3 +73,12 @@ func create_players():
 			player1.set_alliance_both(PLAYER_HOSTILE,false,false)
 	PLAYER_THRUL.set_alliance_both(PLAYER_SHIP,false,false)
 	PlayerCount = Network.Players.size()
+	emit_signal("initialized")
+
+func _ready():
+	reset()
+	Network.peer_left_lobby.connect(func(_id):
+		if PlayerById.has(_id):
+			var p : Player = PlayerById[_id]
+			NetworkFactory.server_call(p.main_unit.instance_id, "_death")
+		)

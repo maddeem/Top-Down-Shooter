@@ -13,23 +13,43 @@ var total_size := Vector2(200,200):
 			_half_size = total_size * 0.5
 var _half_size = total_size * 0.5
 var _time := 0.0
+var cursor_size := 0.15
+var center_mouse := false
+var show_reticle := false:
+	set(value):
+		show_reticle = value
+		if not get_parent():
+			return
+		if show_reticle:
+			material = mat
+			scale = Vector2(1.0,1.0)
+			position = get_viewport().get_mouse_position() - _half_size * scale.x
+		else:
+			material = null
+			scale = Vector2(cursor_size,cursor_size)
+			position = get_viewport().get_mouse_position()
+		center_mouse = show_reticle
 
 @onready var mat : ShaderMaterial = material
 @onready var noise := FastNoiseLite.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	Globals.Reticle = self
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.fractal_type = FastNoiseLite.FRACTAL_NONE
 	noise.frequency = 0.16
 	mat.set_shader_parameter("reticle_radius",RETICLE_RADIUS)
 	mat.set_shader_parameter("reticle_offset",RETICLE_OFFSET)
 	total_size = total_size
+	show_reticle = false
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		position = event.position - _half_size
+		if show_reticle or center_mouse:
+			position = event.position - _half_size * scale.x
+		else:
+			position = event.position
+
 
 func _physics_process(delta):
 	_time += delta

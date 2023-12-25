@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bg48rctyi2jqn"]
+
+[ext_resource type="Shader" path="res://Materials/Shaders/Cooldown.gdshader" id="1_v62e4"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_v62e4")
+shader_parameter/percent = 0.0

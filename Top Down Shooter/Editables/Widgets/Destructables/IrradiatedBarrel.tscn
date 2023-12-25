@@ -9,45 +9,57 @@
 [ext_resource type="Shader" path="res://Materials/Shaders/IrradiatedBarrel.gdshader" id="8_qfww5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8p4bd"]
-size = Vector3(2, 4.2, 2)
+size = Vector3(1, 2.1, 1)
 
 [sub_resource type="Animation" id="Animation_or3rm"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model:transparency")
+tracks/0/path = NodePath("Explosion:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [Color(0, 1, 0, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Explosion:modulate")
+tracks/1/path = NodePath("OmniLight3D:light_energy")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 1, 0, 1)]
+"values": [1.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("OmniLight3D:light_energy")
+tracks/2/path = NodePath("Model:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_viord"]
@@ -60,62 +72,62 @@ resource_name = "death"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model:transparency")
+tracks/0/path = NodePath("Smoke:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(0.148651, 1),
-"update": 0,
-"values": [0.0, 1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Smoke:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Explosion:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0, 32]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Explosion:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 1, 0, 1), Color(0, 1, 0, 0)]
+}
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Explosion:modulate")
+tracks/3/path = NodePath("OmniLight3D:light_energy")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 1, 0, 1), Color(0, 1, 0, 0)]
+"values": [1.0, 0.0]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("OmniLight3D:light_energy")
+tracks/4/path = NodePath("Model:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.0, 0.0]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_l6yvo"]
@@ -151,7 +163,7 @@ _data = {
 offsets = PackedFloat32Array(0, 0.147727, 0.43662)
 colors = PackedColorArray(1.77482e-07, 0.161417, 2.40654e-08, 1, 0, 0, 0, 0.700697, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_6asye"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g2eqq"]
 gradient = SubResource("Gradient_u6ims")
 
 [sub_resource type="Curve" id="Curve_qbt3q"]
@@ -159,7 +171,7 @@ max_value = 2.0
 _data = [Vector2(0, 1.27273), 0.0, 0.0, 0, 0, Vector2(1, 0.654545), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_x73p6"]
+[sub_resource type="CurveTexture" id="CurveTexture_ajwco"]
 curve = SubResource("Curve_qbt3q")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nt71g"]
@@ -172,10 +184,10 @@ initial_velocity_min = 7.0
 initial_velocity_max = 8.0
 scale_min = 0.0
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_x73p6")
-color_ramp = SubResource("GradientTexture1D_6asye")
+scale_curve = SubResource("CurveTexture_ajwco")
+color_ramp = SubResource("GradientTexture1D_g2eqq")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rk5dk"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_houxa"]
 transparency = 1
 shading_mode = 2
 diffuse_mode = 2
@@ -185,7 +197,7 @@ billboard_mode = 1
 billboard_keep_scale = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hc80e"]
-material = SubResource("StandardMaterial3D_rk5dk")
+material = SubResource("StandardMaterial3D_houxa")
 orientation = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pgc3w"]
@@ -430,14 +442,14 @@ shader = ExtResource("8_qfww5")
 shader_parameter/MAX_ITER = 2
 
 [node name="Irradiated Barrel" instance=ExtResource("1_e3ouj")]
-death_time = 2.0
-collision_y_range = 4.2
+object_name = "Irradiated Barrel"
+collision_y_range = 2.1
 
 [node name="VisiblityObserver" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 
 [node name="CollisionShape3D" parent="." index="1"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 1, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.05, 0.5)
 shape = SubResource("BoxShape3D_8p4bd")
 
 [node name="Health Bar" parent="." index="2"]
@@ -467,11 +479,11 @@ pixel_size = 0.03
 billboard = 1
 sprite_frames = SubResource("SpriteFrames_6x0rn")
 animation = &"birth"
-frame = 32
 speed_scale = 8.0
 
 [node name="Selection Circle" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+size = Vector3(1.5, 17, 1.5)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="7"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0.5)

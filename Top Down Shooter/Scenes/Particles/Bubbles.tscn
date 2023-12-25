@@ -1,0 +1,119 @@
+[gd_scene load_steps=13 format=3 uid="uid://dhydqjgdmn8ho"]
+
+[ext_resource type="Texture2D" uid="uid://nlvf5kulvqy0" path="res://Assets/Textures/bubbles.png" id="1_e1b3f"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="2_d4c53"]
+
+[sub_resource type="Curve" id="Curve_sywfe"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 3.26819, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kcckc"]
+curve = SubResource("Curve_sywfe")
+
+[sub_resource type="Gradient" id="Gradient_2b6ta"]
+interpolation_mode = 2
+colors = PackedColorArray(0.494118, 1, 0, 1, 0, 100, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nm40c"]
+gradient = SubResource("Gradient_2b6ta")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71rtu"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, 1, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 1.0
+scale_min = 0.01
+scale_max = 0.1
+color_ramp = SubResource("GradientTexture1D_nm40c")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+anim_speed_curve = SubResource("CurveTexture_kcckc")
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvfi1"]
+resource_local_to_scene = true
+next_pass = ExtResource("2_d4c53")
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.305882)
+albedo_texture = ExtResource("1_e1b3f")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 3
+particles_anim_loop = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d24xs"]
+material = SubResource("StandardMaterial3D_gvfi1")
+orientation = 2
+
+[sub_resource type="Animation" id="Animation_p87s6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_hl1tf"]
+resource_name = "stand"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3468i"]
+_data = {
+"RESET": SubResource("Animation_p87s6"),
+"stand": SubResource("Animation_hl1tf")
+}
+
+[node name="Bubbles" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 0, 0, 0)
+amount = 30
+randomness = 1.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_71rtu")
+draw_pass_1 = SubResource("PlaneMesh_d24xs")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GPUParticles3D"]
+libraries = {
+"": SubResource("AnimationLibrary_3468i")
+}

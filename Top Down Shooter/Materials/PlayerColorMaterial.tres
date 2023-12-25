@@ -5,12 +5,14 @@
 [ext_resource type="Shader" uid="uid://c14pcxr08jfy6" path="res://Materials/Shaders/PlayerColor.tres" id="2_5tk6l"]
 
 [resource]
+resource_local_to_scene = true
 render_priority = 0
 next_pass = ExtResource("1_w58nb")
 shader = ExtResource("2_5tk6l")
+shader_parameter/mesh_player_owner = null
 shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/point_size = 0.0
-shader_parameter/roughness = 0.2
+shader_parameter/roughness = 0.5
 shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.5

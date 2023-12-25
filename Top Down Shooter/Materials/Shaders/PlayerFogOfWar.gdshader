@@ -32,16 +32,18 @@ bool bresenham(ivec2 p0, ivec2 p1, float height){
 	int sx = 2 * when_lt(p0.x,p1.x) -1;
 	int sy = 2 * when_lt(p0.y,p1.y) -1;
 	float walls_hit = 0.0;
+	float last = 0.0;
 	while (true){
 		vec4 sample = texture(OcclusionMap,vec2(p0)/FogDimensions);
 		walls_hit += fwhen_gt(sample.r + sample.g + sample.b - sample.a,height);
-		if (p0==p1 || walls_hit > 1.0){
-			return p0==p1 || walls_hit <= 1.0;
+		if (p0==p1 || walls_hit > 1.0 || last >= 1.0){
+			return p0==p1 || walls_hit <= 1.0 && last == 0.0;
 		}
 		int c = when_gt(err * 2 - dy, dx - err * 2);
 		err += c * dy + (1 - c) * dx;
 		p0.x += c * sx;
 		p0.y += (1 - c) * sy;
+		last = walls_hit;
 	}
 }
 

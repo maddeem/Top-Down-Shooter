@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8sh6irgk2oq5"]
+
+[ext_resource type="Theme" uid="uid://7bu1if2dshxc" path="res://Assets/Textures/UI/default_theme.tres" id="1_brss4"]
+[ext_resource type="Script" path="res://Scripts/ItemSlot.gd" id="1_r0ith"]
+[ext_resource type="Texture2D" uid="uid://l8i8858y0feu" path="res://Assets/Textures/Icons/firstaidkit.png" id="2_beqmp"]
+
+[sub_resource type="Shader" id="Shader_b75h5"]
+code = "shader_type canvas_item;
+uniform float percent = 0.0;
+
+void fragment() {
+    vec2 center = UV - vec2(0.5);
+    float ang = atan(center.x, center.y) + PI; // Convert coordinate to angle, relative to center
+    float ang2 = percent * PI * 2.0;
+    COLOR = mix(COLOR,COLOR * vec4(vec3(0.4), 1.0),  step(ang,ang2));
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2tqex"]
+resource_local_to_scene = true
+shader = SubResource("Shader_b75h5")
+shader_parameter/percent = 0.0
+
+[node name="Button" type="Button"]
+material = SubResource("ShaderMaterial_2tqex")
+custom_minimum_size = Vector2(50, 50)
+theme = ExtResource("1_brss4")
+icon = ExtResource("2_beqmp")
+expand_icon = true
+script = ExtResource("1_r0ith")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_outline_color = Color(0.105882, 0.105882, 0.105882, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "1"
+horizontal_alignment = 2
+vertical_alignment = 2
+text_overrun_behavior = 1
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

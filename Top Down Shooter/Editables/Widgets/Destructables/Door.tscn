@@ -1,15 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://dfqf5kct0ro4y"]
+[gd_scene load_steps=13 format=3 uid="uid://dfqf5kct0ro4y"]
 
-[ext_resource type="Script" path="res://Scripts/Door.gd" id="2_wm3ho"]
-[ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/VisionBlocker.tscn" id="3_1kjm8"]
-[ext_resource type="PackedScene" uid="uid://cuexr6oralw54" path="res://Scenes/VisiblityObserver.tscn" id="3_qkrfk"]
-[ext_resource type="PackedScene" uid="uid://k8rxrlyljhxg" path="res://Scenes/Healthbar/Health_Bar.tscn" id="4_4t50x"]
-[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="4_wm3mj"]
-[ext_resource type="PackedScene" uid="uid://dh4wlg4vyavw4" path="res://Scenes/selection_circle.tscn" id="5_nw57r"]
+[ext_resource type="PackedScene" uid="uid://bhnnoajb1afpk" path="res://Scenes/Widgets/Doorway.tscn" id="1_20f8k"]
 [ext_resource type="ArrayMesh" uid="uid://bgs22rj0swrw1" path="res://Assets/Models/Cliffs/cliff_door.obj" id="5_xpiw3"]
 [ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="6_f7rlq"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_cd3dn"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_pcwxk"]
 size = Vector3(0.5, 4, 2)
 
 [sub_resource type="Animation" id="Animation_kr7fc"]
@@ -94,7 +89,7 @@ resource_name = "decay"
 [sub_resource type="Animation" id="Animation_dfmrb"]
 resource_name = "stand"
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_d7kof"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nj0fk"]
 _data = {
 "RESET": SubResource("Animation_kr7fc"),
 "birth": SubResource("Animation_3vpwk"),
@@ -104,67 +99,62 @@ _data = {
 "stand": SubResource("Animation_dfmrb")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_g6vjv"]
-size = Vector3(3, 4, 2)
+[sub_resource type="BoxShape3D" id="BoxShape3D_tun7h"]
+size = Vector3(2, 4, 2)
 
-[node name="Door" type="CharacterBody3D"]
-collision_layer = 2
-collision_mask = 0
-script = ExtResource("2_wm3ho")
+[node name="Door" instance=ExtResource("1_20f8k")]
+object_name = "Door"
 max_health = 100
-remove_on_decay = false
-always_visible_in_fog = true
+health = 100.0
 collision_y_range = 4.0
 
-[node name="PathingBlocker" parent="." instance=ExtResource("4_wm3mj")]
+[node name="VisiblityObserver" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 0)
+shape = SubResource("BoxShape3D_pcwxk")
+
+[node name="Health Bar" parent="." index="2"]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.5, 4.17178, 0)
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_nj0fk")
+}
+
+[node name="Selection Circle" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="Model" parent="." index="5"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.5, 0, 0)
+
+[node name="Submodel" type="MeshInstance3D" parent="Model" index="0"]
+mesh = ExtResource("5_xpiw3")
+surface_material_override/0 = ExtResource("6_f7rlq")
+
+[node name="VisionBlocker" parent="." index="6"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+Occlusion_Height = 4.0
+Occluder_Texture = "res://Assets/PathingTextures/2x1.tga"
+Occlusion_Points = [Vector2i(0, -1), Vector2i(0, 0)]
+
+[node name="PathingBlocker" parent="." index="7"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 Blocker_Texture = "res://Assets/PathingTextures/2x1.tga"
 Block_Points = [Vector2(0, -1), Vector2(0, 0)]
 
-[node name="VisiblityObserver" parent="." instance=ExtResource("3_qkrfk")]
+[node name="Area3D" parent="." index="8"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 0)
-shape = SubResource("BoxShape3D_cd3dn")
+[node name="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("BoxShape3D_pcwxk")
 
-[node name="Health Bar" parent="." instance=ExtResource("4_4t50x")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.5, 4.21816, 0)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_d7kof")
-}
-
-[node name="Selection Circle" parent="." instance=ExtResource("5_nw57r")]
+[node name="OpenArea" parent="." index="9"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
-visible = false
 
-[node name="Model" type="MeshInstance3D" parent="."]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.5, 0, 0)
+[node name="CollisionShape3D" parent="OpenArea" index="0"]
+shape = SubResource("BoxShape3D_tun7h")
 
-[node name="Submodel" type="MeshInstance3D" parent="Model"]
-mesh = ExtResource("5_xpiw3")
-surface_material_override/0 = ExtResource("6_f7rlq")
-
-[node name="OpenArea" type="Area3D" parent="."]
+[node name="AudioStreamPlayer3D" parent="." index="10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
-collision_layer = 0
-collision_mask = 12
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="OpenArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-shape = SubResource("BoxShape3D_g6vjv")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-bus = &"Effects"
-attenuation_filter_cutoff_hz = 20500.0
-
-[node name="VisionBlocker" parent="." instance=ExtResource("3_1kjm8")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
-Occluder_Texture = "res://Assets/PathingTextures/2x1.tga"
-Occlusion_Points = [Vector2i(0, -1), Vector2i(0, 0)]
-
-[connection signal="body_entered" from="OpenArea" to="." method="_on_open_area_body_entered"]
-[connection signal="body_exited" from="OpenArea" to="." method="_on_open_area_body_exited"]

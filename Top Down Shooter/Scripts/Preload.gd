@@ -1,9 +1,11 @@
 extends Node
-var WeaponTypes = {
-	"GaussRifle" = preload("res://Editables/Weapons/GaussRifle.tscn")
-}
+const MATERIAL_INVISIBLE = preload("res://Materials/Invisible.tres")
+const MATERIAL_INVISIBLE_RELVEAD = preload("res://Materials/InvisibleRevealed.tres")
+const WEAPON_GAUSS = preload("res://Editables/Weapons/GaussRifle.tscn")
+const WEAPON_INFECTED = preload("res://Editables/Weapons/InfectedMelee.tscn")
 var Units = {
-	"Marine" = load("res://Scenes/Widgets/PlayerUnit.tscn")
+	"Marine" = preload("res://Scenes/Widgets/PlayerUnit.tscn"),
+	"Roach" = preload("res://Editables/Widgets/Units/Roach.tscn")
 }
 @export var materials: Array[Material]
 

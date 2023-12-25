@@ -15,10 +15,10 @@ shader = ExtResource("4_xgipl")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfli3"]
 next_pass = SubResource("ShaderMaterial_23w7t")
-diffuse_mode = 2
 albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("3_gc50d")
-metallic = 0.39
+metallic = 0.5
+roughness = 0.5
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.48
 rim_enabled = true
@@ -138,11 +138,12 @@ _data = {
 "fire": SubResource("Animation_pi2ap")
 }
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_gnasv"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_t3io0"]
 resource_local_to_scene = true
 
 [node name="Gauss Rifle" type="Node3D"]
 script = ExtResource("2_d0hj0")
+item_path = "res://Editables/Widgets/Items/GaussRifle.tscn"
 Aim_FOV = 2.356
 Reticle_Move_Penalty = 1.0
 Reticle_Aim_Bonus = 1.0
@@ -187,7 +188,7 @@ libraries = {
 }
 
 [node name="ScreenShakeCauser" parent="." instance=ExtResource("6_yd5ue")]
-shape = SubResource("SphereShape3D_gnasv")
+shape = SubResource("SphereShape3D_t3io0")
 target_position = Vector3(0, 0, 0)
 radius = 50.0
 

@@ -1,45 +1,48 @@
-[gd_scene load_steps=37 format=3 uid="uid://dr7vqyv2tdptm"]
+[gd_scene load_steps=42 format=3 uid="uid://dr7vqyv2tdptm"]
 
 [ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_g7gqx"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_skxjl"]
+[ext_resource type="Script" path="res://Scripts/Colors.gd" id="2_5epyx"]
 [ext_resource type="Resource" path="res://Assets/TerrainArt/data.hterrain" id="2_kk65r"]
+[ext_resource type="PackedScene" uid="uid://bncc77ikmgp4b" path="res://Scenes/chat.tscn" id="2_kt5j1"]
+[ext_resource type="PackedScene" uid="uid://b3yauitih8lex" path="res://Scenes/ingame_menu.tscn" id="2_valny"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain.gdshader" id="3_aq6jm"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="4_tkuqg"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="5_jntib"]
 [ext_resource type="PackedScene" uid="uid://cbcxx5xri533q" path="res://Scenes/Editor/player_spawner.tscn" id="6_fajj8"]
 [ext_resource type="PackedScene" uid="uid://b3hioqnac8l7x" path="res://Editables/Cliffs/CliffStraight.tscn" id="7_2i2b7"]
 [ext_resource type="Script" path="res://Scripts/ArmoredObject.gd" id="7_dop6u"]
-[ext_resource type="PackedScene" uid="uid://drfvh6pfd8oxq" path="res://Editables/Widgets/Lights/WallLight.tscn" id="8_kt8ws"]
-[ext_resource type="PackedScene" uid="uid://dekradi7ehmv3" path="res://Scenes/Reticle.tscn" id="10_20sy1"]
 [ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="11_jbk74"]
 [ext_resource type="PackedScene" uid="uid://5gwoa7l23ihj" path="res://Editables/Doodads/locker.tscn" id="12_jxt2l"]
 [ext_resource type="PackedScene" uid="uid://bdx7sn0fuds8d" path="res://Scenes/CreepHandler.tscn" id="13_5o5qb"]
-[ext_resource type="Texture2D" uid="uid://dhhrx81q5vei" path="res://Assets/Textures/ScifiTexturePack.png" id="13_kki2n"]
 [ext_resource type="PackedScene" uid="uid://c77nuu1ervc31" path="res://Editables/Cliffs/CliffInnerCorner.tscn" id="14_a3c2r"]
-[ext_resource type="Shader" path="res://Materials/Shaders/FogReactiveOverlay.gdshader" id="14_onw6y"]
 [ext_resource type="PackedScene" uid="uid://dsljqxgw4q0ow" path="res://Editables/Cliffs/CliffOuterCorner.tscn" id="15_4comb"]
 [ext_resource type="PackedScene" uid="uid://c70aoc3ec32w8" path="res://Editables/Cliffs/CliffStraightOpen.tscn" id="16_yo12h"]
 [ext_resource type="PackedScene" uid="uid://dfqf5kct0ro4y" path="res://Editables/Widgets/Destructables/Door.tscn" id="17_ruoly"]
 [ext_resource type="PackedScene" uid="uid://cfpa5g1giuu56" path="res://Editables/Widgets/Destructables/Hatch.tscn" id="19_ph13a"]
 [ext_resource type="PackedScene" uid="uid://djov7wgd3gdcm" path="res://Scenes/navigation_region.tscn" id="22_cd3n5"]
-[ext_resource type="PackedScene" uid="uid://cjv8bwnhul5nc" path="res://Scenes/Widgets/Unit.tscn" id="22_n11jk"]
 [ext_resource type="PackedScene" uid="uid://bv6ccdnowub4p" path="res://Editables/Widgets/Destructables/Barrel.tscn" id="23_7cprr"]
 [ext_resource type="PackedScene" uid="uid://dok7arxcvcvvq" path="res://Editables/Widgets/Destructables/IrradiatedBarrel.tscn" id="23_hiw1f"]
 [ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="24_lwfae"]
 [ext_resource type="PackedScene" uid="uid://b4mggscmibqgp" path="res://Editables/Widgets/Destructables/LongCrate.tscn" id="25_uh4ln"]
-[ext_resource type="Script" path="res://Scripts/PlayerColors.gd" id="28_sp1yd"]
+[ext_resource type="PackedScene" uid="uid://dkjoaboj78bim" path="res://Editables/Widgets/Items/FirstAidKit.tscn" id="26_pcy0y"]
+[ext_resource type="PackedScene" uid="uid://drfvh6pfd8oxq" path="res://Editables/Widgets/Lights/WallLight.tscn" id="29_3croy"]
+[ext_resource type="AudioStream" uid="uid://dol7au6yx463y" path="res://Assets/Sounds/ShipThrusterAmbient.wav" id="29_eqix4"]
+[ext_resource type="PackedScene" uid="uid://dwy4necaje11v" path="res://Editables/Widgets/Items/GaussRifle.tscn" id="30_jletl"]
+[ext_resource type="PackedScene" uid="uid://c4rvgi5udd1bu" path="res://Scenes/invisibility_detector.tscn" id="30_pg60g"]
+[ext_resource type="PackedScene" uid="uid://bggsin2lyv7ds" path="res://Editables/Widgets/Units/Roach.tscn" id="31_16djj"]
 
-[sub_resource type="Image" id="Image_ig4is"]
+[sub_resource type="Image" id="Image_m43ct"]
 data = {
-"data": PackedByteArray(255, 3, 3, 255, 0, 66, 255, 255, 27, 231, 186, 255, 85, 0, 129, 255, 254, 252, 0, 255, 254, 137, 13, 255, 33, 191, 0, 255, 228, 92, 175, 255, 147, 149, 150, 255, 126, 191, 241, 255, 16, 98, 71, 255, 79, 43, 5, 255, 156, 0, 0, 255, 0, 0, 195, 255, 0, 235, 255, 255, 189, 0, 255, 255, 236, 206, 135, 255, 247, 165, 139, 255, 191, 255, 129, 255, 219, 184, 235, 255, 79, 80, 85, 255, 236, 240, 255, 255, 0, 120, 30, 255, 165, 111, 52, 255),
+"data": PackedByteArray(255, 2, 2, 255, 0, 66, 255, 255, 26, 230, 186, 255, 84, 0, 128, 255, 253, 251, 0, 255, 253, 137, 13, 255, 33, 191, 0, 255, 228, 91, 175, 255, 147, 149, 149, 255, 126, 191, 240, 255, 16, 98, 70, 255, 79, 42, 4, 255, 156, 0, 0, 255, 0, 0, 195, 255, 0, 235, 255, 255, 188, 0, 255, 255, 235, 205, 135, 255, 246, 165, 138, 255, 191, 255, 128, 255, 219, 184, 235, 255, 79, 80, 84, 255, 235, 239, 255, 255, 0, 119, 29, 255, 165, 110, 52, 255, 156, 156, 156, 255, 167, 167, 167, 255, 195, 195, 195, 255, 135, 175, 255, 255, 174, 0, 255, 255, 79, 79, 79, 255, 158, 158, 158, 255),
 "format": "RGBA8",
 "height": 1,
 "mipmaps": false,
-"width": 24
+"width": 31
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_3abps"]
-image = SubResource("Image_ig4is")
+[sub_resource type="ImageTexture" id="ImageTexture_uu8ml"]
+image = SubResource("Image_m43ct")
 
 [sub_resource type="Resource" id="Resource_71mcm"]
 script = ExtResource("4_tkuqg")
@@ -51,34 +54,56 @@ textures = [[ExtResource("5_jntib")], [null]]
 [sub_resource type="BoxShape3D" id="BoxShape3D_e61i0"]
 size = Vector3(1024, 1, 1024)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_txfen"]
-render_priority = 0
-shader = ExtResource("14_onw6y")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2fm2"]
-resource_local_to_scene = true
-next_pass = SubResource("ShaderMaterial_txfen")
-shading_mode = 2
-diffuse_mode = 2
-albedo_color = Color(1, 1, 1, 0)
-albedo_texture = ExtResource("13_kki2n")
-metallic = 0.39
-emission = Color(0.000166357, 0.000166357, 0.000166357, 1)
-emission_energy_multiplier = 0.00943887
-rim_enabled = true
-
 [sub_resource type="Environment" id="Environment_8jxmh"]
 background_mode = 1
 background_energy_multiplier = 0.0
 ambient_light_energy = 0.0
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_rxu3i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iysrw"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_0n2sn"]
+script/source = "extends MeshInstance3D
+var roach = preload(\"res://Editables/Widgets/Units/Roach.tscn\")
+var spawn_period = 3.0
+var spawn_period_cur = 0.0
+
+func _process(delta):
+	return
+	spawn_period_cur += delta
+	if multiplayer.is_server() and spawn_period_cur > spawn_period:
+		spawn_period_cur = 0.0
+		NetworkFactory.create_unit_at.rpc(
+			NetworkFactory.swap_id_path(\"res://Editables/Widgets/Units/Roach.tscn\"),
+			global_position,
+			PlayerLib.PLAYER_THRUL.index
+			)
+"
+
+[sub_resource type="GDScript" id="GDScript_bxe8m"]
+script/source = "extends AudioStreamPlayer
+var noise = FastNoiseLite.new()
+func _ready():
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+
+func _process(delta):
+	pitch_scale = (noise.get_noise_1d(Globals.TimeElapsed) + 1.0)
+"
+
 [node name="World Scene" type="Node3D"]
 script = ExtResource("1_g7gqx")
 
+[node name="Ingame Menu" parent="." instance=ExtResource("2_valny")]
+visible = false
+
+[node name="Chat" parent="." instance=ExtResource("2_kt5j1")]
+
 [node name="PlayerColorsConfig" type="Node" parent="."]
-script = ExtResource("28_sp1yd")
-player_colors = PackedColorArray(1, 0.0117647, 0.0117647, 1, 0, 0.258824, 1, 1, 0.105882, 0.905882, 0.729412, 1, 0.333333, 0, 0.505882, 1, 0.996078, 0.988235, 0, 1, 0.996078, 0.537255, 0.0509804, 1, 0.129412, 0.74902, 0, 1, 0.894118, 0.360784, 0.686275, 1, 0.576471, 0.584314, 0.588235, 1, 0.494118, 0.74902, 0.945098, 1, 0.0627451, 0.384314, 0.278431, 1, 0.309804, 0.168627, 0.0196078, 1, 0.611765, 0, 0, 1, 0, 0, 0.764706, 1, 0, 0.921569, 1, 1, 0.741176, 0, 1, 1, 0.92549, 0.807843, 0.529412, 1, 0.968627, 0.647059, 0.545098, 1, 0.74902, 1, 0.505882, 1, 0.858824, 0.721569, 0.921569, 1, 0.309804, 0.313726, 0.333333, 1, 0.92549, 0.941176, 1, 1, 0, 0.470588, 0.117647, 1, 0.647059, 0.435294, 0.203922, 1)
-output = SubResource("ImageTexture_3abps")
+script = ExtResource("2_5epyx")
+player_colors = PackedColorArray(1, 0.0117647, 0.0117647, 1, 0, 0.258824, 1, 1, 0.105882, 0.905882, 0.729412, 1, 0.333333, 0, 0.505882, 1, 0.996078, 0.988235, 0, 1, 0.996078, 0.537255, 0.0509804, 1, 0.129412, 0.74902, 0, 1, 0.894118, 0.360784, 0.686275, 1, 0.576471, 0.584314, 0.588235, 1, 0.494118, 0.74902, 0.945098, 1, 0.0627451, 0.384314, 0.278431, 1, 0.309804, 0.168627, 0.0196078, 1, 0.611765, 0, 0, 1, 0, 0, 0.764706, 1, 0, 0.921569, 1, 1, 0.741176, 0, 1, 1, 0.92549, 0.807843, 0.529412, 1, 0.968627, 0.647059, 0.545098, 1, 0.74902, 1, 0.505882, 1, 0.858824, 0.721569, 0.921569, 1, 0.309804, 0.313726, 0.333333, 1, 0.92549, 0.941176, 1, 1, 0, 0.470588, 0.117647, 1, 0.647059, 0.435294, 0.203922, 1, 0.615686, 0.615686, 0.615686, 1, 0.654902, 0.654902, 0.654902, 1, 0.764706, 0.764706, 0.764706, 1, 0.533333, 0.686275, 1, 1, 0.682353, 0, 1, 1, 0.309804, 0.309804, 0.309804, 1, 0.619608, 0.619608, 0.619608, 1)
+output = SubResource("ImageTexture_uu8ml")
 
 [node name="HTerrain" type="Node3D" parent="."]
 script = ExtResource("1_skxjl")
@@ -92,7 +117,7 @@ shader_type = "Custom"
 custom_shader = ExtResource("3_aq6jm")
 custom_globalmap_shader = null
 texture_set = SubResource("Resource_71mcm")
-render_layers = 1
+render_layers = 2
 cast_shadow = 1
 shader_params/u_ground_uv_scale = 20
 shader_params/u_depth_blending = true
@@ -115,6 +140,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -1)
 [node name="Player Spawner2" parent="." instance=ExtResource("6_fajj8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
 
+[node name="Player Spawner3" parent="." instance=ExtResource("6_fajj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -1)
+
 [node name="Doodads" type="Node3D" parent="."]
 
 [node name="Cliff_Straight" parent="Doodads" instance=ExtResource("7_2i2b7")]
@@ -125,6 +153,24 @@ input_ray_pickable = true
 
 [node name="Cliff_Straight2" parent="Doodads" instance=ExtResource("7_2i2b7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -16)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight4" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 1, 0, -4)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight5" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -19, 0, -8)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight6" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, -19, 0, -4)
 collision_layer = 32
 collision_mask = 0
 input_ray_pickable = true
@@ -141,14 +187,20 @@ collision_layer = 32
 collision_mask = 0
 input_ray_pickable = true
 
-[node name="CliffOuterCorner" parent="Doodads" instance=ExtResource("15_4comb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -12)
+[node name="CliffInnerCorner2" parent="Doodads" instance=ExtResource("14_a3c2r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 0, 3)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffInnerCorner3" parent="Doodads" instance=ExtResource("14_a3c2r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0, -13)
 collision_layer = 32
 collision_mask = 0
 input_ray_pickable = true
 
 [node name="CliffOuterCorner6" parent="Doodads" instance=ExtResource("15_4comb")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 5, 0, -14)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3, 0, -12)
 collision_layer = 32
 collision_mask = 0
 input_ray_pickable = true
@@ -183,7 +235,26 @@ collision_layer = 32
 collision_mask = 0
 input_ray_pickable = true
 
-[node name="Reticle" parent="." instance=ExtResource("10_20sy1")]
+[node name="CliffOuterCorner7" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -4, 0, 10)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner8" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 1, -6, 0, 10)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Locker" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -18)
+
+[node name="Locker2" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -18)
+
+[node name="Locker3" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -18)
 
 [node name="FogOfWar" parent="." instance=ExtResource("11_jbk74")]
 Update_Period = 0.1
@@ -191,63 +262,86 @@ Dimensions = Vector2i(1024, 1024)
 Fog_Explored_Color = Color(0, 0, 0, 0.913725)
 
 [node name="Creep" parent="." instance=ExtResource("13_5o5qb")]
+mouse_filter = 2
 
 [node name="Widgets" type="Node3D" parent="."]
-
-[node name="Hatch" parent="Widgets" instance=ExtResource("19_ph13a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -6)
-max_health = 1000
-health = 1.0
-
-[node name="Wall Light" parent="Widgets" instance=ExtResource("8_kt8ws")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 3, -17.5)
-
-[node name="Wall Light2" parent="Widgets" instance=ExtResource("8_kt8ws")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2, 3, 3.5)
-
-[node name="Barrel" parent="Widgets" instance=ExtResource("23_7cprr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -14)
-
-[node name="Unit" parent="Widgets" instance=ExtResource("22_n11jk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -3)
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="NavigationRegion" parent="." instance=ExtResource("22_cd3n5")]
 size = Vector2(1024, 1024)
 
-[node name="Irradiated Barrel" parent="." instance=ExtResource("23_hiw1f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -14)
-
-[node name="Model" parent="Irradiated Barrel" index="8"]
-instance_shader_parameters/color_override = Color(0, 0, 0, 0)
-surface_material_override/0 = SubResource("StandardMaterial3D_c2fm2")
-
-[node name="Crate" parent="." instance=ExtResource("24_lwfae")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -14)
-
-[node name="Long Crate" parent="." instance=ExtResource("25_uh4ln")]
-transform = Transform3D(-1, 0, -1.98418e-09, 0, 1, 0, 1.98418e-09, 0, -1, -7, 0, -18)
-
-[node name="Door" parent="." instance=ExtResource("17_ruoly")]
-transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -5, 0, 5)
-
-[node name="Locker" parent="." instance=ExtResource("12_jxt2l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -18)
-
-[node name="Locker2" parent="." instance=ExtResource("12_jxt2l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -18)
-
-[node name="Locker3" parent="." instance=ExtResource("12_jxt2l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -18)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8jxmh")
 
-[editable path="Irradiated Barrel"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12)
+mesh = SubResource("CylinderMesh_rxu3i")
+surface_material_override/0 = SubResource("StandardMaterial3D_iysrw")
+script = SubResource("GDScript_0n2sn")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("29_eqix4")
+volume_db = -10.0
+autoplay = true
+script = SubResource("GDScript_bxe8m")
+
+[node name="Barrel" parent="." instance=ExtResource("23_7cprr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -12)
+
+[node name="Barrel2" parent="." instance=ExtResource("23_7cprr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -11)
+
+[node name="Barrel3" parent="." instance=ExtResource("23_7cprr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -14)
+
+[node name="Crate" parent="." instance=ExtResource("24_lwfae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -17)
+
+[node name="Door" parent="." instance=ExtResource("17_ruoly")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 4)
+
+[node name="Hatch" parent="." instance=ExtResource("19_ph13a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -6)
+
+[node name="Irradiated Barrel" parent="." instance=ExtResource("23_hiw1f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8)
+
+[node name="Irradiated Barrel2" parent="." instance=ExtResource("23_hiw1f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -4)
+
+[node name="Irradiated Barrel3" parent="." instance=ExtResource("23_hiw1f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Barrel4" parent="." instance=ExtResource("23_7cprr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -11)
+
+[node name="Crate2" parent="." instance=ExtResource("24_lwfae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -7)
+
+[node name="Long Crate" parent="." instance=ExtResource("25_uh4ln")]
+transform = Transform3D(-1, 0, -1.98418e-09, 0, 1, 0, 1.98418e-09, 0, -1, 2, 0, -6)
+
+[node name="First Aid Kit" parent="." instance=ExtResource("26_pcy0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -4)
+
+[node name="First Aid Kit2" parent="." instance=ExtResource("26_pcy0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -6)
+
+[node name="Gauss Rifle" parent="." instance=ExtResource("30_jletl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+
+[node name="Gauss Rifle2" parent="." instance=ExtResource("30_jletl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -6)
+
+[node name="Wall Light" parent="." instance=ExtResource("29_3croy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 3, -11)
+
+[node name="Wall Light2" parent="." instance=ExtResource("29_3croy")]
+transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -3, 3, 4)
+
+[node name="InvisibilityDetector" parent="." instance=ExtResource("30_pg60g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -1)
+detection = 1
+player_owner = 1
+
+[node name="Roach" parent="." instance=ExtResource("31_16djj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 0)

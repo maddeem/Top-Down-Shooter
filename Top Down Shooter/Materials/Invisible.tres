@@ -1,0 +1,45 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://fw1e453lagus"]
+
+[ext_resource type="Shader" path="res://Materials/Shaders/ShieldDistortion.gdshader" id="1_k8iap"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tilvt"]
+seed = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ahyll"]
+width = 128
+height = 128
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_tilvt")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bdy0e"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_x8k45"]
+width = 128
+height = 128
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_bdy0e")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8svme"]
+seed = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b4acu"]
+width = 128
+height = 128
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_8svme")
+
+[resource]
+render_priority = -128
+shader = ExtResource("1_k8iap")
+shader_parameter/distortionView = 0.01
+shader_parameter/speedView = 0.1
+shader_parameter/tintColor = Color(0, 0, 0, 1)
+shader_parameter/fesnelAmount = 5.0
+shader_parameter/distortionVertex = 0.005
+shader_parameter/speedVertex = 0.1
+shader_parameter/noiseViewX = SubResource("NoiseTexture2D_x8k45")
+shader_parameter/noiseViewY = SubResource("NoiseTexture2D_b4acu")
+shader_parameter/noiseVertex = SubResource("NoiseTexture2D_ahyll")

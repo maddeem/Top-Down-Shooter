@@ -1,0 +1,328 @@
+[gd_scene load_steps=39 format=3 uid="uid://dr7vqyv2tdptm"]
+
+[ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_g7gqx"]
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_skxjl"]
+[ext_resource type="Script" path="res://Scripts/Colors.gd" id="2_5epyx"]
+[ext_resource type="Resource" path="res://Assets/TerrainArt/data.hterrain" id="2_kk65r"]
+[ext_resource type="PackedScene" uid="uid://bncc77ikmgp4b" path="res://Scenes/chat.tscn" id="2_kt5j1"]
+[ext_resource type="PackedScene" uid="uid://b3yauitih8lex" path="res://Scenes/ingame_menu.tscn" id="2_valny"]
+[ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain.gdshader" id="3_aq6jm"]
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="4_tkuqg"]
+[ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="5_jntib"]
+[ext_resource type="PackedScene" uid="uid://cbcxx5xri533q" path="res://Scenes/Editor/player_spawner.tscn" id="6_fajj8"]
+[ext_resource type="PackedScene" uid="uid://b3hioqnac8l7x" path="res://Editables/Cliffs/CliffStraight.tscn" id="7_2i2b7"]
+[ext_resource type="Script" path="res://Scripts/ArmoredObject.gd" id="7_dop6u"]
+[ext_resource type="PackedScene" uid="uid://drfvh6pfd8oxq" path="res://Editables/Widgets/Lights/WallLight.tscn" id="8_kt8ws"]
+[ext_resource type="PackedScene" uid="uid://5ibql1cweuoy" path="res://Scenes/FogOfWar.tscn" id="11_jbk74"]
+[ext_resource type="PackedScene" uid="uid://5gwoa7l23ihj" path="res://Editables/Doodads/locker.tscn" id="12_jxt2l"]
+[ext_resource type="PackedScene" uid="uid://bdx7sn0fuds8d" path="res://Scenes/CreepHandler.tscn" id="13_5o5qb"]
+[ext_resource type="PackedScene" uid="uid://c77nuu1ervc31" path="res://Editables/Cliffs/CliffInnerCorner.tscn" id="14_a3c2r"]
+[ext_resource type="PackedScene" uid="uid://dsljqxgw4q0ow" path="res://Editables/Cliffs/CliffOuterCorner.tscn" id="15_4comb"]
+[ext_resource type="PackedScene" uid="uid://c70aoc3ec32w8" path="res://Editables/Cliffs/CliffStraightOpen.tscn" id="16_yo12h"]
+[ext_resource type="PackedScene" uid="uid://dfqf5kct0ro4y" path="res://Editables/Widgets/Destructables/Door.tscn" id="17_ruoly"]
+[ext_resource type="PackedScene" uid="uid://cfpa5g1giuu56" path="res://Editables/Widgets/Destructables/Hatch.tscn" id="19_ph13a"]
+[ext_resource type="PackedScene" uid="uid://djov7wgd3gdcm" path="res://Scenes/navigation_region.tscn" id="22_cd3n5"]
+[ext_resource type="PackedScene" uid="uid://bv6ccdnowub4p" path="res://Editables/Widgets/Destructables/Barrel.tscn" id="23_7cprr"]
+[ext_resource type="PackedScene" uid="uid://dok7arxcvcvvq" path="res://Editables/Widgets/Destructables/IrradiatedBarrel.tscn" id="23_hiw1f"]
+[ext_resource type="PackedScene" uid="uid://bk8rdddi734v5" path="res://Editables/Widgets/Destructables/Crate.tscn" id="24_lwfae"]
+[ext_resource type="PackedScene" uid="uid://b4mggscmibqgp" path="res://Editables/Widgets/Destructables/LongCrate.tscn" id="25_uh4ln"]
+[ext_resource type="PackedScene" uid="uid://bggsin2lyv7ds" path="res://Editables/Widgets/Units/Roach.tscn" id="25_uny8s"]
+[ext_resource type="PackedScene" uid="uid://dkjoaboj78bim" path="res://Editables/Widgets/Items/FirstAidKit.tscn" id="26_pcy0y"]
+[ext_resource type="AudioStream" uid="uid://dol7au6yx463y" path="res://Assets/Sounds/ShipThrusterAmbient.wav" id="29_eqix4"]
+
+[sub_resource type="Image" id="Image_cy86g"]
+data = {
+"data": PackedByteArray(255, 2, 2, 255, 0, 66, 255, 255, 26, 230, 186, 255, 84, 0, 128, 255, 253, 251, 0, 255, 253, 137, 13, 255, 33, 191, 0, 255, 228, 91, 175, 255, 147, 149, 149, 255, 126, 191, 240, 255, 16, 98, 70, 255, 79, 42, 4, 255, 156, 0, 0, 255, 0, 0, 195, 255, 0, 235, 255, 255, 188, 0, 255, 255, 235, 205, 135, 255, 246, 165, 138, 255, 191, 255, 128, 255, 219, 184, 235, 255, 79, 80, 84, 255, 235, 239, 255, 255, 0, 119, 29, 255, 165, 110, 52, 255, 156, 156, 156, 255, 167, 167, 167, 255, 195, 195, 195, 255, 135, 175, 255, 255, 174, 0, 255, 255, 79, 79, 79, 255, 158, 158, 158, 255),
+"format": "RGBA8",
+"height": 1,
+"mipmaps": false,
+"width": 31
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_dcqcu"]
+image = SubResource("Image_cy86g")
+
+[sub_resource type="Resource" id="Resource_71mcm"]
+script = ExtResource("4_tkuqg")
+mode = 1
+textures = [[ExtResource("5_jntib")], [null]]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dq1c0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e61i0"]
+size = Vector3(1024, 1, 1024)
+
+[sub_resource type="Environment" id="Environment_8jxmh"]
+background_mode = 1
+background_energy_multiplier = 0.0
+ambient_light_energy = 0.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rxu3i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iysrw"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_0n2sn"]
+script/source = "extends MeshInstance3D
+var roach = preload(\"res://Editables/Widgets/Units/Roach.tscn\")
+var spawn_period = 3.0
+var spawn_period_cur = 0.0
+
+func _process(delta):
+	return
+	spawn_period_cur += delta
+	if multiplayer.is_server() and spawn_period_cur > spawn_period:
+		spawn_period_cur = 0.0
+		NetworkFactory.create_unit_at.rpc(
+			NetworkFactory.swap_id_path(\"res://Editables/Widgets/Units/Roach.tscn\"),
+			global_position,
+			PlayerLib.PLAYER_THRUL.index
+			)
+"
+
+[node name="World Scene" type="Node3D"]
+script = ExtResource("1_g7gqx")
+
+[node name="Ingame Menu" parent="." instance=ExtResource("2_valny")]
+visible = false
+
+[node name="Chat" parent="." instance=ExtResource("2_kt5j1")]
+
+[node name="PlayerColorsConfig" type="Node" parent="."]
+script = ExtResource("2_5epyx")
+player_colors = PackedColorArray(1, 0.0117647, 0.0117647, 1, 0, 0.258824, 1, 1, 0.105882, 0.905882, 0.729412, 1, 0.333333, 0, 0.505882, 1, 0.996078, 0.988235, 0, 1, 0.996078, 0.537255, 0.0509804, 1, 0.129412, 0.74902, 0, 1, 0.894118, 0.360784, 0.686275, 1, 0.576471, 0.584314, 0.588235, 1, 0.494118, 0.74902, 0.945098, 1, 0.0627451, 0.384314, 0.278431, 1, 0.309804, 0.168627, 0.0196078, 1, 0.611765, 0, 0, 1, 0, 0, 0.764706, 1, 0, 0.921569, 1, 1, 0.741176, 0, 1, 1, 0.92549, 0.807843, 0.529412, 1, 0.968627, 0.647059, 0.545098, 1, 0.74902, 1, 0.505882, 1, 0.858824, 0.721569, 0.921569, 1, 0.309804, 0.313726, 0.333333, 1, 0.92549, 0.941176, 1, 1, 0, 0.470588, 0.117647, 1, 0.647059, 0.435294, 0.203922, 1, 0.615686, 0.615686, 0.615686, 1, 0.654902, 0.654902, 0.654902, 1, 0.764706, 0.764706, 0.764706, 1, 0.533333, 0.686275, 1, 1, 0.682353, 0, 1, 1, 0.309804, 0.309804, 0.309804, 1, 0.619608, 0.619608, 0.619608, 1)
+output = SubResource("ImageTexture_dcqcu")
+
+[node name="HTerrain" type="Node3D" parent="."]
+script = ExtResource("1_skxjl")
+centered = true
+_terrain_data = ExtResource("2_kk65r")
+chunk_size = 32
+collision_enabled = false
+collision_layer = 1
+collision_mask = 1
+shader_type = "Custom"
+custom_shader = ExtResource("3_aq6jm")
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_71mcm")
+render_layers = 2
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_globalmap_blend_start = null
+shader_params/u_globalmap_blend_distance = null
+
+[node name="Floor" type="StaticBody3D" parent="."]
+script = ExtResource("7_dop6u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_dq1c0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_e61i0")
+
+[node name="Player Spawner" parent="." instance=ExtResource("6_fajj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -1)
+
+[node name="Player Spawner2" parent="." instance=ExtResource("6_fajj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Player Spawner3" parent="." instance=ExtResource("6_fajj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -1)
+
+[node name="Doodads" type="Node3D" parent="."]
+
+[node name="Cliff_Straight" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -16)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight2" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -16)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight4" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 1, 0, -4)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight5" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -19, 0, -8)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight6" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, -19, 0, -4)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Cliff_Straight3" parent="Doodads" instance=ExtResource("7_2i2b7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -16)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffInnerCorner" parent="Doodads" instance=ExtResource("14_a3c2r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -17)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffInnerCorner2" parent="Doodads" instance=ExtResource("14_a3c2r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 0, 3)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffInnerCorner3" parent="Doodads" instance=ExtResource("14_a3c2r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0, -13)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner6" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3, 0, -12)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner5" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 13, 0, -20)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffStraightOpen" parent="Doodads" instance=ExtResource("16_yo12h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 8)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner2" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -10)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner3" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11, 0, -2)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner4" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -13, 0, 6)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner7" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -4, 0, 10)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CliffOuterCorner8" parent="Doodads" instance=ExtResource("15_4comb")]
+transform = Transform3D(1, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 1, -6, 0, 10)
+collision_layer = 32
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="Locker" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -18)
+
+[node name="Locker2" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -18)
+
+[node name="Locker3" parent="Doodads" instance=ExtResource("12_jxt2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -18)
+
+[node name="FogOfWar" parent="." instance=ExtResource("11_jbk74")]
+Update_Period = 0.1
+Dimensions = Vector2i(1024, 1024)
+Fog_Explored_Color = Color(0, 0, 0, 0.913725)
+
+[node name="Creep" parent="." instance=ExtResource("13_5o5qb")]
+mouse_filter = 2
+
+[node name="Widgets" type="Node3D" parent="."]
+
+[node name="Wall Light" parent="Widgets" instance=ExtResource("8_kt8ws")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 3, -17.5)
+
+[node name="Wall Light3" parent="Widgets" instance=ExtResource("8_kt8ws")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3, 3, 10.5)
+
+[node name="Wall Light2" parent="Widgets" instance=ExtResource("8_kt8ws")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2, 3, 3.5)
+
+[node name="Barrel" parent="Widgets" instance=ExtResource("23_7cprr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -14)
+Target_As = 1
+
+[node name="Crate" parent="Widgets" instance=ExtResource("24_lwfae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -6)
+
+[node name="Long Crate" parent="Widgets" instance=ExtResource("25_uh4ln")]
+transform = Transform3D(-1, 0, -1.98418e-09, 0, 1, 0, 1.98418e-09, 0, -1, -7, 0, -18)
+
+[node name="Irradiated Barrel" parent="Widgets" instance=ExtResource("23_hiw1f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -14)
+
+[node name="Irradiated Barrel2" parent="Widgets" instance=ExtResource("23_hiw1f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -14)
+
+[node name="Irradiated Barrel3" parent="Widgets" instance=ExtResource("23_hiw1f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -14)
+
+[node name="First Aid Kit" parent="Widgets" instance=ExtResource("26_pcy0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -7)
+current_stacks = 3
+
+[node name="First Aid Kit2" parent="Widgets" instance=ExtResource("26_pcy0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -7)
+current_stacks = 3
+
+[node name="First Aid Kit3" parent="Widgets" instance=ExtResource("26_pcy0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -6)
+current_stacks = 3
+
+[node name="First Aid Kit4" parent="Widgets" instance=ExtResource("26_pcy0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
+current_stacks = 3
+
+[node name="Roach" parent="Widgets" instance=ExtResource("25_uny8s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -4)
+
+[node name="Door" parent="Widgets" instance=ExtResource("17_ruoly")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5, 0, 5)
+
+[node name="Hatch" parent="Widgets" instance=ExtResource("19_ph13a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -6)
+object_name = "Hatch"
+max_health = 1000
+health = 1000.0
+collision_y_range = 4.0
+
+[node name="NavigationRegion" parent="." instance=ExtResource("22_cd3n5")]
+size = Vector2(1024, 1024)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8jxmh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12)
+mesh = SubResource("CylinderMesh_rxu3i")
+surface_material_override/0 = SubResource("StandardMaterial3D_iysrw")
+script = SubResource("GDScript_0n2sn")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("29_eqix4")
+autoplay = true

@@ -48,6 +48,24 @@ func convert_color_to_bit(color):
 	Cache.write_to("bit_color",color,val)
 	return val
 
+func bit_length(value: int) -> int:
+	var length = 0
+	while value > 0:
+		value = value >> 1
+		length += 1
+	return length
+
+func find_missing_bits(bit_set1: int, bit_set2: int) -> Array:
+	var missing_bits: int = bit_set1 & ~bit_set2
+
+	var max_length: int = max(bit_length(bit_set1), bit_length(bit_set2))
+	var missing_positions: Array = []
+	for i in range(max_length - 1, -1, -1):
+		var bit_value: int = (missing_bits >> i) & 1
+		if bit_value == 1:
+			missing_positions.append(get_bit(i))
+	return missing_positions
+
 func get_interpolated_normal(x : float, y : float, data):
 	var x1 = int(x)
 	var y1 = int(y)
@@ -125,3 +143,15 @@ func dir_contents(path : String) -> PackedStringArray:
 					list.append(cur_path + "/" + file_name)
 				file_name = dir.get_next()
 	return list
+
+static func apply_override_material(target : Node, override : Material = null, overlay : Material = null):
+	var list = [target]
+	var next
+	while list.size() > 0:
+		next = list
+		list = []
+		for obj in next:
+			if obj is MeshInstance3D:
+				obj.material_overlay = overlay
+				obj.material_override = override
+			list += obj.get_children()

@@ -1,0 +1,81 @@
+[gd_scene load_steps=13 format=3 uid="uid://bhnnoajb1afpk"]
+
+[ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_oyfnd"]
+[ext_resource type="Script" path="res://Scripts/Door.gd" id="2_hykcc"]
+[ext_resource type="PackedScene" uid="uid://dxtjen6injqrr" path="res://Scenes/VisionBlocker.tscn" id="3_am157"]
+[ext_resource type="PackedScene" uid="uid://cbf8v2iie38ij" path="res://Scenes/PathingBlocker.tscn" id="3_s067k"]
+
+[sub_resource type="Animation" id="Animation_hqbf4"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_dyhh7"]
+resource_name = "damaged"
+
+[sub_resource type="Animation" id="Animation_3l1bs"]
+resource_name = "death"
+
+[sub_resource type="Animation" id="Animation_qsji4"]
+resource_name = "decay"
+
+[sub_resource type="Animation" id="Animation_dwmv4"]
+resource_name = "stand"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fmln3"]
+_data = {
+"RESET": SubResource("Animation_hqbf4"),
+"damaged": SubResource("Animation_dyhh7"),
+"death": SubResource("Animation_3l1bs"),
+"decay": SubResource("Animation_qsji4"),
+"stand": SubResource("Animation_dwmv4")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hm8bb"]
+size = Vector3(1.2, 4, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rdj77"]
+size = Vector3(4, 4, 8)
+
+[node name="Doorway" instance=ExtResource("1_oyfnd")]
+collision_layer = 2
+collision_mask = 112
+script = ExtResource("2_hykcc")
+locked = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_fmln3")
+}
+
+[node name="VisionBlocker" parent="." index="6" instance=ExtResource("3_am157")]
+Occlusion_Points = [Vector2i(-1, -1), Vector2i(0, -1)]
+
+[node name="PathingBlocker" parent="." index="7" instance=ExtResource("3_s067k")]
+
+[node name="Area3D" type="Area3D" parent="." index="8"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_hm8bb")
+
+[node name="OpenArea" type="Area3D" parent="." index="9"]
+collision_layer = 0
+collision_mask = 12
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OpenArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_rdj77")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="10"]
+attenuation_filter_cutoff_hz = 20500.0
+
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_mouse_exited"]
+[connection signal="body_entered" from="OpenArea" to="." method="_on_open_area_body_entered"]
+[connection signal="body_exited" from="OpenArea" to="." method="_on_open_area_body_exited"]

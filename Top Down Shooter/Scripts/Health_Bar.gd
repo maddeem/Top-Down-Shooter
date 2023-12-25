@@ -1,12 +1,13 @@
-extends Sprite3D
-@onready var viewport : SubViewport = $SubViewport
-@onready var bar : TextureProgressBar = $SubViewport/TextureProgressBar
+extends MeshInstance3D
+var display_time := 0.0
+
 
 func SetPercent(new_value : float):
-	bar.value = new_value
-	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
-	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	set_instance_shader_parameter("percent",new_value)
 
 func _ready():
-	texture = viewport.get_texture()
 	SetPercent(1.0)
+
+func _process(delta):
+	display_time -= delta
+	set_instance_shader_parameter("alpha",ease(clamp(display_time+1.0,0.0,1.0),0.2))

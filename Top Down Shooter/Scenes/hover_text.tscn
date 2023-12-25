@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqte7op5hvdsp"]
+
+[ext_resource type="Script" path="res://Scripts/hover_text.gd" id="1_06tye"]
+[ext_resource type="Theme" uid="uid://7bu1if2dshxc" path="res://Assets/Textures/UI/default_theme.tres" id="1_js168"]
+
+[node name="CenterContainer" type="CenterContainer"]
+z_index = 2
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+use_top_left = true
+script = ExtResource("1_06tye")
+
+[node name="Hover Text" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("1_js168")
+
+[node name="Title" type="Label" parent="Hover Text"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "greetings
+nerds"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true

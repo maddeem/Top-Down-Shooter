@@ -39,6 +39,7 @@ script = ExtResource("1_77jj5")
 [node name="VisiblityObserver" parent="." instance=ExtResource("2_c4af3")]
 
 [node name="Health Bar" parent="." instance=ExtResource("2_uv6bp")]
+visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "stand"
@@ -48,7 +49,12 @@ libraries = {
 
 [node name="Selection Circle" parent="." instance=ExtResource("4_7iekg")]
 visible = false
+layers = 1
+upper_fade = 1e-05
+lower_fade = 1e-05
 
 [node name="Model" type="MeshInstance3D" parent="."]
 
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="visibility_update" from="VisiblityObserver" to="." method="_on_visiblity_observer_visibility_update"]

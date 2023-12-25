@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://dftkbt4qtluof"]
+
+[ext_resource type="PackedScene" uid="uid://6xpv0gn8jvm1" path="res://Scenes/weapon.tscn" id="1_4uelt"]
+
+[sub_resource type="Animation" id="Animation_hodnr"]
+resource_name = "fire"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hhpcu"]
+_data = {
+"fire": SubResource("Animation_hodnr")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ntrj0"]
+resource_local_to_scene = true
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3xhrb"]
+resource_local_to_scene = true
+height = 32.0
+radius = 1.0
+
+[node name="Weapon" instance=ExtResource("1_4uelt")]
+Aim_Speed_Reduction = 1.0
+Reticle_Move_Penalty = 0.0
+Reticle_Aim_Bonus = 1.0
+Reticle_Size = 0.0
+Can_Aim = false
+Attack_Range = 1.0
+Attack_Speed = 0.7
+Prep_Time = 0.0
+Uses_Tracer = false
+Bullet_Radius = 2.0
+launch_delay = 0.4
+Impact_Type = 1
+Targets = 14
+Attachment = "chest"
+Walk_Animation = "walk"
+Stand_Animation = "stand"
+shake_strength = 0.0
+
+[node name="AnimationPlayer" parent="." index="0"]
+libraries = {
+"": SubResource("AnimationLibrary_hhpcu")
+}
+
+[node name="ScreenShakeCauser" parent="." index="1"]
+shape = SubResource("SphereShape3D_ntrj0")
+
+[node name="ShapeCast3D" parent="WeaponTip" index="0"]
+shape = SubResource("CylinderShape3D_3xhrb")
+
+[editable path="ScreenShakeCauser"]

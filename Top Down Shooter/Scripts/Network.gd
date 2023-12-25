@@ -1,5 +1,5 @@
 extends Node
-var Port
+var Port : int
 var Peer := ENetMultiplayerPeer.new()
 var Players : Array = []
 var In_Lobby = false
@@ -15,14 +15,23 @@ signal game_loading
 signal game_starting
 signal peer_name_updated
 
+func reset():
+	if Peer != null:
+		multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	Players = []
+	In_Lobby = false
+	Lobby_Host = false
+	Game_Started = false
+	done_loading_count = 0
+
 func close_server():
 	if Peer != null:
-		Peer.close()
+		multiplayer.multiplayer_peer = null
+	In_Lobby = false
+	Lobby_Host = false
 	Peer = ENetMultiplayerPeer.new()
 	var err = Peer.create_server(Port,1)
 	multiplayer.multiplayer_peer = Peer
-	In_Lobby = false
-	Lobby_Host = false
 	return err
 
 func disconnect_player(id):
@@ -54,6 +63,7 @@ func send_name(which : String):
 	emit_signal("peer_name_updated",id,which)
 
 func _ready():
+	reset()
 	Lobby.connect("account_validation",func(target_id: int, is_valid : bool):
 		if is_valid:
 			print("user valid")
@@ -102,6 +112,7 @@ func create_server():
 	done_loading_count = 0
 	if Peer != null:
 		Peer.close()
+	multiplayer.multiplayer_peer = null
 	Peer = ENetMultiplayerPeer.new()
 	var err = Peer.create_server(Port,12)
 	multiplayer.multiplayer_peer = Peer

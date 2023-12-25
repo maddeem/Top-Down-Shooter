@@ -1,33 +1,45 @@
-[gd_scene load_steps=4 format=3 uid="uid://k8rxrlyljhxg"]
+[gd_scene load_steps=7 format=3 uid="uid://k8rxrlyljhxg"]
 
 [ext_resource type="Script" path="res://Scripts/Health_Bar.gd" id="1_idky8"]
 [ext_resource type="Texture2D" uid="uid://c4i0mu7feve2t" path="res://Scenes/Healthbar/RedBar.png" id="2_uwycp"]
 [ext_resource type="Texture2D" uid="uid://bwd4vskb1xhr2" path="res://Scenes/Healthbar/GreenBar.png" id="3_ouxo6"]
 
-[node name="Health Bar" type="Sprite3D"]
-cast_shadow = 0
-billboard = 1
-transparent = false
-double_sided = false
-texture = ExtResource("3_ouxo6")
+[sub_resource type="Shader" id="Shader_wcpvx"]
+code = "shader_type spatial;
+instance uniform float percent = 1.0;
+instance uniform float alpha = 0.0;
+render_mode depth_draw_always,cull_back, shadows_disabled, unshaded;
+uniform sampler2D fill_texture;
+uniform sampler2D empty_texture;
+
+
+void vertex() {
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
+	MODELVIEW_MATRIX = MODELVIEW_MATRIX * mat4(vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0), vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+}
+
+void fragment() {
+	vec4 col = mix(texture(empty_texture,UV),texture(fill_texture,UV),smoothstep(UV.x-0.005,UV.x+0.005,percent));
+	ALBEDO = col.rgb * col.rgb;
+	ALPHA = min(alpha,col.a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8sn5n"]
+render_priority = 0
+shader = SubResource("Shader_wcpvx")
+shader_parameter/fill_texture = ExtResource("3_ouxo6")
+shader_parameter/empty_texture = ExtResource("2_uwycp")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_25kps"]
+material = SubResource("ShaderMaterial_8sn5n")
+size = Vector2(5.1, 0.6)
+orientation = 2
+
+[node name="Health Bar" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00259, 0)
+instance_shader_parameters/alpha = 1.0
+instance_shader_parameters/percent = 1.0
+mesh = SubResource("PlaneMesh_25kps")
 script = ExtResource("1_idky8")
-
-[node name="SubViewport" type="SubViewport" parent="."]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(512, 61)
-render_target_clear_mode = 1
-render_target_update_mode = 0
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="SubViewport"]
-anchors_preset = -1
-anchor_right = 0.444444
-anchor_bottom = 0.0941358
-offset_right = 284.444
-offset_bottom = 55.2577
-max_value = 1.0
-step = 0.001
-value = 1.0
-texture_under = ExtResource("2_uwycp")
-texture_progress = ExtResource("3_ouxo6")
-metadata/_edit_use_anchors_ = true

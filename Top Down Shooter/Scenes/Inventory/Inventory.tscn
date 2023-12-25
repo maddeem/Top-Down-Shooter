@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://deg1ks2s7lkiu"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory.gd" id="1_ix8ur"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wxy3c"]
+
+[node name="Inventory" type="Node3D"]
+script = ExtResource("1_ix8ur")
+
+[node name="Inventory" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GridContainer" type="GridContainer" parent="Inventory"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -31.0
+offset_right = 15.0
+grow_horizontal = 2
+grow_vertical = 0
+columns = 6
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 16
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_wxy3c")
+
+[connection signal="child_exiting_tree" from="Inventory/GridContainer" to="." method="_on_grid_container_child_exiting_tree"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

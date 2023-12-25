@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7qmfe83d2mip"]
+[gd_scene load_steps=58 format=3 uid="uid://b7qmfe83d2mip"]
 
-[ext_resource type="Script" path="res://Scripts/Preload.gd" id="1_8sm2n"]
-[ext_resource type="Material" uid="uid://do0uv2yh1v178" path="res://Materials/PlayerColorMaterial.tres" id="2_n2kdx"]
-[ext_resource type="Material" uid="uid://dicwd68pxutsr" path="res://Materials/ScifiTextureMaterial.tres" id="3_eg4e5"]
+[ext_resource type="Texture2D" uid="uid://chytm0qua4m5o" path="res://Assets/Textures/Smoke15Frames.png" id="4_ldpk7"]
+[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="5_b0vo6"]
+[ext_resource type="Texture2D" uid="uid://chbaa62tu7wbq" path="res://Assets/Textures/Smoke/smoke1.png" id="6_ick1a"]
+[ext_resource type="Texture2D" uid="uid://c4l1syrx7yxpl" path="res://Assets/Textures/ShatteredGlassSprite.png" id="7_neb1c"]
+[ext_resource type="Texture2D" uid="uid://nlvf5kulvqy0" path="res://Assets/Textures/bubbles.png" id="8_iwpa3"]
+[ext_resource type="Texture2D" uid="uid://dfvju8e205t50" path="res://Assets/Textures/loot_star.png" id="9_3fn55"]
+[ext_resource type="Material" uid="uid://bg48rctyi2jqn" path="res://Materials/Cooldown.tres" id="10_8t6uo"]
 
 [sub_resource type="GDScript" id="GDScript_yyld3"]
 script/source = "extends Control
@@ -28,6 +32,14 @@ func _exit_lobby(host : bool):
 	player_slots = {}
 	Network.Players = []
 
+func reset():
+	for slot in player_slots:
+		player_slots[slot].queue_free()
+	player_slots = {}
+	for lobby in lobby_slots:
+		lobby_slots[lobby].queue_free()
+	lobby_slots = {}
+
 func default():
 	$Login.visible = true
 	toggle_login(false)
@@ -44,6 +56,7 @@ func toggle_login(enabled : bool):
 	$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(1,0,0,0))
 
 func _ready():
+	Globals.MainMenu = self
 	default()
 	Lobby.account_state_creation_success.connect(func():
 		$Login/LoginControl/Password/Error.set(\"theme_override_colors/font_color\",Color(0,1,0))
@@ -87,7 +100,7 @@ func _ready():
 		$Lobby.visible = true
 		$Lobby/LobbyStartButton.visible = true
 		for slot in player_slots:
-			slot.queue_free()
+			player_slots[slot].queue_free()
 		player_slots = {}
 		Network.Players = []
 		Lobby.slot_names[1] = Lobby.username
@@ -147,7 +160,8 @@ func _ready():
 				lobby.ping_color = Color(0,1,0).lerp(Color(1,0,0),min(ping/300.0,1))
 		)
 	Network.connect(\"game_loading\",func():
-		get_tree().change_scene_to_packed(Globals.GAME_SCENE)
+		get_tree().get_root().add_child(Globals.GAME_SCENE.instantiate())
+		visible = false
 		)
 
 func player_slot_pressed(slot,id):
@@ -191,6 +205,7 @@ func update_lobby_slot(state : int, id : int, data : Variant = null):
 				data = Lobby.target_lobby_owner
 				Lobby.slot_names[id] = data
 			if data != null:
+				Lobby.slot_names[id] = data
 				_create_player_slot(data,id)
 			else:
 				_create_player_slot(str(id),id)
@@ -203,7 +218,6 @@ func update_lobby_slot(state : int, id : int, data : Variant = null):
 			Lobby.slot_names[id] = data
 			player_slots[id].player_name = data
 
-
 func _on_lobby_back_button_pressed():
 	var host = Network.Lobby_Host
 	if host:
@@ -214,11 +228,9 @@ func _on_lobby_back_button_pressed():
 	_exit_lobby(host)
 	$Lobby/LobbyStartButton.visible = false
 
-
 func _on_lobby_list_back_button_pressed():
 	$LobbyList.visible = false
 	$LobbiesOption.visible = true
-
 
 func _on_lobby_start_button_pressed():
 	Network.rpc(\"start_game\")
@@ -226,16 +238,343 @@ func _on_lobby_start_button_pressed():
 func _on_create_account_pressed():
 	Lobby.create_account.rpc_id(1,$Login/LoginControl/Username/LineEdit.text,$Login/LoginControl/Password/LineEdit.text)
 
-
 func _on_login_account_pressed():
 	Lobby.username = $Login/LoginControl/Username/LineEdit.text
 	Lobby.password = $Login/LoginControl/Password/LineEdit.text
 	Lobby.login_account.rpc_id(1,Lobby.username,Lobby.password)
 
-
 func _on_login_line_edit_text_submitted(_new_text):
 	_on_login_account_pressed()
+
+func _on_line_edit_text_changed(new_text):
+	var new = new_text.strip_escapes()
+	if new != new_text:
+		$Login/LoginControl/Username/LineEdit.text = new
+
+func _on_line_edit_password_text_changed(new_text):
+	var new = new_text.strip_escapes()
+	if new != new_text:
+		$Login/LoginControl/Password/LineEdit.text = new
 "
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oall0"]
+bg_color = Color(0.298039, 0.298039, 0.298039, 1)
+
+[sub_resource type="GDScript" id="GDScript_cvxp4"]
+script/source = "extends Camera3D
+
+func _ready():
+	await get_tree().create_timer(5.0).timeout
+	queue_free()
+"
+
+[sub_resource type="Curve" id="Curve_sx4si"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 3.26819, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kcckc"]
+curve = SubResource("Curve_sx4si")
+
+[sub_resource type="Gradient" id="Gradient_fumqh"]
+interpolation_mode = 2
+colors = PackedColorArray(0.494118, 1, 0, 1, 0, 100, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nm40c"]
+gradient = SubResource("Gradient_fumqh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kqcmp"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, 1, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 1.0
+scale_min = 0.1
+scale_max = 0.25
+color_ramp = SubResource("GradientTexture1D_nm40c")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+anim_speed_curve = SubResource("CurveTexture_kcckc")
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2h8e"]
+resource_local_to_scene = true
+next_pass = ExtResource("5_b0vo6")
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.305882)
+albedo_texture = ExtResource("4_ldpk7")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 3
+particles_anim_loop = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5t8wm"]
+material = SubResource("StandardMaterial3D_u2h8e")
+orientation = 2
+
+[sub_resource type="Gradient" id="Gradient_5lc26"]
+colors = PackedColorArray(0.605173, 0.437425, 0.220619, 1, 0.525345, 0.341181, 0.199147, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_oiipo"]
+gradient = SubResource("Gradient_5lc26")
+
+[sub_resource type="Curve" id="Curve_xqgwt"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.527273), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_pwmwj"]
+curve = SubResource("Curve_xqgwt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mifx3"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, 1, 0)
+spread = 19.29
+initial_velocity_min = 7.0
+initial_velocity_max = 8.0
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_pwmwj")
+color_ramp = SubResource("GradientTexture1D_oiipo")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_phatj"]
+transparency = 1
+shading_mode = 2
+diffuse_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("6_ick1a")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q68vo"]
+material = SubResource("StandardMaterial3D_phatj")
+orientation = 2
+
+[sub_resource type="Gradient" id="Gradient_2b6ta"]
+offsets = PackedFloat32Array(0, 0.753086, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qagti"]
+gradient = SubResource("Gradient_2b6ta")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h16og"]
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+damping_min = 5.0
+damping_max = 5.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.01
+scale_max = 0.1
+color_ramp = SubResource("GradientTexture1D_qagti")
+anim_offset_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa58r"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+shading_mode = 2
+diffuse_mode = 3
+specular_mode = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.305882)
+albedo_texture = ExtResource("7_neb1c")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 2
+particles_anim_loop = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d24xs"]
+material = SubResource("StandardMaterial3D_wa58r")
+orientation = 2
+
+[sub_resource type="Curve" id="Curve_sywfe"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 3.26819, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_586ym"]
+curve = SubResource("Curve_sywfe")
+
+[sub_resource type="Gradient" id="Gradient_mqdhs"]
+interpolation_mode = 2
+colors = PackedColorArray(0.494118, 1, 0, 1, 0, 100, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y1vxd"]
+gradient = SubResource("Gradient_mqdhs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71rtu"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, 1, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 1.0
+scale_min = 0.01
+scale_max = 0.1
+color_ramp = SubResource("GradientTexture1D_y1vxd")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+anim_speed_curve = SubResource("CurveTexture_586ym")
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvfi1"]
+resource_local_to_scene = true
+next_pass = ExtResource("5_b0vo6")
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.305882)
+albedo_texture = ExtResource("8_iwpa3")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 3
+particles_anim_loop = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_irhja"]
+material = SubResource("StandardMaterial3D_gvfi1")
+orientation = 2
+
+[sub_resource type="Gradient" id="Gradient_n473q"]
+offsets = PackedFloat32Array(0, 0.43662)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6asye"]
+gradient = SubResource("Gradient_n473q")
+
+[sub_resource type="Curve" id="Curve_pshdl"]
+max_value = 2.0
+_data = [Vector2(0, 1.27273), 0.0, 0.0, 0, 0, Vector2(1, 0.654545), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_x73p6"]
+curve = SubResource("Curve_pshdl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_127h8"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, -4, 0)
+initial_velocity_min = 7.0
+initial_velocity_max = 8.0
+scale_min = 0.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_x73p6")
+color_ramp = SubResource("GradientTexture1D_6asye")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rk5dk"]
+transparency = 1
+shading_mode = 2
+diffuse_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("6_ick1a")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_andfc"]
+material = SubResource("StandardMaterial3D_rk5dk")
+orientation = 2
+
+[sub_resource type="Gradient" id="Gradient_8ncqu"]
+offsets = PackedFloat32Array(0, 0.464789, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xm03y"]
+gradient = SubResource("Gradient_8ncqu")
+
+[sub_resource type="Curve" id="Curve_qytgq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.490909), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_aev8b"]
+curve = SubResource("Curve_qytgq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kwnue"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 4.0
+initial_velocity_max = 4.0
+scale_min = 0.1
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_aev8b")
+color = Color(1, 0.996078, 0.584314, 1)
+color_ramp = SubResource("GradientTexture1D_xm03y")
+hue_variation_max = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p53mh"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("9_3fn55")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_63v20"]
+material = SubResource("StandardMaterial3D_p53mh")
+size = Vector2(1, 1)
+orientation = 2
+
+[sub_resource type="Gradient" id="Gradient_a1sqc"]
+offsets = PackedFloat32Array(0, 0.147727, 0.43662)
+colors = PackedColorArray(1.77482e-07, 0.161417, 2.40654e-08, 1, 0, 0, 0, 0.700697, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j4a6h"]
+gradient = SubResource("Gradient_a1sqc")
+
+[sub_resource type="Curve" id="Curve_do84w"]
+max_value = 2.0
+_data = [Vector2(0, 1.27273), 0.0, 0.0, 0, 0, Vector2(1, 0.654545), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_35jdj"]
+curve = SubResource("Curve_do84w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ro5fm"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, -4, 0)
+initial_velocity_min = 7.0
+initial_velocity_max = 8.0
+scale_min = 0.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_35jdj")
+color_ramp = SubResource("GradientTexture1D_j4a6h")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lk7vx"]
+transparency = 1
+shading_mode = 2
+diffuse_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("6_ick1a")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_52xq6"]
+material = SubResource("StandardMaterial3D_lk7vx")
+orientation = 2
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -469,13 +808,96 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Start"
 
-[node name="Preload" type="Node" parent="."]
-script = ExtResource("1_8sm2n")
-materials = Array[Material]([ExtResource("2_n2kdx"), ExtResource("3_eg4e5")])
+[node name="Panel" type="Panel" parent="."]
+z_index = -5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oall0")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.79728)
+current = true
+script = SubResource("GDScript_cvxp4")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 0, 0, 0)
+amount = 30
+randomness = 1.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_kqcmp")
+draw_pass_1 = SubResource("PlaneMesh_5t8wm")
+
+[node name="Dust" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.79728)
+amount = 96
+lifetime = 2.0
+explosiveness = 1.0
+visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
+process_material = SubResource("ParticleProcessMaterial_mifx3")
+draw_pass_1 = SubResource("PlaneMesh_q68vo")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 0, 0, -0.79728)
+amount = 15
+explosiveness = 0.9
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_h16og")
+draw_pass_1 = SubResource("PlaneMesh_d24xs")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 0, 0, -0.79728)
+amount = 30
+randomness = 1.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_71rtu")
+draw_pass_1 = SubResource("PlaneMesh_irhja")
+
+[node name="Smoke" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.29728)
+amount = 128
+lifetime = 2.0
+explosiveness = 1.0
+visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
+process_material = SubResource("ParticleProcessMaterial_127h8")
+draw_pass_1 = SubResource("PlaneMesh_andfc")
+
+[node name="Loot" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.0502251, 0.0502251, -0.79728)
+amount = 96
+lifetime = 0.25
+randomness = 1.0
+visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
+process_material = SubResource("ParticleProcessMaterial_kwnue")
+draw_pass_1 = SubResource("PlaneMesh_63v20")
+
+[node name="Smoke2" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.29728)
+cast_shadow = 0
+amount = 128
+lifetime = 2.0
+explosiveness = 0.8
+visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
+process_material = SubResource("ParticleProcessMaterial_ro5fm")
+draw_pass_1 = SubResource("PlaneMesh_52xq6")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
+
+[node name="Panel" type="Panel" parent="Camera3D"]
+z_index = -6
+material = ExtResource("10_8t6uo")
+offset_right = 40.0
+offset_bottom = 40.0
 
 [connection signal="pressed" from="Login/LoginControl/LoginAccount" to="." method="_on_login_account_pressed"]
 [connection signal="pressed" from="Login/LoginControl/CreateAccount" to="." method="_on_create_account_pressed"]
+[connection signal="text_changed" from="Login/LoginControl/Username/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="text_submitted" from="Login/LoginControl/Username/LineEdit" to="." method="_on_login_line_edit_text_submitted"]
+[connection signal="text_changed" from="Login/LoginControl/Password/LineEdit" to="." method="_on_line_edit_password_text_changed"]
 [connection signal="text_submitted" from="Login/LoginControl/Password/LineEdit" to="." method="_on_login_line_edit_text_submitted"]
 [connection signal="pressed" from="LobbiesOption/Create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="LobbiesOption/Join" to="." method="_on_join_pressed"]

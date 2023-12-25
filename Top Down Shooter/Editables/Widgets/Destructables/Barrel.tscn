@@ -7,34 +7,33 @@
 [ext_resource type="Texture2D" uid="uid://c8mlnfoa1cafn" path="res://Assets/Textures/Explosion/ExplosionSpriteSheet.png" id="5_dngus"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_h0oa3"]
-height = 3.12674
-radius = 1.0
+height = 1.564
 
 [sub_resource type="Animation" id="Animation_or3rm"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model:transparency")
+tracks/0/path = NodePath("Explosion:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Explosion:modulate")
+tracks/1/path = NodePath("Model:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_viord"]
@@ -48,74 +47,50 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model:surface_material_override/0:emission")
+tracks/0/path = NodePath("Smoke:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.0796602, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model:surface_material_override/0:emission_energy_multiplier")
+tracks/1/path = NodePath("Explosion:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.148651, 1),
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [1.0, 0.0]
+"values": [0, 32]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Model:transparency")
+tracks/2/path = NodePath("Explosion:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(0.148651, 1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.0, 1.0]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Smoke:emitting")
+tracks/3/path = NodePath("Model:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Explosion:frame")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 32]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Explosion:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_l6yvo"]
@@ -187,7 +162,7 @@ _data = {
 offsets = PackedFloat32Array(0, 0.43662)
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_6asye"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uqss4"]
 gradient = SubResource("Gradient_u6ims")
 
 [sub_resource type="Curve" id="Curve_qbt3q"]
@@ -195,7 +170,7 @@ max_value = 2.0
 _data = [Vector2(0, 1.27273), 0.0, 0.0, 0, 0, Vector2(1, 0.654545), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_x73p6"]
+[sub_resource type="CurveTexture" id="CurveTexture_d7vu0"]
 curve = SubResource("Curve_qbt3q")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_457mr"]
@@ -208,10 +183,10 @@ initial_velocity_min = 7.0
 initial_velocity_max = 8.0
 scale_min = 0.0
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_x73p6")
-color_ramp = SubResource("GradientTexture1D_6asye")
+scale_curve = SubResource("CurveTexture_d7vu0")
+color_ramp = SubResource("GradientTexture1D_uqss4")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rk5dk"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mqk5n"]
 transparency = 1
 shading_mode = 2
 diffuse_mode = 2
@@ -221,7 +196,7 @@ billboard_mode = 1
 billboard_keep_scale = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hc80e"]
-material = SubResource("StandardMaterial3D_rk5dk")
+material = SubResource("StandardMaterial3D_mqk5n")
 orientation = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pgc3w"]
@@ -460,14 +435,14 @@ animations = [{
 }]
 
 [node name="Barrel" instance=ExtResource("1_wgbmo")]
-death_time = 2.0
-collision_y_range = 3.127
+object_name = "Barrel"
+collision_y_range = 1.564
 
 [node name="VisiblityObserver" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
 
 [node name="CollisionShape3D" parent="." index="1"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.782, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.782, 0.5)
 shape = SubResource("CylinderShape3D_h0oa3")
 
 [node name="Health Bar" parent="." index="2"]
@@ -496,11 +471,11 @@ billboard = 1
 sprite_frames = SubResource("SpriteFrames_6x0rn")
 animation = &"birth"
 frame = 32
-frame_progress = 1.0
 speed_scale = 8.0
 
 [node name="Selection Circle" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+size = Vector3(1.5, 17, 1.5)
 
 [node name="Model" parent="." index="7"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0, 0.5)

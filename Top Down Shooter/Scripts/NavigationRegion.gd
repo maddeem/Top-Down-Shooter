@@ -52,7 +52,8 @@ func _finish_thread_task(u : Unit, start_position : Vector2, end_position : Vect
 	queue.pop_front()
 
 func unit_threaded_path(u : Unit, start_position : Vector2, end_position : Vector2):
-	queue.append([u,start_position,end_position])
+	_finish_thread_task(u,start_position,end_position)
+	#queue.append([u,start_position,end_position])
 
 func _process(_delta):
 	if not thread.is_alive() and queue.size() > 0:

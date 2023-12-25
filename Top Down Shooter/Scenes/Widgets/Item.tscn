@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://d0g3x4gk074vi"]
+[gd_scene load_steps=19 format=3 uid="uid://d0g3x4gk074vi"]
 
 [ext_resource type="PackedScene" uid="uid://h0b8vci70lp5" path="res://Scenes/Widgets/Widget.tscn" id="1_eq171"]
 [ext_resource type="Script" path="res://Scripts/Item.gd" id="2_213qu"]
+[ext_resource type="Material" uid="uid://bmukeend7evjt" path="res://Materials/ItemShine.tres" id="3_00txf"]
 [ext_resource type="Texture2D" uid="uid://dfvju8e205t50" path="res://Assets/Textures/loot_star.png" id="3_yyhjw"]
 
 [sub_resource type="Animation" id="Animation_8mk8u"]
@@ -115,7 +116,6 @@ _data = {
 }
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_cs30e"]
-radius = 0.836585
 
 [sub_resource type="Gradient" id="Gradient_ty8md"]
 offsets = PackedFloat32Array(0, 0.464789, 1)
@@ -137,8 +137,10 @@ emission_box_extents = Vector3(1, 1, 1)
 direction = Vector3(0, 1, 0)
 spread = 0.0
 gravity = Vector3(0, 0, 0)
-initial_velocity_min = 4.0
-initial_velocity_max = 4.0
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+tangential_accel_min = 5.0
+tangential_accel_max = 5.0
 scale_min = 0.1
 scale_max = 0.2
 scale_curve = SubResource("CurveTexture_aev8b")
@@ -150,22 +152,36 @@ hue_variation_max = 0.05
 transparency = 1
 blend_mode = 1
 shading_mode = 0
-diffuse_mode = 3
 specular_mode = 2
 disable_ambient_light = true
 vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("3_yyhjw")
-billboard_mode = 1
+billboard_mode = 3
 billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_nrra0"]
 material = SubResource("StandardMaterial3D_p53mh")
+size = Vector2(0.5, 0.5)
 orientation = 2
 
 [node name="Item" instance=ExtResource("1_eq171")]
 collision_layer = 16
-collision_mask = 17
+collision_mask = 19
 script = ExtResource("2_213qu")
+cost = 100
+current_stacks = 1
+max_stacks = 3
+icon = null
+useable = true
+remove_on_use = false
+description = ""
+ability_path = null
+share_item_cooldown = false
+Visible_Once_Revealed = false
+Target_As = 1
 
 [node name="Health Bar" parent="." index="1"]
 transform = Transform3D(0.227, 0, 0, 0, 0.356, 0, 0, 0, 0.356, 0, 1.9734, 0)
@@ -176,18 +192,22 @@ libraries = {
 }
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01961, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("SphereShape3D_cs30e")
 
 [node name="Model" parent="." index="5"]
 transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0.5, 0)
 visible = false
+sorting_offset = -1.0
+material_overlay = ExtResource("3_00txf")
 
 [node name="Loot" type="GPUParticles3D" parent="Model" index="0"]
-transform = Transform3D(0.353553, -0.353553, 0, 0.353553, 0.353553, 0, 0, 0, 0.5, -0.0502251, 0.0502251, 0)
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.0502251, 0.0502251, 0)
 emitting = false
-amount = 96
+amount = 48
 randomness = 1.0
 visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
 process_material = SubResource("ParticleProcessMaterial_vrwub")
 draw_pass_1 = SubResource("PlaneMesh_nrra0")
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

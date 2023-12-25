@@ -1,6 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dekradi7ehmv3"]
 
 [ext_resource type="Script" path="res://Scripts/Reticle.gd" id="1_laury"]
+[ext_resource type="Texture2D" uid="uid://lq1r7gbyjtco" path="res://Assets/Textures/UI/Cursor.png" id="1_uesya"]
 
 [sub_resource type="Shader" id="Shader_onclm"]
 code = "shader_type canvas_item;
@@ -56,9 +57,8 @@ shader_parameter/reticle_color = Color(1, 1, 1, 1)
 shader_parameter/optic_color = Color(0.968627, 0, 0, 1)
 shader_parameter/scale = 1.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6qbyw"]
-
 [node name="Reticle" type="TextureRect"]
+z_index = 4
 material = SubResource("ShaderMaterial_h1id8")
 anchors_preset = 8
 anchor_left = 0.5
@@ -73,5 +73,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = SubResource("PlaceholderTexture2D_6qbyw")
+mouse_filter = 2
+texture = ExtResource("1_uesya")
 script = ExtResource("1_laury")

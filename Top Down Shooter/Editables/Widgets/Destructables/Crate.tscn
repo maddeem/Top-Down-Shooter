@@ -14,7 +14,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
+tracks/0/path = NodePath("Model:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,44 +26,20 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model:surface_material_override/0:next_pass:shader_parameter/color_override")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0, 0, 0, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Model:transparency")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_viord"]
 resource_name = "damaged"
 length = 0.35
 step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model:surface_material_override/0:next_pass:shader_parameter/color_override")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.35),
-"transitions": PackedFloat32Array(2.73208, 1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 0.258824), Color(0, 0, 0, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_xsrc4"]
 resource_name = "death"
@@ -71,50 +47,50 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model:transparency")
+tracks/0/path = NodePath("Dust:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.148651, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0, 1.0]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Dust:emitting")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(3),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer3D:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("AudioStreamPlayer3D:playing")
+tracks/3/path = NodePath("Model:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_l6yvo"]
@@ -173,14 +149,14 @@ _data = {
 [sub_resource type="Gradient" id="Gradient_u6ims"]
 colors = PackedColorArray(0.605173, 0.437425, 0.220619, 1, 0.525345, 0.341181, 0.199147, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_oiipo"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fqnak"]
 gradient = SubResource("Gradient_u6ims")
 
 [sub_resource type="Curve" id="Curve_qbt3q"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.527273), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_pwmwj"]
+[sub_resource type="CurveTexture" id="CurveTexture_s7fpy"]
 curve = SubResource("Curve_qbt3q")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duwtl"]
@@ -191,10 +167,10 @@ spread = 19.29
 initial_velocity_min = 7.0
 initial_velocity_max = 8.0
 scale_min = 0.0
-scale_curve = SubResource("CurveTexture_pwmwj")
-color_ramp = SubResource("GradientTexture1D_oiipo")
+scale_curve = SubResource("CurveTexture_s7fpy")
+color_ramp = SubResource("GradientTexture1D_fqnak")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_phatj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xtlyw"]
 transparency = 1
 shading_mode = 2
 diffuse_mode = 2
@@ -204,11 +180,11 @@ billboard_mode = 1
 billboard_keep_scale = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hc80e"]
-material = SubResource("StandardMaterial3D_phatj")
+material = SubResource("StandardMaterial3D_xtlyw")
 orientation = 2
 
 [node name="Crate" instance=ExtResource("1_qnmvc")]
-death_time = 2.0
+object_name = "Crate"
 collision_y_range = 2.0
 
 [node name="CollisionShape3D" parent="." index="1"]
@@ -217,6 +193,7 @@ shape = SubResource("BoxShape3D_202kk")
 
 [node name="Health Bar" parent="." index="2"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.23232, 0)
+top_level = true
 
 [node name="AnimationPlayer" parent="." index="3"]
 libraries = {
@@ -232,6 +209,9 @@ explosiveness = 1.0
 visibility_aabb = AABB(-4, -0.273985, -4, 8, 6.11511, 8)
 process_material = SubResource("ParticleProcessMaterial_duwtl")
 draw_pass_1 = SubResource("PlaneMesh_hc80e")
+
+[node name="Selection Circle" parent="." index="5"]
+size = Vector3(3, 17, 3)
 
 [node name="Model" parent="." index="6"]
 mesh = ExtResource("2_33c2r")

@@ -1,0 +1,153 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3yauitih8lex"]
+
+[ext_resource type="Theme" uid="uid://7bu1if2dshxc" path="res://Assets/Textures/UI/default_theme.tres" id="1_kfdix"]
+
+[sub_resource type="GDScript" id="GDScript_ucplh"]
+script/source = "extends Control
+const INPUT_SAVE_DIR = \"user://hotkeys.save\"
+var hotkeys = {}
+func load_input_map():
+	if not FileAccess.file_exists(INPUT_SAVE_DIR):
+		return # Error! We don't have a save to load.
+	var save_game = FileAccess.open(INPUT_SAVE_DIR, FileAccess.READ)
+	var json_string = save_game.get_line()
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	if not parse_result == OK:
+		print(\"JSON Parse Error: \", json.get_error_message(), \" in \", json_string, \" at line \", json.get_error_line())
+	var node_data = json.get_data()
+	save_game.close()
+	for action in node_data:
+		for event in InputMap.action_get_events(action):
+			var new
+			match node_data[action][0]:
+				\"MouseButton\":
+					new = InputEventMouseButton.new()
+					new.button_index = node_data[action][1]
+				\"Key\":
+					new = InputEventKey.new()
+					new.physical_keycode = node_data[action][1]
+			hotkeys[action].input = new
+
+func save_input_map():
+	var result = {}
+	var save_game = FileAccess.open(INPUT_SAVE_DIR, FileAccess.WRITE)
+	for action in InputMap.get_actions():
+		for event in InputMap.action_get_events(action):
+			if action.substr(0,2) != \"ui\":
+				if event is InputEventMouseButton:
+					result[action] = [\"MouseButton\",event.button_index]
+				elif event is InputEventKey:
+					result[action] = [\"Key\",event.physical_keycode]
+	var json_string = JSON.stringify(result)
+	save_game.store_line(json_string)
+	save_game.close()
+
+func _on_exit_menu_pressed():
+	visible = false
+	save_input_map()
+
+
+func _on_quit_game_pressed():
+	Globals.exit_game()
+
+func _unhandled_input(_event):
+	if Input.is_action_just_pressed(\"Open_Menu\"):
+		get_viewport().set_input_as_handled()
+		visible = not visible
+		Globals.MenuOpen = visible
+		if not visible:
+			save_input_map()
+
+
+func _on_exit_game_pressed():
+	get_tree().quit()
+func _ready():
+	var input_button = preload(\"res://Scenes/hotkeyui.tscn\")
+	for action in InputMap.get_actions():
+		for event in InputMap.action_get_events(action):
+			if action.substr(0,2) != \"ui\":
+				var new = input_button.instantiate()
+				$MarginContainer/VBoxContainer/TabContainer/Hotkeys/GridContainer.add_child(new)
+				hotkeys[action] = new
+				new.title = action
+				new.input = event
+	load_input_map()
+
+
+func _on_reset_hotkeys_pressed():
+	for child in $MarginContainer/VBoxContainer/TabContainer/Hotkeys/GridContainer.get_children():
+		child.input = child.default_input
+"
+
+[node name="Ingame Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ucplh")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_kfdix")
+
+[node name="Hotkeys" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/TabContainer/Hotkeys"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 10
+
+[node name="Reset Hotkeys" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/Hotkeys"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("1_kfdix")
+text = "Reset"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Quit Game" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("1_kfdix")
+text = "Quit Game"
+
+[node name="Exit Game" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("1_kfdix")
+text = "Exit to Desktop"
+
+[node name="Exit Menu" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("1_kfdix")
+text = " x "
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TabContainer/Hotkeys/Reset Hotkeys" to="." method="_on_reset_hotkeys_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Quit Game" to="." method="_on_quit_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Exit Game" to="." method="_on_exit_game_pressed"]
+[connection signal="pressed" from="MarginContainer/Exit Menu" to="." method="_on_exit_menu_pressed"]

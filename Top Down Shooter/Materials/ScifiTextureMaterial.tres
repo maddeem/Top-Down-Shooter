@@ -10,11 +10,9 @@ shader = ExtResource("2_my324")
 [resource]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_txfen")
-shading_mode = 2
 diffuse_mode = 2
 albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("1_ph486")
 metallic = 0.39
-emission = Color(0.000166357, 0.000166357, 0.000166357, 1)
-emission_energy_multiplier = 0.00943887
+emission = Color(1, 1, 1, 1)
 rim_enabled = true

@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://ktmn72nk184s"]
+
+[ext_resource type="Script" path="res://Scripts/ErrorInterface.gd" id="1_xsod1"]
+[ext_resource type="AudioStream" uid="uid://sbbmycnhjkpg" path="res://Assets/Sounds/Error.wav" id="2_7i6d4"]
+[ext_resource type="FontFile" uid="uid://0yhrvdgu1gqb" path="res://Assets/Fonts/Xolonium-Bold.otf" id="3_tub34"]
+[ext_resource type="FontFile" uid="uid://cf87oog2okmap" path="res://Assets/Fonts/Xolonium-Regular.otf" id="4_c38cx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_00fqq"]
+font = ExtResource("3_tub34")
+font_color = Color(1, 0.87451, 0, 1)
+outline_size = 4
+outline_color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rsgjc"]
+font = ExtResource("4_c38cx")
+font_color = Color(0.854902, 1, 0.839216, 1)
+
+[node name="ErrorInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_xsod1")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_7i6d4")
+max_polyphony = 4
+
+[node name="Label" type="Label" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.482639
+anchor_top = 0.964506
+anchor_right = 0.517361
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.882353, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Not enough energy!"
+label_settings = SubResource("LabelSettings_00fqq")
+metadata/_edit_use_anchors_ = true
+
+[node name="Interact" type="Label" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.482639
+anchor_top = 0.964506
+anchor_right = 0.517361
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.882353, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Not enough energy!"
+label_settings = SubResource("LabelSettings_rsgjc")
+metadata/_edit_use_anchors_ = true

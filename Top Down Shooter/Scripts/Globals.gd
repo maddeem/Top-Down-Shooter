@@ -5,16 +5,17 @@ const BUFFER_SIZE = 2
 const NETWORK_UPDATE_SCALE = 0.05
 var FogOfWar
 var HeightTerrain
-var World
+var World : Node3D
 var TimeElapsed = 0.0
 var NavigationRegion
 var WidgetParent
 var CreepHandler
-var Reticle = null;
+var MainMenu
 var TicksPerSecond = ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
 var LocalPlayerBit : int
 var LocalVisionBit : int
 var LocalPlayer : Player = null
+var MenuOpen := false
 
 func _process(delta):
 	TimeElapsed += delta
@@ -22,3 +23,15 @@ func _process(delta):
 	match DisplayServer.window_get_mode():
 		DisplayServer.WINDOW_MODE_MINIMIZED:
 			RenderingServer.force_draw()
+func exit_game():
+	World.queue_free()
+	await World.tree_exited
+	LocalPlayer = null
+	LocalPlayerBit = 0
+	LocalVisionBit = 0
+	Network.reset()
+	PlayerLib.reset()
+	NetworkFactory.reset()
+	Lobby.start_lobby_server_connection()
+	MainMenu.reset()
+	MainMenu.visible = true

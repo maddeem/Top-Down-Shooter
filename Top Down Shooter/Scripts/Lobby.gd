@@ -113,10 +113,11 @@ func _ready():
 		rpc_id(1,"update_lobby",LOBBY_STATE.UPDATE,lobby,lobby_owner)
 		)
 	Network.connect("peer_left_lobby",func(_id):
-		var lobby_owner = Peer.get_unique_id()
-		var lobby = lobbies_open[lobby_owner]
-		lobby.player_count -= 1
-		rpc_id(1,"update_lobby",LOBBY_STATE.UPDATE,lobby,lobby_owner)
+		if is_instance_valid(Peer):
+			var lobby_owner = Peer.get_unique_id()
+			var lobby = lobbies_open[lobby_owner]
+			lobby.player_count -= 1
+			rpc_id(1,"update_lobby",LOBBY_STATE.UPDATE,lobby,lobby_owner)
 		)
 
 @rpc("any_peer","reliable")

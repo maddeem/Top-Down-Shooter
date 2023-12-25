@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://bncc77ikmgp4b"]
+
+[ext_resource type="Script" path="res://Scripts/GameChat.gd" id="1_t4g4g"]
+[ext_resource type="FontFile" uid="uid://cf87oog2okmap" path="res://Assets/Fonts/Xolonium-Regular.otf" id="2_4p6o0"]
+[ext_resource type="AudioStream" uid="uid://r1sokld8aqbu" path="res://Assets/Sounds/ChatChirp.mp3" id="3_kifo5"]
+[ext_resource type="AudioStream" uid="uid://7j4sbdm14h6e" path="res://Assets/Sounds/CrewDeath.mp3" id="4_pufxw"]
+
+[node name="Chat" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_t4g4g")
+
+[node name="ChatWindow" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LineEdit" type="LineEdit" parent="ChatWindow"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.239583
+anchor_top = 0.871142
+anchor_right = 0.760417
+anchor_bottom = 0.918981
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_4p6o0")
+placeholder_text = "Message"
+max_length = 196
+clear_button_enabled = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Container" type="Control" parent="."]
+clip_contents = true
+layout_mode = 1
+anchor_left = 0.0078125
+anchor_right = 0.451389
+anchor_bottom = 0.740741
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+alignment = 2
+
+[node name="ChatChirp" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_kifo5")
+max_polyphony = 4
+
+[node name="CrewDeath" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_pufxw")
+max_polyphony = 4
+
+[connection signal="gui_input" from="ChatWindow/LineEdit" to="." method="_on_line_edit_gui_input"]
+[connection signal="text_submitted" from="ChatWindow/LineEdit" to="." method="_on_line_edit_text_submitted"]

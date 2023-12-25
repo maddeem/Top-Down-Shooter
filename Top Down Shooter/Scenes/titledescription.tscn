@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpq6ufq5w4oas"]
+
+[ext_resource type="Theme" uid="uid://7bu1if2dshxc" path="res://Assets/Textures/UI/default_theme.tres" id="1_f62op"]
+[ext_resource type="Script" path="res://Scripts/TitleDescription.gd" id="2_aec86"]
+
+[sub_resource type="Shader" id="Shader_nobvu"]
+code = "shader_type canvas_item;
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+uniform float blur_amount = 5.0;
+void fragment() {
+	vec4 bg = textureLod(SCREEN_TEXTURE, SCREEN_UV, blur_amount);
+	COLOR.rgb = mix(COLOR.rgb,bg.rgb,1.0 - COLOR.a);
+	COLOR.a = step(0.1,COLOR.a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kjmar"]
+shader = SubResource("Shader_nobvu")
+shader_parameter/blur_amount = 1.94
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8yr00"]
+bg_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.270588, 0.270588, 0.270588, 0.662745)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="Description" type="PanelContainer"]
+self_modulate = Color(0.498039, 0.498039, 0.498039, 0.639216)
+z_index = 1
+material = SubResource("ShaderMaterial_kjmar")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -108.0
+offset_top = -37.0
+offset_right = 108.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_f62op")
+script = ExtResource("2_aec86")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+clip_contents = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[center]First Aid Kit"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+deselect_on_focus_loss_enabled = false
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_8yr00")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "hjihihfgdfgdfg asdasdasd "
+fit_content = true
+scroll_active = false
+deselect_on_focus_loss_enabled = false

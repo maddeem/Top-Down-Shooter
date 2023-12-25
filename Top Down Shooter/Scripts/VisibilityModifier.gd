@@ -15,6 +15,15 @@ class_name VisibilityModifier
 	set(value):
 		Owner = value
 		Owner_Bit_Value = Utility.get_bit(value)
+var enabled := true:
+	set(value):
+		enabled = value
+		if not get_parent():
+			return
+		if enabled:
+			add_to_group("VisibilityModifiers")
+		else:
+			remove_from_group("VisibilityModifiers")
 var Adjusted_Vision_Height
 var _last_Y
 var Owner_Bit_Value

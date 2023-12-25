@@ -145,7 +145,7 @@ func create_account(username : String, password : String):
 	if users.has(username):
 		get_response.rpc_id(id,ACCOUNT_STATE.USERNAME_TAKEN)
 	else:
-		if ip_counter[ip] <= MAX_ACCOUNTS_PER_IP:
+		if ip_counter[ip] < MAX_ACCOUNTS_PER_IP:
 			ip_counter[ip] += 1
 			users[username] = {
 				"password" = password.sha256_text(),

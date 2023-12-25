@@ -35,10 +35,11 @@ func toggle_doorway(state : bool):
 	var offset = 0.0
 	if cur:
 		offset = $AnimationPlayer.current_animation_length - $AnimationPlayer.current_animation_position
-	_play_anim(anim)
-	if cur == "birth" or cur == "death":
-		$AnimationPlayer.advance(offset)
-	doorway_sound(anim,offset)
+	if current_animation != anim:
+		_play_anim(anim)
+		if cur == "birth" or cur == "death":
+			$AnimationPlayer.advance(offset)
+		doorway_sound(anim,offset)
 
 func _death():
 	toggle_doorway(true)

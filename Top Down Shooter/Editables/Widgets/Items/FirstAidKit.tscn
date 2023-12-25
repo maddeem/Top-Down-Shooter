@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dkjoaboj78bim"]
+[gd_scene load_steps=14 format=3 uid="uid://dkjoaboj78bim"]
 
 [ext_resource type="PackedScene" uid="uid://d0g3x4gk074vi" path="res://Scenes/Widgets/Item.tscn" id="1_umvtx"]
 [ext_resource type="ArrayMesh" uid="uid://bte7vn00kasma" path="res://Assets/Models/First Aid Kit/FirstAidKit.obj" id="2_cuuxy"]
-[ext_resource type="Material" uid="uid://diybxdqcu155t" path="res://Materials/FogReactive.tres" id="3_hehct"]
+[ext_resource type="Texture2D" uid="uid://l8i8858y0feu" path="res://Assets/Textures/Icons/firstaidkit.png" id="2_lb8kc"]
+[ext_resource type="Script" path="res://Scripts/Ability.gd" id="5_0xboc"]
 
 [sub_resource type="Animation" id="Animation_ijk03"]
 resource_name = "damaged"
@@ -64,7 +65,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 1, 2, 3, 4),
 "transitions": PackedFloat32Array(-2, -2, -2, -2, -2),
 "update": 0,
-"values": [Vector3(0, 1, 0), Vector3(0, 1.15, 0), Vector3(0, 1, 0), Vector3(0, 1.15, 0), Vector3(0, 1, 0)]
+"values": [Vector3(0, 0.5, 0), Vector3(0, 0.65, 0), Vector3(0, 0.5, 0), Vector3(0, 0.65, 0), Vector3(0, 0.5, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -87,14 +88,55 @@ _data = {
 "stand": SubResource("Animation_cdm34")
 }
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vvcnh"]
-next_pass = ExtResource("3_hehct")
-albedo_color = Color(1, 0, 0, 1)
+[sub_resource type="Shader" id="Shader_gbdlm"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.1.3.stable's StandardMaterial3D.
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+uniform vec3 albedo : source_color;
+uniform float roughness : hint_range(0,1);
+uniform float specular;
+uniform float metallic;
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ysbt"]
-next_pass = ExtResource("3_hehct")
+void fragment() {
+	ALBEDO = albedo;
+	METALLIC = metallic;
+	ROUGHNESS = roughness;
+	SPECULAR = specular;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rd0a1"]
+render_priority = 0
+shader = SubResource("Shader_gbdlm")
+shader_parameter/albedo = Color(0.886275, 0, 0.00784314, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1bctd"]
+render_priority = 0
+shader = SubResource("Shader_gbdlm")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gpywb"]
+render_priority = 0
+shader = SubResource("Shader_gbdlm")
+shader_parameter/albedo = Color(0.443137, 0.443137, 0.443137, 1)
+shader_parameter/roughness = 0.065
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 1.0
 
 [node name="First Aid Kit" instance=ExtResource("1_umvtx")]
+current_stacks = 2
+icon = ExtResource("2_lb8kc")
+description = "[color=87ceeb][Non-Combat] [Consumable][/color]
+Regenerates a target unit's hit points by 400 over 8 seconds when used."
+ability_path = NodePath("Ability")
+share_item_cooldown = true
+object_name = "First Aid Kit"
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
@@ -102,11 +144,19 @@ libraries = {
 }
 
 [node name="Model" parent="." index="5"]
-transform = Transform3D(0.565686, 0.565685, 0, -0.565685, 0.565685, 0, 0, 0, 0.8, 0, 1, 0)
+transform = Transform3D(-0.217728, -0.217728, -0.39394, -0.353553, 0.353554, 0, 0.278558, 0.278558, -0.307914, 0, 0.596485, 0)
 visible = true
 mesh = ExtResource("2_cuuxy")
-surface_material_override/0 = SubResource("StandardMaterial3D_vvcnh")
-surface_material_override/1 = SubResource("StandardMaterial3D_7ysbt")
+surface_material_override/0 = SubResource("ShaderMaterial_rd0a1")
+surface_material_override/1 = SubResource("ShaderMaterial_1bctd")
+surface_material_override/2 = SubResource("ShaderMaterial_gpywb")
 
 [node name="Loot" parent="Model" index="0"]
 emitting = true
+lifetime = 0.25
+
+[node name="Ability" type="Node" parent="." index="6"]
+script = ExtResource("5_0xboc")
+cooldown = 10.0
+cast_type = 1
+targets_allowed = 12
