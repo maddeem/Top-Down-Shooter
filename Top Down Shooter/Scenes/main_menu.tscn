@@ -163,6 +163,13 @@ func _ready():
 		get_tree().get_root().add_child(Globals.GAME_SCENE.instantiate())
 		visible = false
 		)
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	var pid = multiplayer.get_unique_id()
+	Lobby.slot_names[pid] = \"maddeem\"
+	Network.Players = [pid]
+	await get_tree().create_timer(0.1).timeout
+	get_tree().get_root().add_child(Globals.GAME_SCENE.instantiate())
+	visible = false
 
 func player_slot_pressed(slot,id):
 	match slot:
@@ -285,16 +292,16 @@ gradient = SubResource("Gradient_fumqh")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kqcmp"]
 direction = Vector3(0, 1, 0)
 spread = 90.0
-gravity = Vector3(0, 1, 0)
 initial_velocity_min = 0.1
 initial_velocity_max = 1.0
+gravity = Vector3(0, 1, 0)
+attractor_interaction_enabled = false
 scale_min = 0.1
 scale_max = 0.25
 color_ramp = SubResource("GradientTexture1D_nm40c")
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 anim_speed_curve = SubResource("CurveTexture_kcckc")
-attractor_interaction_enabled = false
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2h8e"]
 resource_local_to_scene = true
@@ -363,14 +370,14 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 gradient = SubResource("Gradient_2b6ta")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h16og"]
+angle_min = -720.0
+angle_max = 720.0
 initial_velocity_min = 1.0
 initial_velocity_max = 5.0
 angular_velocity_min = -720.0
 angular_velocity_max = 720.0
 damping_min = 5.0
 damping_max = 5.0
-angle_min = -720.0
-angle_max = 720.0
 scale_min = 0.01
 scale_max = 0.1
 color_ramp = SubResource("GradientTexture1D_qagti")
@@ -413,16 +420,16 @@ gradient = SubResource("Gradient_mqdhs")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71rtu"]
 direction = Vector3(0, 1, 0)
 spread = 90.0
-gravity = Vector3(0, 1, 0)
 initial_velocity_min = 0.1
 initial_velocity_max = 1.0
+gravity = Vector3(0, 1, 0)
+attractor_interaction_enabled = false
 scale_min = 0.01
 scale_max = 0.1
 color_ramp = SubResource("GradientTexture1D_y1vxd")
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 anim_speed_curve = SubResource("CurveTexture_586ym")
-attractor_interaction_enabled = false
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvfi1"]
 resource_local_to_scene = true
@@ -466,9 +473,9 @@ emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
 direction = Vector3(0, 1, 0)
 spread = 90.0
-gravity = Vector3(0, -4, 0)
 initial_velocity_min = 7.0
 initial_velocity_max = 8.0
+gravity = Vector3(0, -4, 0)
 scale_min = 0.0
 scale_max = 2.0
 scale_curve = SubResource("CurveTexture_x73p6")
@@ -506,9 +513,9 @@ emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
 direction = Vector3(0, 1, 0)
 spread = 0.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 4.0
 initial_velocity_max = 4.0
+gravity = Vector3(0, 0, 0)
 scale_min = 0.1
 scale_max = 0.2
 scale_curve = SubResource("CurveTexture_aev8b")
@@ -555,9 +562,9 @@ emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
 direction = Vector3(0, 1, 0)
 spread = 90.0
-gravity = Vector3(0, -4, 0)
 initial_velocity_min = 7.0
 initial_velocity_max = 8.0
+gravity = Vector3(0, -4, 0)
 scale_min = 0.0
 scale_max = 2.0
 scale_curve = SubResource("CurveTexture_35jdj")
@@ -676,8 +683,8 @@ offset_top = 80.0
 offset_right = 208.0
 offset_bottom = 111.0
 max_length = 32
-secret = true
 virtual_keyboard_type = 6
+secret = true
 
 [node name="Error" type="Label" parent="Login/LoginControl/Password"]
 layout_mode = 0
@@ -892,6 +899,7 @@ z_index = -6
 material = ExtResource("10_8t6uo")
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [connection signal="pressed" from="Login/LoginControl/LoginAccount" to="." method="_on_login_account_pressed"]
 [connection signal="pressed" from="Login/LoginControl/CreateAccount" to="." method="_on_create_account_pressed"]

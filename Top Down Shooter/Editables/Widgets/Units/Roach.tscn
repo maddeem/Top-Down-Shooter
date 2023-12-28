@@ -34,6 +34,7 @@ object_name = "Roach"
 max_health = 5
 health = 5.0
 player_owner = 28
+Armor_Type = 1
 Target_As = 12
 
 [node name="AggroSystem" parent="." index="0"]
@@ -56,15 +57,25 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -1, 0)
 
 [node name="Skeleton3D" parent="Model/Roach/Armature" index="0"]
 bones/3/rotation = Quaternion(-0.138261, 9.50549e-06, 0.00132439, 0.990395)
+bones/6/rotation = Quaternion(3.98892e-08, 0.969564, -0.244838, -7.32e-08)
+bones/7/rotation = Quaternion(0.104274, -1.4215e-07, 4.99461e-09, 0.994549)
+bones/9/rotation = Quaternion(0.0204246, 1.03259e-09, 2.10932e-11, 0.999791)
+bones/12/rotation = Quaternion(-0.329917, 0.736108, -0.517102, -0.286192)
+bones/14/rotation = Quaternion(0.428775, -0.445724, 0.438625, 0.65199)
 bones/19/rotation = Quaternion(-0.00131989, -0.455299, 0.131996, 0.880499)
-bones/20/rotation = Quaternion(-0.602484, 0.670206, -0.432081, 0.0338174)
+bones/20/rotation = Quaternion(-0.602484, 0.670206, -0.432081, 0.0338175)
 bones/21/rotation = Quaternion(0.451998, -0.595506, 0.634422, 0.196417)
-bones/23/rotation = Quaternion(-0.0759278, -0.957991, 0.107979, 0.254615)
-bones/24/rotation = Quaternion(-0.0287037, -0.653623, -0.740849, 0.151972)
+bones/23/rotation = Quaternion(0.0759279, 0.957991, -0.107979, -0.254615)
+bones/24/rotation = Quaternion(0.0287037, 0.653623, 0.740849, -0.151972)
 bones/25/rotation = Quaternion(0.771737, 0.00506739, 0.105906, 0.627041)
+bones/29/rotation = Quaternion(0.0140216, 7.33725e-08, -1.0289e-09, 0.999902)
+bones/32/rotation = Quaternion(-0.151932, -0.248125, 0.371376, 0.88172)
+bones/33/rotation = Quaternion(0.74399, 0.288036, 0.00192868, 0.602918)
+bones/36/rotation = Quaternion(-0.357678, 0.334046, -0.181851, 0.852883)
+bones/37/rotation = Quaternion(0.716158, -0.0696122, -0.2016, 0.664552)
 bones/40/position = Vector3(-0.00482425, 2.42422, -2.6461)
-bones/44/position = Vector3(0.513483, 0.193338, -4.87718e-08)
-bones/47/position = Vector3(-0.513483, 0.170071, 1.11223e-08)
+bones/44/position = Vector3(0.513483, 0.193338, -4.86616e-08)
+bones/47/position = Vector3(-0.513483, 0.170071, 1.11759e-08)
 
 [node name="Roach2" parent="Model/Roach/Armature/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("ShaderMaterial_xd11s")

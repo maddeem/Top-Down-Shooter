@@ -1,11 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://dr7vqyv2tdptm"]
+[gd_scene load_steps=41 format=3 uid="uid://dr7vqyv2tdptm"]
 
 [ext_resource type="Script" path="res://Scripts/WorldSceneInitializer.tres.gd" id="1_g7gqx"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_skxjl"]
 [ext_resource type="Script" path="res://Scripts/Colors.gd" id="2_5epyx"]
 [ext_resource type="Resource" path="res://Assets/TerrainArt/data.hterrain" id="2_kk65r"]
 [ext_resource type="PackedScene" uid="uid://bncc77ikmgp4b" path="res://Scenes/chat.tscn" id="2_kt5j1"]
-[ext_resource type="PackedScene" uid="uid://b3yauitih8lex" path="res://Scenes/ingame_menu.tscn" id="2_valny"]
 [ext_resource type="Shader" path="res://Materials/Shaders/FogTerrain.gdshader" id="3_aq6jm"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="4_tkuqg"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://baicipupibjrg" path="res://Assets/TerrainArt/metalarray.png" id="5_jntib"]
@@ -32,7 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://c4rvgi5udd1bu" path="res://Scenes/invisibility_detector.tscn" id="30_pg60g"]
 [ext_resource type="PackedScene" uid="uid://bggsin2lyv7ds" path="res://Editables/Widgets/Units/Roach.tscn" id="31_16djj"]
 
-[sub_resource type="Image" id="Image_m43ct"]
+[sub_resource type="Image" id="Image_md14l"]
 data = {
 "data": PackedByteArray(255, 2, 2, 255, 0, 66, 255, 255, 26, 230, 186, 255, 84, 0, 128, 255, 253, 251, 0, 255, 253, 137, 13, 255, 33, 191, 0, 255, 228, 91, 175, 255, 147, 149, 149, 255, 126, 191, 240, 255, 16, 98, 70, 255, 79, 42, 4, 255, 156, 0, 0, 255, 0, 0, 195, 255, 0, 235, 255, 255, 188, 0, 255, 255, 235, 205, 135, 255, 246, 165, 138, 255, 191, 255, 128, 255, 219, 184, 235, 255, 79, 80, 84, 255, 235, 239, 255, 255, 0, 119, 29, 255, 165, 110, 52, 255, 156, 156, 156, 255, 167, 167, 167, 255, 195, 195, 195, 255, 135, 175, 255, 255, 174, 0, 255, 255, 79, 79, 79, 255, 158, 158, 158, 255),
 "format": "RGBA8",
@@ -41,8 +40,8 @@ data = {
 "width": 31
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_uu8ml"]
-image = SubResource("Image_m43ct")
+[sub_resource type="ImageTexture" id="ImageTexture_bmm80"]
+image = SubResource("Image_md14l")
 
 [sub_resource type="Resource" id="Resource_71mcm"]
 script = ExtResource("4_tkuqg")
@@ -67,11 +66,10 @@ albedo_color = Color(1, 0, 1, 1)
 [sub_resource type="GDScript" id="GDScript_0n2sn"]
 script/source = "extends MeshInstance3D
 var roach = preload(\"res://Editables/Widgets/Units/Roach.tscn\")
-var spawn_period = 3.0
+var spawn_period = 1.0
 var spawn_period_cur = 0.0
 
 func _process(delta):
-	return
 	spawn_period_cur += delta
 	if multiplayer.is_server() and spawn_period_cur > spawn_period:
 		spawn_period_cur = 0.0
@@ -95,15 +93,12 @@ func _process(delta):
 [node name="World Scene" type="Node3D"]
 script = ExtResource("1_g7gqx")
 
-[node name="Ingame Menu" parent="." instance=ExtResource("2_valny")]
-visible = false
-
 [node name="Chat" parent="." instance=ExtResource("2_kt5j1")]
 
 [node name="PlayerColorsConfig" type="Node" parent="."]
 script = ExtResource("2_5epyx")
 player_colors = PackedColorArray(1, 0.0117647, 0.0117647, 1, 0, 0.258824, 1, 1, 0.105882, 0.905882, 0.729412, 1, 0.333333, 0, 0.505882, 1, 0.996078, 0.988235, 0, 1, 0.996078, 0.537255, 0.0509804, 1, 0.129412, 0.74902, 0, 1, 0.894118, 0.360784, 0.686275, 1, 0.576471, 0.584314, 0.588235, 1, 0.494118, 0.74902, 0.945098, 1, 0.0627451, 0.384314, 0.278431, 1, 0.309804, 0.168627, 0.0196078, 1, 0.611765, 0, 0, 1, 0, 0, 0.764706, 1, 0, 0.921569, 1, 1, 0.741176, 0, 1, 1, 0.92549, 0.807843, 0.529412, 1, 0.968627, 0.647059, 0.545098, 1, 0.74902, 1, 0.505882, 1, 0.858824, 0.721569, 0.921569, 1, 0.309804, 0.313726, 0.333333, 1, 0.92549, 0.941176, 1, 1, 0, 0.470588, 0.117647, 1, 0.647059, 0.435294, 0.203922, 1, 0.615686, 0.615686, 0.615686, 1, 0.654902, 0.654902, 0.654902, 1, 0.764706, 0.764706, 0.764706, 1, 0.533333, 0.686275, 1, 1, 0.682353, 0, 1, 1, 0.309804, 0.309804, 0.309804, 1, 0.619608, 0.619608, 0.619608, 1)
-output = SubResource("ImageTexture_uu8ml")
+output = SubResource("ImageTexture_bmm80")
 
 [node name="HTerrain" type="Node3D" parent="."]
 script = ExtResource("1_skxjl")
@@ -119,10 +114,6 @@ custom_globalmap_shader = null
 texture_set = SubResource("Resource_71mcm")
 render_layers = 2
 cast_shadow = 1
-shader_params/u_ground_uv_scale = 20
-shader_params/u_depth_blending = true
-shader_params/u_globalmap_blend_start = null
-shader_params/u_globalmap_blend_distance = null
 
 [node name="Floor" type="StaticBody3D" parent="."]
 script = ExtResource("7_dop6u")
@@ -341,7 +332,6 @@ transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -3, 3, 4
 [node name="InvisibilityDetector" parent="." instance=ExtResource("30_pg60g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -1)
 detection = 1
-player_owner = 1
 
 [node name="Roach" parent="." instance=ExtResource("31_16djj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 0)

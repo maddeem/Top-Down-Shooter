@@ -102,7 +102,7 @@ func confirm_fire(source : Vector3, angle : float):
 		base_y = tip_pos.y
 	var dist = tip_pos.distance_to(target)
 	target.y = base_y + randf_range(0,min(log(dist),max_y))
-	recoil_angle += Vector3(-atan((target.y - tip_pos.y)/dist),Utility.angle_difference(angle,player_source.rotation.y),0)
+	recoil_angle += Vector3(-atan((target.y - tip_pos.y)/dist)*0.25,Utility.angle_difference(angle,player_source.rotation.y),0)
 	if Uses_Tracer:
 		if dist > 3.0:
 			var base = TRACER_PATH.instantiate()

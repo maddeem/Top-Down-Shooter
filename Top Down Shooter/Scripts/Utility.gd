@@ -144,7 +144,7 @@ func dir_contents(path : String) -> PackedStringArray:
 				file_name = dir.get_next()
 	return list
 
-static func apply_override_material(target : Node, override : Material = null, overlay : Material = null):
+func apply_override_material(target : Node, override : Material = null, overlay : Material = null):
 	var list = [target]
 	var next
 	while list.size() > 0:

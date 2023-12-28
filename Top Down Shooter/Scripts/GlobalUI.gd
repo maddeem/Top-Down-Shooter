@@ -6,11 +6,13 @@ var default_mouse = preload("res://Assets/Textures/UI/Cursor.png")
 var target_mouse = preload("res://Assets/Textures/UI/CursorTarget.png")
 var holding_item = false
 var desciption_object = preload("res://Scenes/titledescription.tscn").instantiate()
+var menu = preload("res://Scenes/ingame_menu.tscn").instantiate()
 var chat : Control
 var hover_target : Node3D:
 	set(value):
 		if is_instance_valid(hover_target) and hover_target != value:
 			hover_target.selection_circle.visible = false
+			hover_target._health_bar.override = false
 		hover_target = value
 		update_hover()
 var _hover_status : = false
@@ -25,7 +27,7 @@ var current_ability : Ability:
 			set_mouse_texture(default_mouse)
 
 func update_hover():
-	var next_status = not (is_instance_valid(hover_target) and hover_target._visible and not hover_target.locally_invisible) or cursor.show_reticle
+	var next_status = not (is_instance_valid(hover_target) and hover_target._visible and not hover_target.locally_invisible) or cursor.show_reticle or Globals.MenuOpen
 	if _hover_status == next_status:
 		return
 	_hover_status = next_status
@@ -34,6 +36,7 @@ func update_hover():
 		cursor.modulate = Color.WHITE
 		if is_instance_valid(hover_target):
 			hover_target.selection_circle.visible = false
+			hover_target._health_bar.override = false
 	else:
 		hover_text.visible = true
 		if hover_target is Widget:
@@ -42,6 +45,7 @@ func update_hover():
 			cursor.modulate = color
 			hover_target.selection_circle.visible = true
 			hover_target.selection_circle.modulate = color
+			hover_target._health_bar.override = true
 		hover_text.text = hover_target.object_name
 
 func set_mouse_texture(tex : Texture2D):
@@ -54,6 +58,7 @@ func _ready():
 	add_child(cursor)
 	add_child(desciption_object)
 	add_child(error_interface)
+	add_child(menu)
 	hover_text.visible = false
 
 func display_error(error: String):

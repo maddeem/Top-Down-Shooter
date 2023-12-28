@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://7bu1if2dshxc"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://7bu1if2dshxc"]
 
 [ext_resource type="FontFile" uid="uid://0yhrvdgu1gqb" path="res://Assets/Fonts/Xolonium-Bold.otf" id="1_lgjl6"]
 [ext_resource type="Texture2D" uid="uid://bot06txrjltci" path="res://Assets/Textures/UI/InfoBoxTest.png" id="2_jdh73"]
@@ -50,12 +50,16 @@ texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgdyo"]
-texture = ExtResource("2_jdh73")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nmfi"]
+bg_color = Color(0, 0.6, 0.6, 0.270588)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.196078, 0.196078, 0.196078, 1)
+corner_radius_top_left = 40
+corner_radius_bottom_right = 40
+corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17ycj"]
 bg_color = Color(0.6, 0.6, 0.6, 0.301961)
@@ -87,6 +91,16 @@ border_color = Color(0.662745, 1, 0.917647, 1)
 corner_radius_top_left = 5
 corner_radius_bottom_right = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dmfex"]
+bg_color = Color(0.360784, 0.333333, 0.34902, 0)
+border_width_left = 1
+border_width_top = 835
+border_color = Color(0.172549, 0.176471, 0.156863, 1)
+border_blend = true
+corner_radius_top_left = 15
+expand_margin_top = 1.0
+expand_margin_bottom = 215.0
+
 [resource]
 Button/styles/disabled = SubResource("StyleBoxFlat_er8hy")
 Button/styles/focus = SubResource("StyleBoxFlat_aiimn")
@@ -96,8 +110,9 @@ Label/font_sizes/font_size = 12
 Label/fonts/font = ExtResource("1_lgjl6")
 PanelContainer/colors/background_color = Color(0, 0, 0, 1)
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_uemq4")
-TabContainer/styles/panel = SubResource("StyleBoxTexture_mgdyo")
+TabContainer/styles/panel = SubResource("StyleBoxFlat_2nmfi")
 TabContainer/styles/tab_disabled = SubResource("StyleBoxFlat_17ycj")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_3ctth")
 TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_ryxls")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_17ycj")
+TabContainer/styles/tabbar_background = SubResource("StyleBoxFlat_dmfex")

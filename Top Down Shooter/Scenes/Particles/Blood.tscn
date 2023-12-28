@@ -1,0 +1,164 @@
+[gd_scene load_steps=14 format=3 uid="uid://bqpnrph7p3wmk"]
+
+[sub_resource type="Gradient" id="Gradient_2b6ta"]
+offsets = PackedFloat32Array(0, 0.236364, 0.527273, 1)
+colors = PackedColorArray(0.481789, 0.481789, 0.481789, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nm40c"]
+gradient = SubResource("Gradient_2b6ta")
+
+[sub_resource type="Curve" id="Curve_2317v"]
+_data = [Vector2(0.0144928, 0.505494), 0.0, 0.0, 0, 0, Vector2(1, 0), -5.89743, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_oexwr"]
+curve = SubResource("Curve_2317v")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t1rdf"]
+angle_min = -720.0
+angle_max = 720.0
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
+damping_min = 5.0
+damping_max = 5.0
+scale_min = 0.1
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_oexwr")
+color_ramp = SubResource("GradientTexture1D_nm40c")
+anim_offset_max = 1.0
+
+[sub_resource type="Shader" id="Shader_qvwn1"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_toon,specular_toon,vertex_lighting;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D noise;
+uniform float specular;
+uniform float metallic;
+uniform float zoom : hint_range(0.01,2.0);
+varying vec4 custom;
+instance uniform vec3 color : source_color;
+
+
+
+void vertex() {
+	ROUGHNESS=roughness;
+	mat4 mat_world = mat4(normalize(INV_VIEW_MATRIX[0]), normalize(INV_VIEW_MATRIX[1]) ,normalize(INV_VIEW_MATRIX[2]), MODEL_MATRIX[3]);
+	mat_world = mat_world * mat4(vec4(cos(INSTANCE_CUSTOM.x), -sin(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(sin(INSTANCE_CUSTOM.x), cos(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(0.0, 0.0, 1.0, 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat_world;
+	MODELVIEW_MATRIX = MODELVIEW_MATRIX * mat4(vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0),vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+	custom = INSTANCE_CUSTOM;
+}
+
+void fragment() {
+	vec4 col = texture(noise,vec2(UV.x + custom.z,UV.y - custom.z)*zoom);
+	col *= col * col;
+	ALBEDO = col.rgb * color * COLOR.rgb;
+	METALLIC = metallic;
+	ROUGHNESS = roughness;
+	SPECULAR = specular;
+	float w = (col.r + col.g + col.b) / 3.0; 
+	ALPHA = clamp(COLOR.a - smoothstep(0.0, 0.65, distance(UV, vec2(0.5, 0.5))) - w,0.0,1.0);
+}
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k12lv"]
+seed = 4
+frequency = 0.027
+fractal_type = 2
+fractal_octaves = 10
+fractal_lacunarity = 4.745
+fractal_gain = -0.05
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pe6wo"]
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_k12lv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_usx3g"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_qvwn1")
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.19
+shader_parameter/zoom = 0.02
+shader_parameter/noise = SubResource("NoiseTexture2D_pe6wo")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d24xs"]
+material = SubResource("ShaderMaterial_usx3g")
+orientation = 2
+
+[sub_resource type="Animation" id="Animation_p87s6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_hl1tf"]
+resource_name = "stand"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3468i"]
+_data = {
+"RESET": SubResource("Animation_p87s6"),
+"stand": SubResource("Animation_hl1tf")
+}
+
+[node name="Glass" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 0, 0, 0)
+instance_shader_parameters/color = Color(0.819608, 0, 0, 1)
+amount = 64
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.73
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_t1rdf")
+draw_pass_1 = SubResource("PlaneMesh_d24xs")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GPUParticles3D"]
+libraries = {
+"": SubResource("AnimationLibrary_3468i")
+}

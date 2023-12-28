@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dkjoaboj78bim"]
+[gd_scene load_steps=15 format=3 uid="uid://dkjoaboj78bim"]
 
 [ext_resource type="PackedScene" uid="uid://d0g3x4gk074vi" path="res://Scenes/Widgets/Item.tscn" id="1_umvtx"]
 [ext_resource type="ArrayMesh" uid="uid://bte7vn00kasma" path="res://Assets/Models/First Aid Kit/FirstAidKit.obj" id="2_cuuxy"]
@@ -13,7 +13,7 @@ resource_name = "death"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Loot:emitting")
+tracks/0/path = NodePath("Model/Loot:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,18 +26,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_jdnc2"]
 resource_name = "decay"
 length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Loot:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_cdm34"]
 resource_name = "stand"
@@ -80,8 +68,24 @@ tracks/2/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_bvpr3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Loot:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dhq40"]
 _data = {
+"RESET": SubResource("Animation_bvpr3"),
 "damaged": SubResource("Animation_ijk03"),
 "death": SubResource("Animation_up7u5"),
 "decay": SubResource("Animation_jdnc2"),
@@ -144,7 +148,7 @@ libraries = {
 }
 
 [node name="Model" parent="." index="5"]
-transform = Transform3D(-0.217728, -0.217728, -0.39394, -0.353553, 0.353554, 0, 0.278558, 0.278558, -0.307914, 0, 0.596485, 0)
+transform = Transform3D(0.353553, 0.353554, 0, -0.353553, 0.353554, 0, 0, 0, 0.5, 0, 0.5, 0)
 visible = true
 mesh = ExtResource("2_cuuxy")
 surface_material_override/0 = SubResource("ShaderMaterial_rd0a1")

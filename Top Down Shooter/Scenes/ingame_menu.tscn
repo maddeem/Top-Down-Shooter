@@ -5,31 +5,50 @@
 [sub_resource type="GDScript" id="GDScript_ucplh"]
 script/source = "extends Control
 const INPUT_SAVE_DIR = \"user://hotkeys.save\"
+const SETTINGS_SAVE_DIR = \"user://setttings.save\"
 var hotkeys = {}
-func load_input_map():
-	if not FileAccess.file_exists(INPUT_SAVE_DIR):
-		return # Error! We don't have a save to load.
-	var save_game = FileAccess.open(INPUT_SAVE_DIR, FileAccess.READ)
-	var json_string = save_game.get_line()
-	var json = JSON.new()
-	var parse_result = json.parse(json_string)
-	if not parse_result == OK:
-		print(\"JSON Parse Error: \", json.get_error_message(), \" in \", json_string, \" at line \", json.get_error_line())
-	var node_data = json.get_data()
-	save_game.close()
-	for action in node_data:
-		for event in InputMap.action_get_events(action):
-			var new
-			match node_data[action][0]:
-				\"MouseButton\":
-					new = InputEventMouseButton.new()
-					new.button_index = node_data[action][1]
-				\"Key\":
-					new = InputEventKey.new()
-					new.physical_keycode = node_data[action][1]
-			hotkeys[action].input = new
-
-func save_input_map():
+var settings = {
+	\"fullscreen\" = false,
+	\"vsync\" = false,
+	
+	}
+var default_settings = settings
+@onready var hotkey_parent = $MarginContainer/VBoxContainer/TabContainer/Hotkeys/MarginContainer/ScrollContainer/VBoxContainer
+func load_all():
+	if FileAccess.file_exists(INPUT_SAVE_DIR):
+		var save_game = FileAccess.open(INPUT_SAVE_DIR, FileAccess.READ)
+		var json_string = save_game.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		if not parse_result == OK:
+			print(\"JSON Parse Error: \", json.get_error_message(), \" in \", json_string, \" at line \", json.get_error_line())
+		var node_data = json.get_data()
+		save_game.close()
+		for action in node_data:
+			for event in InputMap.action_get_events(action):
+				var new
+				match node_data[action][0]:
+					\"MouseButton\":
+						new = InputEventMouseButton.new()
+						new.button_index = node_data[action][1]
+					\"Key\":
+						new = InputEventKey.new()
+						new.physical_keycode = node_data[action][1]
+				hotkeys[action].input = new
+	if FileAccess.file_exists(SETTINGS_SAVE_DIR):
+		var save_game = FileAccess.open(SETTINGS_SAVE_DIR, FileAccess.READ)
+		var json_string = save_game.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		if not parse_result == OK:
+			print(\"JSON Parse Error: \", json.get_error_message(), \" in \", json_string, \" at line \", json.get_error_line())
+		settings = json.get_data()
+		save_game.close()
+		if settings.size() == default_settings.size():
+			_fullscreen_toggled(settings.fullscreen)
+		else:
+			settings = default_settings
+func save_all():
 	var result = {}
 	var save_game = FileAccess.open(INPUT_SAVE_DIR, FileAccess.WRITE)
 	for action in InputMap.get_actions():
@@ -42,13 +61,17 @@ func save_input_map():
 	var json_string = JSON.stringify(result)
 	save_game.store_line(json_string)
 	save_game.close()
+	save_game = FileAccess.open(SETTINGS_SAVE_DIR, FileAccess.WRITE)
+	json_string = JSON.stringify(settings)
+	save_game.store_line(json_string)
+	save_game.close()
 
 func _on_exit_menu_pressed():
 	visible = false
-	save_input_map()
-
+	save_all()
 
 func _on_quit_game_pressed():
+	save_all()
 	Globals.exit_game()
 
 func _unhandled_input(_event):
@@ -57,10 +80,10 @@ func _unhandled_input(_event):
 		visible = not visible
 		Globals.MenuOpen = visible
 		if not visible:
-			save_input_map()
-
+			save_all()
 
 func _on_exit_game_pressed():
+	save_all()
 	get_tree().quit()
 func _ready():
 	var input_button = preload(\"res://Scenes/hotkeyui.tscn\")
@@ -68,16 +91,28 @@ func _ready():
 		for event in InputMap.action_get_events(action):
 			if action.substr(0,2) != \"ui\":
 				var new = input_button.instantiate()
-				$MarginContainer/VBoxContainer/TabContainer/Hotkeys/GridContainer.add_child(new)
+				hotkey_parent.add_child(new)
 				hotkeys[action] = new
 				new.title = action
 				new.input = event
-	load_input_map()
+	load_all()
+	visible = false
 
 
 func _on_reset_hotkeys_pressed():
-	for child in $MarginContainer/VBoxContainer/TabContainer/Hotkeys/GridContainer.get_children():
+	for child in hotkey_parent.get_children():
 		child.input = child.default_input
+
+
+func _fullscreen_toggled(toggled_on):
+	var b = $MarginContainer/VBoxContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/Fullscreen/CheckButton
+	settings.fullscreen = toggled_on
+	if toggled_on != b.button_pressed:
+		b.button_pressed = toggled_on
+	if toggled_on:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 "
 
 [node name="Ingame Menu" type="Control"]
@@ -87,6 +122,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = SubResource("GDScript_ucplh")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -96,9 +133,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 50
+theme_override_constants/margin_left = 396
 theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
+theme_override_constants/margin_right = 396
 theme_override_constants/margin_bottom = 50
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
@@ -109,13 +146,52 @@ layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_kfdix")
 
-[node name="Hotkeys" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
-layout_mode = 2
-
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/TabContainer/Hotkeys"]
+[node name="Settings" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-columns = 10
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/Settings"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Settings/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Fullscreen" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Settings/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/Fullscreen"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Fullscreen"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBoxContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/Fullscreen"]
+layout_mode = 2
+
+[node name="Hotkeys" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/Hotkeys"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/Hotkeys/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Hotkeys/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Reset Hotkeys" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/Hotkeys"]
 layout_mode = 2
@@ -147,6 +223,7 @@ size_flags_vertical = 0
 theme = ExtResource("1_kfdix")
 text = " x "
 
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/Fullscreen/CheckButton" to="." method="_fullscreen_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/TabContainer/Hotkeys/Reset Hotkeys" to="." method="_on_reset_hotkeys_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Quit Game" to="." method="_on_quit_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Exit Game" to="." method="_on_exit_game_pressed"]

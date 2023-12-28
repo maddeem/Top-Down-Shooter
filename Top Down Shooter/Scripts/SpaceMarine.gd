@@ -18,7 +18,7 @@ func toggle_invis(state : bool):
 	update_invisible_status(Invisibility.INVISIBLE,state)
 	
 var invis = false
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("Jump") and _player_owner == Globals.LocalPlayer:
 		invis = not invis
 		NetworkFactory.anyone_call(instance_id,"toggle_invis",invis)

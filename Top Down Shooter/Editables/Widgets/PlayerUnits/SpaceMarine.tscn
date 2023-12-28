@@ -678,20 +678,20 @@ libraries = {
 
 [node name="Skeleton3D" parent="Model/spacemarine/Armature" index="0"]
 bones/0/scale = Vector3(1.00048, 1.00048, 1.00048)
-bones/1/rotation = Quaternion(0.000474975, 0.000474975, 0.000474975, 1.00048)
+bones/1/rotation = Quaternion(0.000474747, 0.000474747, 0.000474747, 1)
 bones/3/rotation = Quaternion(-0.18301, -0.213204, -0.245511, 0.92778)
 bones/4/rotation = Quaternion(0.129289, -0.0389395, 0.0370025, 0.990151)
 bones/5/rotation = Quaternion(0.0228344, 0.431835, -0.0124243, 0.901578)
 bones/7/rotation = Quaternion(-0.213091, 0.0900091, 0.207755, 0.950436)
-bones/8/rotation = Quaternion(0.254088, -0.27108, -0.00427625, 0.928405)
+bones/8/rotation = Quaternion(0.254088, -0.27108, -0.00427626, 0.928405)
 bones/9/position = Vector3(-0.00966661, 0.162159, 0.0887749)
 bones/9/rotation = Quaternion(-0.165716, 0.0681061, 0.0394844, 0.983026)
 bones/10/position = Vector3(0, 0.177644, 0)
-bones/11/rotation = Quaternion(0.023475, 0.031475, -0.342525, 0.938475)
+bones/11/rotation = Quaternion(0.0234797, 0.0314813, -0.342593, 0.938662)
 bones/11/scale = Vector3(1, 1, 1)
-bones/12/rotation = Quaternion(0.019475, 0.000474975, 0.259475, 0.965475)
-bones/13/rotation = Quaternion(0.022475, -0.031525, 0.342475, 0.938475)
-bones/14/rotation = Quaternion(0.0189712, 6.07602e-08, -0.259136, 0.965654)
+bones/12/rotation = Quaternion(0.0194765, 0.000475011, 0.259495, 0.965548)
+bones/13/rotation = Quaternion(0.0224804, -0.0315325, 0.342557, 0.938699)
+bones/14/rotation = Quaternion(0.0189712, 6.14006e-08, -0.259136, 0.965654)
 
 [node name="Geoset_Bone0_001" parent="Model/spacemarine/Armature/Skeleton3D" index="0"]
 surface_material_override/0 = ExtResource("3_oaxpp")

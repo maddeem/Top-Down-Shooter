@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwy4necaje11v"]
+[gd_scene load_steps=12 format=3 uid="uid://dwy4necaje11v"]
 
 [ext_resource type="PackedScene" uid="uid://d0g3x4gk074vi" path="res://Scenes/Widgets/Item.tscn" id="1_8663g"]
 [ext_resource type="Texture2D" uid="uid://rvg4cjs6d5r3" path="res://Assets/Textures/Icons/gaussrifle.png" id="2_6bnt0"]
@@ -13,7 +13,7 @@ resource_name = "death"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Loot:emitting")
+tracks/0/path = NodePath("Model/Loot:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,18 +26,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_jdnc2"]
 resource_name = "decay"
 length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Loot:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_cdm34"]
 resource_name = "stand"
@@ -80,8 +68,24 @@ tracks/2/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_wfl12"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Loot:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dhq40"]
 _data = {
+"RESET": SubResource("Animation_wfl12"),
 "damaged": SubResource("Animation_ijk03"),
 "death": SubResource("Animation_up7u5"),
 "decay": SubResource("Animation_jdnc2"),
@@ -111,7 +115,7 @@ libraries = {
 }
 
 [node name="Model" parent="." index="5"]
-transform = Transform3D(0.0935792, -0.238121, -0.429582, 0, 0.43731, -0.242405, 0.491165, 0.0453681, 0.0818462, 0, 0.145682, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.43731, -0.242404, 0, 0.242404, 0.43731, 0, 0, 0)
 visible = true
 mesh = ExtResource("3_dmkjw")
 surface_material_override/0 = ExtResource("4_2p75m")

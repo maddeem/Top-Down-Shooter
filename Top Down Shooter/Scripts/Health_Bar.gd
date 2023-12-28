@@ -1,5 +1,17 @@
 extends MeshInstance3D
-var display_time := 0.0
+var override := false:
+	set(value):
+		override = value
+		if value:
+			set_process(false)
+			set_instance_shader_parameter("alpha",1.0)
+		else:
+			display_time = display_time
+var display_time := -1.0:
+	set(value):
+		display_time = value
+		set_process(display_time > -1.0)
+		set_instance_shader_parameter("alpha",ease(clamp(display_time+1.0,0.0,1.0),0.2))
 
 
 func SetPercent(new_value : float):
@@ -10,4 +22,3 @@ func _ready():
 
 func _process(delta):
 	display_time -= delta
-	set_instance_shader_parameter("alpha",ease(clamp(display_time+1.0,0.0,1.0),0.2))

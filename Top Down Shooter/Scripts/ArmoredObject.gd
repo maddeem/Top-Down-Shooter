@@ -8,7 +8,8 @@ static var resolve_array = []
 static var sounds = {}
 static var particles = {
 	"Sparks" = preload("res://Scenes/Particles/MetalSparks.tscn"),
-	"Glass" = preload("res://Scenes/Particles/Glass.tscn")
+	"Glass" = preload("res://Scenes/Particles/Glass.tscn"),
+	"Blood" = preload("res://Scenes/Particles/Blood.tscn")
 }
 @export_enum("Metal", "Flesh", "Wood", "Rock", "Glass") var Armor_Type : int
 
@@ -25,6 +26,11 @@ static func _static_init():
 			resolve_array[x].append([0])
 	resolve_array[Metal][Metal] = func(target : Vector3, rotation : Vector3):
 		var new = particles.Sparks.instantiate()
+		Globals.add_child(new)
+		new.position = target
+		new.rotation = rotation
+	resolve_array[Metal][Flesh] = func(target : Vector3, rotation : Vector3):
+		var new = particles.Blood.instantiate()
 		Globals.add_child(new)
 		new.position = target
 		new.rotation = rotation

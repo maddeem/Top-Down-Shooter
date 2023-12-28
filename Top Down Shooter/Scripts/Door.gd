@@ -33,7 +33,7 @@ func toggle_doorway(state : bool):
 	if is_open:
 		anim = "death"
 	var offset = 0.0
-	if cur:
+	if cur and cur != "stand":
 		offset = $AnimationPlayer.current_animation_length - $AnimationPlayer.current_animation_position
 	if current_animation != anim:
 		_play_anim(anim)

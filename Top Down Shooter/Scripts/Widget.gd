@@ -278,14 +278,10 @@ func get_hover_color() -> Color:
 
 func _on_mouse_entered():
 	GlobalUI.hover_target = self
-	if not self is Item and not locally_invisible:
-		_health_bar.display_time = INF
-
 
 func _on_mouse_exited():
 	if GlobalUI.hover_target == self:
 		GlobalUI.hover_target = null
-		_health_bar.display_time = -1.0
 
 func apply_mats(which : Node):
 	Utility.apply_override_material(which,_override_mat,_overlay_mat)
@@ -307,8 +303,7 @@ var locally_invisible = false: set = set_locally_invisible
 
 func set_locally_invisible(value):
 	locally_invisible = value
-	if locally_invisible:
-		$"Health Bar".display_time = -1.0
+
 func update_invisible_status(which : int, add : bool):
 	if add:
 		Invisibility.gain(which,self)
